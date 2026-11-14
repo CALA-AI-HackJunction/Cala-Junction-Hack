@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Cala Research</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/chat.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="mark" aria-hidden="true">C</span> Cala Research</div>
+    <div class="actions">
+      <button type="button" id="access">Access token</button>
+      <button type="button" id="reset" class="outline">New chat</button>
+    </div>
+  </header>
+  <main>
+    <section id="welcome">
+      <h1>What are you<br>looking into?</h1>
+      <p>Search Cala’s knowledge and follow up with Gemini.</p>
+    </section>
+    <section id="transcript" aria-label="Conversation" aria-live="polite"></section>
+    <div class="composer">
+      <p id="error" role="alert" hidden></p>
+      <p id="progress" role="status" hidden><span class="spinner" aria-hidden="true"></span><span id="progress-text"></span><span id="elapsed" aria-hidden="true"></span></p>
+      <form id="chat">
+        <label for="message" class="sr-only">Message</label>
+        <textarea id="message" rows="2" maxlength="12000" required placeholder="Ask a research question…"></textarea>
+        <button type="submit" id="send">Send</button>
+      </form>
+    </div>
+  </main>
+  <dialog id="login">
+    <form method="dialog" id="token-form">
+      <h2>Access token</h2>
+      <label for="token">Enter the token provided by your administrator.</label>
+      <input type="password" id="token" autocomplete="off" spellcheck="false">
+      <div class="actions">
+        <button type="submit" value="cancel">Cancel</button>
+        <button type="submit" value="save" class="outline">Save</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

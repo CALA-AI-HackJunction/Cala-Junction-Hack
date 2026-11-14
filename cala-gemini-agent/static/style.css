@@ -1,0 +1,104 @@
+:root {
+  font: 16px/1.6 "DM Sans", "Segoe UI", sans-serif;
+  color: #253b32;
+  background: #f5f5ee;
+  --muted: #53665c;
+  --line: #ced9d0;
+  --green: #204f3d;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { margin: 0; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, textarea:focus-visible, input:focus-visible, a:focus-visible {
+  outline: 3px solid #457b61;
+  outline-offset: 3px;
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  min-height: 4.5rem;
+  padding: .65rem clamp(1rem, 4vw, 3.5rem);
+  border-bottom: 1px solid var(--line);
+}
+.brand, .actions { display: flex; align-items: center; gap: .65rem; }
+.brand { font-weight: 700; letter-spacing: -.025em; }
+.mark {
+  display: grid;
+  place-items: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  background: var(--green);
+  color: white;
+  border-radius: .65rem;
+  font: 700 1.22rem Georgia, serif;
+}
+.actions button {
+  padding: .45rem .8rem;
+  border: 1px solid transparent;
+  color: var(--green);
+  background: transparent;
+  border-radius: .55rem;
+}
+.actions .outline { border-color: var(--line); background: #fff; }
+.actions button:hover { background: #e6eee5; }
+main {
+  width: min(100% - 2rem, 49rem);
+  min-height: calc(100dvh - 4.5rem);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+#welcome { padding: clamp(3rem, 12vh, 9rem) 0 2.5rem; }
+h1 {
+  font: 400 clamp(3.2rem, 8vw, 5.75rem)/.98 "Instrument Serif", Georgia, serif;
+  letter-spacing: -.065em;
+  margin: 0;
+  color: #1c3b30;
+}
+#welcome p { margin: 1.35rem 0 0; color: var(--muted); }
+#transcript { display: grid; gap: 1.25rem; padding: 1.5rem 0; }
+#transcript:empty { padding: 0; }
+article { min-width: 0; overflow-wrap: anywhere; }
+article header { font-weight: 700; font-size: .8rem; color: var(--muted); margin-bottom: .35rem; }
+.user { justify-self: end; max-width: 90%; padding: .8rem 1rem; background: #e4ece2; border-radius: .9rem .9rem .2rem .9rem; }
+.user div { white-space: pre-wrap; }
+.answer { padding: 1.1rem 1.25rem; border: 1px solid var(--line); border-radius: .85rem; background: #fff; }
+.answer :is(p, ul, ol, pre, blockquote) { margin: .55rem 0; }
+.answer :is(pre, table) { display: block; max-width: 100%; overflow-x: auto; }
+.answer pre { padding: .6rem; background: #f0f5ef; }
+.answer :is(td, th) { padding: .35rem; border: 1px solid var(--line); }
+.answer a { color: var(--green); }
+.composer { position: sticky; bottom: 0; margin-top: auto; background: #f5f5ee; padding: .8rem 0 1.5rem; }
+#chat {
+  display: flex;
+  gap: .8rem;
+  padding: .7rem;
+  border: 1px solid var(--line);
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 6px 24px #2843340b;
+}
+textarea { display: block; width: 100%; min-width: 0; border: 0; border-radius: .25rem; padding: .35rem .55rem; resize: vertical; color: inherit; }
+#send { align-self: end; background: var(--green); color: #fff; border: 0; border-radius: .6rem; padding: .5rem 1.05rem; }
+#send:disabled { opacity: .6; cursor: default; }
+#progress, #error { margin: 0 0 .7rem; padding: .55rem .8rem; border-radius: .5rem; }
+#progress { background: #e4ece2; color: #2d5644; }
+#elapsed { margin-left: .65rem; font-variant-numeric: tabular-nums; }
+#error { background: #f9e8e3; color: #762d24; }
+.spinner { display: inline-block; width: .8rem; height: .8rem; margin-right: .55rem; border: 2px solid #a8bdaf; border-top-color: var(--green); border-radius: 50%; animation: turn .8s linear infinite; }
+@keyframes turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+dialog { width: min(26rem, calc(100% - 2rem)); border: 1px solid var(--line); border-radius: .9rem; padding: 1.4rem; color: inherit; }
+dialog::backdrop { background: #152d2580; }
+dialog h2 { margin-top: 0; }
+dialog input { width: 100%; margin: .65rem 0 1rem; padding: .5rem; border: 1px solid var(--line); border-radius: .4rem; }
+dialog .actions { justify-content: end; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 420px) {
+  .top { flex-wrap: wrap; }
+  .actions { gap: .3rem; }
+  .actions button { font-size: .88rem; padding-inline: .5rem; }
+}
