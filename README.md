@@ -1,2 +1,2 @@
 # Cala Junction Hack
-we are: separating the unicorns from the horses
+Separating the unicorns from the horses!
