@@ -1,0 +1,254 @@
+{
+  "schema_version": "2.0",
+  "question_id": "person_to_company",
+  "question": "How is this person connected to this company?",
+  "inputs": {
+    "source": "Dani Penev",
+    "target": "Y Combinator"
+  },
+  "status": "needs_resolution",
+  "resolved_entities": {
+    "source": {
+      "id": "cala:fb5d6a32-3812-4524-ad32-f02c005473fd",
+      "name": "Dani Penev",
+      "entity_type": "Person",
+      "record_completeness": "stub",
+      "participation": [],
+      "evidence_ids": [
+        "ev:afd2e0c5d32e63a8cfd39167",
+        "ev:c77374965f71874b4595e352",
+        "ev:bd19dc99cb4c7540b81177a2",
+        "ev:f484a25fb13d841c9ae28406",
+        "ev:7610115401e6fa2d22ea5719"
+      ],
+      "profile": {},
+      "source_ids": {
+        "cala": [
+          "fb5d6a32-3812-4524-ad32-f02c005473fd"
+        ]
+      }
+    }
+  },
+  "resolution": {
+    "source": {
+      "status": "resolved",
+      "resolution_state": "resolved",
+      "query": "Dani Penev",
+      "entity_type": "Person",
+      "entity": {
+        "id": "cala:fb5d6a32-3812-4524-ad32-f02c005473fd",
+        "name": "Dani Penev",
+        "entity_type": "Person",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:afd2e0c5d32e63a8cfd39167",
+          "ev:c77374965f71874b4595e352",
+          "ev:bd19dc99cb4c7540b81177a2",
+          "ev:f484a25fb13d841c9ae28406",
+          "ev:7610115401e6fa2d22ea5719"
+        ],
+        "profile": {},
+        "source_ids": {
+          "cala": [
+            "fb5d6a32-3812-4524-ad32-f02c005473fd"
+          ]
+        }
+      },
+      "candidates": [],
+      "suggestions": [
+        {
+          "id": "cala:fb5d6a32-3812-4524-ad32-f02c005473fd",
+          "name": "Dani Penev",
+          "entity_type": "Person",
+          "record_completeness": "stub",
+          "origin_badges": [
+            "cala"
+          ],
+          "origins": [
+            "cala"
+          ],
+          "traversable_degree": 4,
+          "subtitle": "Cala Person · 4 verified links"
+        }
+      ],
+      "match_method": "unique_exact_name_or_alias"
+    },
+    "target": {
+      "status": "needs_resolution",
+      "resolution_state": "ambiguous",
+      "query": "Y Combinator",
+      "entity_type": "Company",
+      "entity": null,
+      "candidates": [
+        {
+          "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
+          "name": "Y Combinator",
+          "entity_type": "Company",
+          "record_completeness": "stub",
+          "participation": [],
+          "evidence_ids": [
+            "ev:b3d705e7b101b2c5c9d6533b"
+          ],
+          "origin_badges": [
+            "cala"
+          ],
+          "origins": [
+            "cala"
+          ],
+          "traversable_degree": 1,
+          "subtitle": "Cala Company · 1 verified link",
+          "context": {},
+          "affiliations": []
+        },
+        {
+          "id": "slush-organization:338dcf2aa7e3e614a271feed",
+          "name": "Y Combinator",
+          "entity_type": "Company",
+          "record_completeness": "stub",
+          "participation": [],
+          "evidence_ids": [
+            "ev:1521277c14b4134052af6102"
+          ],
+          "origin_badges": [
+            "slush_reference"
+          ],
+          "origins": [
+            "slush_reference"
+          ],
+          "traversable_degree": 1,
+          "subtitle": "Slush Work-History Reference · 1 verified link",
+          "context": {},
+          "affiliations": []
+        }
+      ],
+      "candidates_truncated": false,
+      "suggestions": [
+        {
+          "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
+          "name": "Y Combinator",
+          "entity_type": "Company",
+          "record_completeness": "stub",
+          "origin_badges": [
+            "cala"
+          ],
+          "origins": [
+            "cala"
+          ],
+          "traversable_degree": 1,
+          "subtitle": "Cala Company · 1 verified link"
+        },
+        {
+          "id": "slush-organization:338dcf2aa7e3e614a271feed",
+          "name": "Y Combinator",
+          "entity_type": "Company",
+          "record_completeness": "stub",
+          "origin_badges": [
+            "slush_reference"
+          ],
+          "origins": [
+            "slush_reference"
+          ],
+          "traversable_degree": 1,
+          "subtitle": "Slush Work-History Reference · 1 verified link"
+        },
+        {
+          "id": "cala:3a19eb19-8c1e-54bd-81cf-8881b94c9da5",
+          "name": "Bcombinator VC II",
+          "entity_type": "Organization",
+          "record_completeness": "stub",
+          "origin_badges": [
+            "cala"
+          ],
+          "origins": [
+            "cala"
+          ],
+          "traversable_degree": 1,
+          "subtitle": "Cala Organization · 1 verified link"
+        }
+      ],
+      "reason": "Multiple distinct records share this name; select a canonical ID."
+    }
+  },
+  "summary": "Resolve the indicated entity before searching its professional connections.",
+  "results": [],
+  "groups": null,
+  "attendance_unverified": null,
+  "graph": {
+    "nodes": [],
+    "edges": [],
+    "paths": []
+  },
+  "evidence": [],
+  "coverage": {
+    "snapshot_complete": false,
+    "snapshot_limitations": [
+      "Cala export completeness is False; 41 full entity records (40 companies) were captured. Other edge endpoints can be stubs.",
+      "The people file is partial; directory evidence and announcements do not independently establish physical event attendance.",
+      "Missing fields, paths, attendees or relationships mean not established in these snapshots, not absence in the real world.",
+      "Cross-source name-only matches remain unresolved candidates; this intentionally reduces recall to avoid invented identity joins.",
+      "Organization names in work history without corroborating identifiers remain scoped references and do not create shared-employer bridges by name alone.",
+      "Employment and role records with null end dates are not automatically current.",
+      "Possible duplicate people flagged in the source dataset are preserved separately.",
+      "Source-provided entity types, unusual dates and conflicting profile wording are retained rather than silently corrected.",
+      "Cala relationships without a nonempty source document remain audit assertions and are excluded from traversable networking paths."
+    ],
+    "truncated": false,
+    "data_quality_exclusions": {},
+    "max_displayed_results": 10,
+    "max_paths_per_endpoint": 3
+  },
+  "generation_mode": "evidence_template",
+  "versions": {
+    "graph": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+    "query": "2.0.0",
+    "ranking": "evidence_then_steps_v1"
+  },
+  "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "prompt_version": "cala-slush-four-questions-v2",
+  "template_summary": "Resolve the indicated entity before searching its professional connections.",
+  "generated_claims": [],
+  "gemma_audit_summary": {
+    "enabled": true,
+    "provider": "deterministic_local_guard",
+    "model": "deterministic-entailment-guard-v2.1",
+    "live_gemma_configured": false,
+    "overall_verdict": "pass",
+    "audited_claims": 0,
+    "supported_claims": 0,
+    "flagged_claims": 0,
+    "elapsed_ms": 0.002
+  },
+  "meeting_brief": {
+    "composer": "evidence_template",
+    "model": "deterministic-graph-v2.1",
+    "executive_summary": "Resolve the indicated entity before searching its professional connections.",
+    "talking_points": [],
+    "smart_questions": [],
+    "attendance_verification": {
+      "status": "unverified",
+      "note": "Physical event check-in and meeting availability are not established in the loaded snapshot.",
+      "evidence_ids": []
+    },
+    "warm_intro_paths": []
+  },
+  "cala_live_enrichment": null,
+  "run_id": "ba1fe5f0-4ea6-4e87-afd6-94defec33c28",
+  "original_request": {
+    "question_id": "person_to_company",
+    "source": "Dani Penev",
+    "target": "Y Combinator"
+  },
+  "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+  "pipeline_version": "2.1.0",
+  "query_policy_version": "four-task-ranking-2.0.0",
+  "generated_at": "2026-11-14T21:11:22.470510+00:00",
+  "cached": false,
+  "elapsed_ms": 54.429,
+  "storage_meta": {
+    "backend": "sqlite",
+    "cache_layer": "sqlite_cache",
+    "cached": false,
+    "elapsed_ms": 54.429
+  }
+}

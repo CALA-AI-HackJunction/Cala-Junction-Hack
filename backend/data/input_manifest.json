@@ -1,0 +1,20 @@
+[
+  {
+    "original_filename": "slush_2026_people_partial (1).json",
+    "packaged_filename": "data/slush_people.json",
+    "size_bytes": 7998945,
+    "sha256": "3beadebfc774cbe667b015864def351b3328c0d4f33318902b7bcac19c870066"
+  },
+  {
+    "original_filename": "slush-2026-graph.json",
+    "packaged_filename": "data/cala_graph.json",
+    "size_bytes": 2698348,
+    "sha256": "efd9524d1bebe002dbcc04b6e0d789b4da3756d903117752612a4d81f3165cf3"
+  },
+  {
+    "original_filename": "meeting_tool_companies_export_all (1)(2).json",
+    "packaged_filename": "data/slush_companies.json",
+    "size_bytes": 12751296,
+    "sha256": "19609f6834aaedcdae8b99f7e6fb54cabe7d8af8dd76b3ef916ffa688dc8e431"
+  }
+]

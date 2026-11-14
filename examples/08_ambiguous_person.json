@@ -1,0 +1,346 @@
+{
+  "schema_version": "2.0",
+  "question_id": "person_to_company",
+  "question": "How is this person connected to this company?",
+  "inputs": {
+    "source": "Ben Fletcher",
+    "target": "Trust Exchange"
+  },
+  "status": "needs_resolution",
+  "resolved_entities": {
+    "target": {
+      "id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+      "name": "Trust Exchange",
+      "entity_type": "Company",
+      "record_completeness": "full",
+      "participation": [
+        {
+          "status": "company_listed",
+          "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+          "evidence_ids": [
+            "ev:9f12cf630d86eae5a72258b5"
+          ]
+        },
+        {
+          "status": "cala_event_link",
+          "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+          "evidence_ids": [
+            "ev:d55667b212ef3120ceda58b5"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "ev:9f12cf630d86eae5a72258b5",
+        "ev:c2835f6f5c1d9ffd84760792",
+        "ev:d55667b212ef3120ceda58b5",
+        "ev:679d212a401e51d30dcbcf54",
+        "ev:b5ef120c440a56560113860c",
+        "ev:a8c29ea6afb5e53d1bc57b82",
+        "ev:20e2530641e051ed4c5c056d",
+        "ev:7bbf2df2ea9b4783829488af",
+        "ev:f682ef8649906af9968fb02d",
+        "ev:77e50c5a7cb324cf6ca4eda4",
+        "ev:cb541847e912bd0879c59544"
+      ],
+      "profile": {
+        "description": "Nobody in Europe agrees on what makes a young company backable. So founders guess, investors overinvest time to analyse, and both sides lose years. Trust Exchange is the reference underneath: one published standard, one honest read of a venture, carried from one conversation to the next. Stakeholder agnostic, industry agnostic, and like any ecosystem it gets stronger the more of the market plugs into it.",
+        "website": "https://trustexchange.world/",
+        "company_type": "startup",
+        "primary_industry": "fintech"
+      },
+      "source_ids": {
+        "slush": [
+          "ad355578-0a33-40e0-bb20-cc7e3e56d890"
+        ],
+        "cala": [
+          "0220cf38-d013-5600-9616-31da01caa416"
+        ]
+      }
+    }
+  },
+  "resolution": {
+    "source": {
+      "status": "needs_resolution",
+      "resolution_state": "ambiguous",
+      "query": "Ben Fletcher",
+      "entity_type": "Person",
+      "entity": null,
+      "candidates": [
+        {
+          "id": "slush-person:295dc4034d6c2056a35a9acc",
+          "name": "Ben Fletcher",
+          "entity_type": "Person",
+          "record_completeness": "full",
+          "participation": [
+            {
+              "status": "announced_speaker",
+              "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+              "evidence_ids": [
+                "ev:13b5244735e6294e0011ddbc",
+                "ev:3ba37edfc783aa3216b95ed8"
+              ]
+            }
+          ],
+          "evidence_ids": [
+            "ev:d0b441f839ef5195d57fdd27",
+            "ev:aa537255bac339cbdb39b7f9",
+            "ev:28a5be1ac2aaa93f473ba2fd",
+            "ev:9228b0e07e58bc46bab94fc9",
+            "ev:4524387a9dc188786fb9530c",
+            "ev:3ba37edfc783aa3216b95ed8",
+            "ev:13b5244735e6294e0011ddbc"
+          ],
+          "origin_badges": [
+            "slush"
+          ],
+          "origins": [
+            "slush"
+          ],
+          "traversable_degree": 4,
+          "subtitle": "Slush Person · Partner · 4 verified links",
+          "context": {
+            "job_title": "Partner",
+            "location_raw": "London"
+          },
+          "affiliations": [
+            "Accel",
+            "Apple",
+            "Google"
+          ]
+        },
+        {
+          "id": "slush-person:84aee771a6bf134a4f932658",
+          "name": "Ben Fletcher",
+          "entity_type": "Person",
+          "record_completeness": "full",
+          "participation": [
+            {
+              "status": "platform_directory",
+              "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+              "evidence_ids": [
+                "ev:2ce8db7b9bd3923b336f166d"
+              ]
+            }
+          ],
+          "evidence_ids": [
+            "ev:2ce8db7b9bd3923b336f166d"
+          ],
+          "origin_badges": [
+            "slush"
+          ],
+          "origins": [
+            "slush"
+          ],
+          "traversable_degree": 0,
+          "subtitle": "Slush Person · Partner",
+          "context": {
+            "job_title": "Partner"
+          },
+          "affiliations": []
+        }
+      ],
+      "candidates_truncated": false,
+      "suggestions": [
+        {
+          "id": "slush-person:295dc4034d6c2056a35a9acc",
+          "name": "Ben Fletcher",
+          "entity_type": "Person",
+          "record_completeness": "full",
+          "origin_badges": [
+            "slush"
+          ],
+          "origins": [
+            "slush"
+          ],
+          "traversable_degree": 4,
+          "subtitle": "Slush Person · Partner · 4 verified links"
+        },
+        {
+          "id": "slush-person:84aee771a6bf134a4f932658",
+          "name": "Ben Fletcher",
+          "entity_type": "Person",
+          "record_completeness": "full",
+          "origin_badges": [
+            "slush"
+          ],
+          "origins": [
+            "slush"
+          ],
+          "traversable_degree": 0,
+          "subtitle": "Slush Person · Partner"
+        },
+        {
+          "id": "slush-person:9dfa5bb59d28e1917417305a",
+          "name": "Ben Hitchens",
+          "entity_type": "Person",
+          "record_completeness": "full",
+          "origin_badges": [
+            "slush"
+          ],
+          "origins": [
+            "slush"
+          ],
+          "traversable_degree": 1,
+          "subtitle": "Slush Person · Partner · 1 verified link"
+        }
+      ],
+      "reason": "Multiple distinct records share this name; select a canonical ID."
+    },
+    "target": {
+      "status": "resolved",
+      "resolution_state": "resolved",
+      "query": "Trust Exchange",
+      "entity_type": "Company",
+      "entity": {
+        "id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "name": "Trust Exchange",
+        "entity_type": "Company",
+        "record_completeness": "full",
+        "participation": [
+          {
+            "status": "company_listed",
+            "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "evidence_ids": [
+              "ev:9f12cf630d86eae5a72258b5"
+            ]
+          },
+          {
+            "status": "cala_event_link",
+            "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "evidence_ids": [
+              "ev:d55667b212ef3120ceda58b5"
+            ]
+          }
+        ],
+        "evidence_ids": [
+          "ev:9f12cf630d86eae5a72258b5",
+          "ev:c2835f6f5c1d9ffd84760792",
+          "ev:d55667b212ef3120ceda58b5",
+          "ev:679d212a401e51d30dcbcf54",
+          "ev:b5ef120c440a56560113860c",
+          "ev:a8c29ea6afb5e53d1bc57b82",
+          "ev:20e2530641e051ed4c5c056d",
+          "ev:7bbf2df2ea9b4783829488af",
+          "ev:f682ef8649906af9968fb02d",
+          "ev:77e50c5a7cb324cf6ca4eda4",
+          "ev:cb541847e912bd0879c59544"
+        ],
+        "profile": {
+          "description": "Nobody in Europe agrees on what makes a young company backable. So founders guess, investors overinvest time to analyse, and both sides lose years. Trust Exchange is the reference underneath: one published standard, one honest read of a venture, carried from one conversation to the next. Stakeholder agnostic, industry agnostic, and like any ecosystem it gets stronger the more of the market plugs into it.",
+          "website": "https://trustexchange.world/",
+          "company_type": "startup",
+          "primary_industry": "fintech"
+        },
+        "source_ids": {
+          "slush": [
+            "ad355578-0a33-40e0-bb20-cc7e3e56d890"
+          ],
+          "cala": [
+            "0220cf38-d013-5600-9616-31da01caa416"
+          ]
+        }
+      },
+      "candidates": [],
+      "suggestions": [
+        {
+          "id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "name": "Trust Exchange",
+          "entity_type": "Company",
+          "record_completeness": "full",
+          "origin_badges": [
+            "cala",
+            "slush"
+          ],
+          "origins": [
+            "cala",
+            "slush"
+          ],
+          "traversable_degree": 4,
+          "subtitle": "Cala + Slush Verified · startup · 4 verified links"
+        }
+      ],
+      "match_method": "unique_exact_name_or_alias"
+    }
+  },
+  "summary": "Resolve the indicated entity before searching its professional connections.",
+  "results": [],
+  "groups": null,
+  "attendance_unverified": null,
+  "graph": {
+    "nodes": [],
+    "edges": [],
+    "paths": []
+  },
+  "evidence": [],
+  "coverage": {
+    "snapshot_complete": false,
+    "snapshot_limitations": [
+      "Cala export completeness is False; 41 full entity records (40 companies) were captured. Other edge endpoints can be stubs.",
+      "The people file is partial; directory evidence and announcements do not independently establish physical event attendance.",
+      "Missing fields, paths, attendees or relationships mean not established in these snapshots, not absence in the real world.",
+      "Cross-source name-only matches remain unresolved candidates; this intentionally reduces recall to avoid invented identity joins.",
+      "Organization names in work history without corroborating identifiers remain scoped references and do not create shared-employer bridges by name alone.",
+      "Employment and role records with null end dates are not automatically current.",
+      "Possible duplicate people flagged in the source dataset are preserved separately.",
+      "Source-provided entity types, unusual dates and conflicting profile wording are retained rather than silently corrected.",
+      "Cala relationships without a nonempty source document remain audit assertions and are excluded from traversable networking paths."
+    ],
+    "truncated": false,
+    "data_quality_exclusions": {},
+    "max_displayed_results": 10,
+    "max_paths_per_endpoint": 3
+  },
+  "generation_mode": "evidence_template",
+  "versions": {
+    "graph": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+    "query": "2.0.0",
+    "ranking": "evidence_then_steps_v1"
+  },
+  "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "prompt_version": "cala-slush-four-questions-v2",
+  "template_summary": "Resolve the indicated entity before searching its professional connections.",
+  "generated_claims": [],
+  "gemma_audit_summary": {
+    "enabled": true,
+    "provider": "deterministic_local_guard",
+    "model": "deterministic-entailment-guard-v2.1",
+    "live_gemma_configured": false,
+    "overall_verdict": "pass",
+    "audited_claims": 0,
+    "supported_claims": 0,
+    "flagged_claims": 0,
+    "elapsed_ms": 0.001
+  },
+  "meeting_brief": {
+    "composer": "evidence_template",
+    "model": "deterministic-graph-v2.1",
+    "executive_summary": "Resolve the indicated entity before searching its professional connections.",
+    "talking_points": [],
+    "smart_questions": [],
+    "attendance_verification": {
+      "status": "unverified",
+      "note": "Physical event check-in and meeting availability are not established in the loaded snapshot.",
+      "evidence_ids": []
+    },
+    "warm_intro_paths": []
+  },
+  "cala_live_enrichment": null,
+  "run_id": "03188fb7-b420-4867-a4ee-5dd9c9860d0e",
+  "original_request": {
+    "question_id": "person_to_company",
+    "source": "Ben Fletcher",
+    "target": "Trust Exchange"
+  },
+  "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+  "pipeline_version": "2.1.0",
+  "query_policy_version": "four-task-ranking-2.0.0",
+  "generated_at": "2026-11-14T21:11:22.653863+00:00",
+  "cached": false,
+  "elapsed_ms": 57.908,
+  "storage_meta": {
+    "backend": "sqlite",
+    "cache_layer": "sqlite_cache",
+    "cached": false,
+    "elapsed_ms": 57.908
+  }
+}

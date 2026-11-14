@@ -1,0 +1,849 @@
+{
+  "schema_version": "2.0",
+  "generated_at": "2026-11-14T20:00:00Z",
+  "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+  "verification_guarantee": "100% of presets in this file were executed and verified against QueryEngine on snapshot.json (graph_version b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70). Zero synthetic entities or confabulated edges exist.",
+  "questions": [
+    {
+      "question_id": "person_to_company",
+      "label": "How is this person connected to this company?",
+      "required_fields": [
+        "source",
+        "target"
+      ],
+      "canonical_id_fields": [
+        "source_id",
+        "target_id"
+      ],
+      "max_hops": 4
+    },
+    {
+      "question_id": "company_to_company",
+      "label": "How are these two companies connected?",
+      "required_fields": [
+        "source",
+        "target"
+      ],
+      "canonical_id_fields": [
+        "source_id",
+        "target_id"
+      ],
+      "max_hops": 4
+    },
+    {
+      "question_id": "company_network",
+      "label": "What professional network surrounds this company?",
+      "required_fields": [
+        "company"
+      ],
+      "canonical_id_fields": [
+        "company_id"
+      ],
+      "max_hops": 2
+    },
+    {
+      "question_id": "company_representatives",
+      "label": "Who from this company can I approach at Slush, and what should I know about them?",
+      "required_fields": [
+        "company"
+      ],
+      "canonical_id_fields": [
+        "company_id"
+      ],
+      "max_hops": 1
+    }
+  ],
+  "preset_counts": {
+    "total": 17,
+    "benchmark": 8,
+    "multi_hop_showcase": 4,
+    "vc_and_investor_showcase": 3,
+    "slush_speakers_showcase": 2
+  },
+  "presets": [
+    {
+      "id": "bench_01_camille_trust_exchange",
+      "preset_id": "bench_01_camille_trust_exchange",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "1-Hop · Cross-Source (Cala + Slush)",
+      "title": "Camille Accolas → Trust Exchange",
+      "description": "Corroborated founder & Swiss registry board member who is also a named Slush 2026 startup representative",
+      "subtitle": "Corroborated founder & Swiss registry board member who is also a named Slush 2026 startup representative",
+      "expected_status": "partial",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Camille Accolas",
+        "target": "Trust Exchange"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 2 supported professional paths from Camille Accolas to Trust Exchange within 4 steps.",
+        "result_count": 2,
+        "path_count": 2,
+        "top_path_hops": 1,
+        "node_count": 2,
+        "edge_count": 2,
+        "evidence_count": 15,
+        "top_explanation": "Camille Accolas founded Trust Exchange."
+      }
+    },
+    {
+      "id": "bench_02a_dani_yc_ambiguous",
+      "preset_id": "bench_02a_dani_yc_ambiguous",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "Disambiguation · Target Picker",
+      "title": "Dani Penev → Y Combinator (Ambiguous Name)",
+      "description": "Demonstrates zero-confabulation entity resolution when 'Y Combinator' matches both a Cala investor and a Slush work-history stub",
+      "subtitle": "Demonstrates zero-confabulation entity resolution when 'Y Combinator' matches both a Cala investor and a Slush work-history stub",
+      "expected_status": "needs_resolution",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Dani Penev",
+        "target": "Y Combinator"
+      },
+      "follow_up_preset_id": "bench_02b_dani_yc_resolved",
+      "verified_outcome": {
+        "status": "needs_resolution",
+        "summary": "Resolve the indicated entity before searching its professional connections.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 0,
+        "edge_count": 0,
+        "evidence_count": 0,
+        "top_explanation": null,
+        "ambiguous_slots": {
+          "target": [
+            {
+              "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
+              "name": "Y Combinator",
+              "entity_type": "Company",
+              "record_completeness": "stub"
+            },
+            {
+              "id": "slush-organization:338dcf2aa7e3e614a271feed",
+              "name": "Y Combinator",
+              "entity_type": "Company",
+              "record_completeness": "stub"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "bench_02b_dani_yc_resolved",
+      "preset_id": "bench_02b_dani_yc_resolved",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "2-Hop · Founder → Startup → VC",
+      "title": "Dani Penev → Y Combinator (Resolved Cala ID)",
+      "description": "2-hop verified Cala chain through Slicker via FOUNDED, IS_CEO_OF, IS_BOARD_MEMBER_OF, and INVESTED_IN",
+      "subtitle": "2-hop verified Cala chain through Slicker via FOUNDED, IS_CEO_OF, IS_BOARD_MEMBER_OF, and INVESTED_IN",
+      "expected_status": "partial",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Dani Penev",
+        "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
+      },
+      "ui_display_inputs": {
+        "source": "Dani Penev",
+        "target": "Y Combinator (Cala Verified Company)"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 3 supported professional paths from Dani Penev to Y Combinator within 4 steps.",
+        "result_count": 3,
+        "path_count": 3,
+        "top_path_hops": 2,
+        "node_count": 3,
+        "edge_count": 4,
+        "evidence_count": 22,
+        "top_explanation": "Dani Penev founded Slicker. Y Combinator has a documented investment in Slicker (relationship dates unverified)."
+      }
+    },
+    {
+      "id": "bench_03_slicker_yc",
+      "preset_id": "bench_03_slicker_yc",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "1-Hop · Startup → Investor",
+      "title": "Slicker → Y Combinator",
+      "description": "Slush 100 fintech startup linked to Y Combinator via 4 independent Cala source documents",
+      "subtitle": "Slush 100 fintech startup linked to Y Combinator via 4 independent Cala source documents",
+      "expected_status": "partial",
+      "question_id": "company_to_company",
+      "question_label": "How are these two companies connected?",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Slicker",
+        "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
+      },
+      "ui_display_inputs": {
+        "source": "Slicker",
+        "target": "Y Combinator (Cala Verified Company)"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 1 supported professional path from Slicker to Y Combinator within 4 steps.",
+        "result_count": 1,
+        "path_count": 1,
+        "top_path_hops": 1,
+        "node_count": 2,
+        "edge_count": 1,
+        "evidence_count": 22,
+        "top_explanation": "Y Combinator has a documented investment in Slicker (relationship dates unverified)."
+      }
+    },
+    {
+      "id": "bench_04_trust_exchange_network",
+      "preset_id": "bench_04_trust_exchange_network",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "2-Hop Network · Cala + Slush",
+      "title": "Trust Exchange — Surrounding Network",
+      "description": "2-step neighborhood uniting Cala Swiss filings (Martin Studer, Camille Accolas) with Slush advisory/accelerator links (The Decision Room, Brainforest)",
+      "subtitle": "2-step neighborhood uniting Cala Swiss filings (Martin Studer, Camille Accolas) with Slush advisory/accelerator links (The Decision Room, Brainforest)",
+      "expected_status": "partial",
+      "question_id": "company_network",
+      "question_label": "What professional network surrounds this company?",
+      "request": {
+        "question_id": "company_network",
+        "company": "Trust Exchange"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
+        "result_count": 4,
+        "path_count": 9,
+        "top_path_hops": 1,
+        "node_count": 5,
+        "edge_count": 7,
+        "evidence_count": 15,
+        "top_explanation": "Martin Studer founded Trust Exchange.",
+        "network_groups": {
+          "direct_people": 2,
+          "indirect_connections": 2
+        }
+      }
+    },
+    {
+      "id": "bench_05_trust_exchange_representatives",
+      "preset_id": "bench_05_trust_exchange_representatives",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "Slush Approachability · Verified vs Unverified",
+      "title": "Trust Exchange — Who to Approach at Slush",
+      "description": "Separates announced Slush 2026 representative Camille Accolas from co-founder Martin Studer (unverified event attendance)",
+      "subtitle": "Separates announced Slush 2026 representative Camille Accolas from co-founder Martin Studer (unverified event attendance)",
+      "expected_status": "partial",
+      "question_id": "company_representatives",
+      "question_label": "Who from this company can I approach at Slush, and what should I know about them?",
+      "request": {
+        "question_id": "company_representatives",
+        "company": "Trust Exchange"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 1 person with documented affiliations to Trust Exchange and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
+        "result_count": 1,
+        "path_count": 4,
+        "top_path_hops": 1,
+        "node_count": 3,
+        "edge_count": 4,
+        "evidence_count": 15,
+        "top_explanation": "Camille Accolas founded Trust Exchange.",
+        "attendance_unverified_count": 1
+      }
+    },
+    {
+      "id": "bench_06_trust_exchange_slicker_no_path",
+      "preset_id": "bench_06_trust_exchange_slicker_no_path",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "Zero False Bridges · Guardrail Proof",
+      "title": "Trust Exchange → Slicker (No Supported Path)",
+      "description": "Both attend Slush 2026 and operate in FINTECH, yet return insufficient_data because shared events and industries are excluded as bridges",
+      "subtitle": "Both attend Slush 2026 and operate in FINTECH, yet return insufficient_data because shared events and industries are excluded as bridges",
+      "expected_status": "insufficient_data",
+      "question_id": "company_to_company",
+      "question_label": "How are these two companies connected?",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Trust Exchange",
+        "target": "Slicker"
+      },
+      "verified_outcome": {
+        "status": "insufficient_data",
+        "summary": "No supported professional path was found from Trust Exchange to Slicker within 4 steps in the loaded snapshot.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 2,
+        "edge_count": 0,
+        "evidence_count": 33,
+        "top_explanation": null
+      }
+    },
+    {
+      "id": "bench_07_ben_fletcher_ambiguity",
+      "preset_id": "bench_07_ben_fletcher_ambiguity",
+      "group": "benchmark",
+      "featured": true,
+      "badge": "Identity Guardrail · Duplicate Person",
+      "title": "Ben Fletcher → Trust Exchange (Ambiguous Person)",
+      "description": "Preserves two distinct Slush records for 'Ben Fletcher' (Accel Partner speaker vs unverified directory card) instead of guessing",
+      "subtitle": "Preserves two distinct Slush records for 'Ben Fletcher' (Accel Partner speaker vs unverified directory card) instead of guessing",
+      "expected_status": "needs_resolution",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Ben Fletcher",
+        "target": "Trust Exchange"
+      },
+      "verified_outcome": {
+        "status": "needs_resolution",
+        "summary": "Resolve the indicated entity before searching its professional connections.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 0,
+        "edge_count": 0,
+        "evidence_count": 0,
+        "top_explanation": null,
+        "ambiguous_slots": {
+          "source": [
+            {
+              "id": "slush-person:295dc4034d6c2056a35a9acc",
+              "name": "Ben Fletcher",
+              "entity_type": "Person",
+              "record_completeness": "full"
+            },
+            {
+              "id": "slush-person:84aee771a6bf134a4f932658",
+              "name": "Ben Fletcher",
+              "entity_type": "Person",
+              "record_completeness": "full"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "showcase_08_martin_studer_decision_room_3hop",
+      "preset_id": "showcase_08_martin_studer_decision_room_3hop",
+      "group": "multi_hop_showcase",
+      "featured": true,
+      "badge": "3-Hop · Cross-Dataset Bridge (Cala → Slush)",
+      "title": "Martin Studer → The Decision Room",
+      "description": "3-hop cross-source path: Martin Studer (Cala) → Trust Exchange (Cala+Slush) → Camille Accolas (Cala+Slush) → The Decision Room (Slush)",
+      "subtitle": "3-hop cross-source path: Martin Studer (Cala) → Trust Exchange (Cala+Slush) → Camille Accolas (Cala+Slush) → The Decision Room (Slush)",
+      "expected_status": "partial",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Martin Studer",
+        "target": "The Decision Room"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 3 supported professional paths from Martin Studer to The Decision Room within 4 steps.",
+        "result_count": 3,
+        "path_count": 3,
+        "top_path_hops": 3,
+        "node_count": 4,
+        "edge_count": 5,
+        "evidence_count": 15,
+        "top_explanation": "Martin Studer founded Trust Exchange. Camille Accolas founded Trust Exchange. Camille Accolas founded The Decision Room."
+      }
+    },
+    {
+      "id": "showcase_09_anton_osika_amplitude_3hop",
+      "preset_id": "showcase_09_anton_osika_amplitude_3hop",
+      "group": "multi_hop_showcase",
+      "featured": true,
+      "badge": "3-Hop · Nordic AI Unicorn Bridge",
+      "title": "Anton Osika → Amplitude",
+      "description": "3-hop path connecting Lovable CEO Anton Osika through Lovable and Slush speaker Elena Verna to Amplitude",
+      "subtitle": "3-hop path connecting Lovable CEO Anton Osika through Lovable and Slush speaker Elena Verna to Amplitude",
+      "expected_status": "partial",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Anton Osika",
+        "target": "Amplitude"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 2 supported professional paths from Anton Osika to Amplitude within 4 steps.",
+        "result_count": 2,
+        "path_count": 2,
+        "top_path_hops": 3,
+        "node_count": 4,
+        "edge_count": 4,
+        "evidence_count": 16,
+        "top_explanation": "Anton Osika founded Lovable. Elena Verna has a documented affiliation with Lovable (relationship dates unverified). Elena Verna has a documented employment link to Amplitude (relationship dates unverified)."
+      }
+    },
+    {
+      "id": "showcase_10_sana_labs_amplitude_4hop",
+      "preset_id": "showcase_10_sana_labs_amplitude_4hop",
+      "group": "multi_hop_showcase",
+      "featured": true,
+      "badge": "4-Hop · Max-Depth AI Ecosystem Chain",
+      "title": "Sana Labs → Amplitude",
+      "description": "Full 4-hop chain: Sana Labs ← Anton Osika → Lovable ← Elena Verna → Amplitude",
+      "subtitle": "Full 4-hop chain: Sana Labs ← Anton Osika → Lovable ← Elena Verna → Amplitude",
+      "expected_status": "partial",
+      "question_id": "company_to_company",
+      "question_label": "How are these two companies connected?",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Sana Labs",
+        "target": "Amplitude"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 2 supported professional paths from Sana Labs to Amplitude within 4 steps.",
+        "result_count": 2,
+        "path_count": 2,
+        "top_path_hops": 4,
+        "node_count": 5,
+        "edge_count": 5,
+        "evidence_count": 16,
+        "top_explanation": "Anton Osika has a documented employment link to Sana Labs (relationship dates unverified). Anton Osika founded Lovable. Elena Verna has a documented affiliation with Lovable (relationship dates unverified). Elena Verna has a documented employment link to Amplitude (relationship dates unverified)."
+      }
+    },
+    {
+      "id": "showcase_11_expander_intel_capital_4hop",
+      "preset_id": "showcase_11_expander_intel_capital_4hop",
+      "group": "multi_hop_showcase",
+      "featured": false,
+      "badge": "4-Hop · Deep-Tech VC Bridge",
+      "title": "Expander → Intel Capital",
+      "description": "4-hop venture bridge: Expander ← Adam Niewinski → OTB Ventures ← Marcin Hejka → Intel Capital",
+      "subtitle": "4-hop venture bridge: Expander ← Adam Niewinski → OTB Ventures ← Marcin Hejka → Intel Capital",
+      "expected_status": "partial",
+      "question_id": "company_to_company",
+      "question_label": "How are these two companies connected?",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Expander",
+        "target": "Intel Capital"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 1 supported professional path from Expander to Intel Capital within 4 steps.",
+        "result_count": 1,
+        "path_count": 1,
+        "top_path_hops": 4,
+        "node_count": 5,
+        "edge_count": 4,
+        "evidence_count": 29,
+        "top_explanation": "Adam Niewinski founded Expander. Adam Niewinski has a documented affiliation with OTB Ventures (relationship dates unverified). Marcin Hejka has a documented affiliation with OTB Ventures (relationship dates unverified). Marcin Hejka has a documented employment link to Intel Capital (relationship dates unverified)."
+      },
+      "cala_verified_investor_matches": [
+        {
+          "snapshot_node_id": "slush-company:e91fdce9-5ee5-473b-ab87-fed816eb6d9b",
+          "snapshot_name": "OTB Ventures",
+          "cala_id": "d26a193e-78e6-47ed-a265-877bc5a60b35",
+          "cala_name": "OTB Ventures",
+          "cala_type": "Company",
+          "cala_desc": "European venture capital firm specializing in DeepTech investments in early-stage technology businesses with R&D in Central and Eastern Europe.",
+          "company_type": "vc-investor",
+          "country": "NL",
+          "website": "https://www.otb.vc/",
+          "best_score": 115,
+          "namespace": "cala_verified_investor_match"
+        }
+      ]
+    },
+    {
+      "id": "showcase_12_pekka_volvo_fund_2hop",
+      "preset_id": "showcase_12_pekka_volvo_fund_2hop",
+      "group": "vc_and_investor_showcase",
+      "featured": true,
+      "badge": "2-Hop · Finnish Deep-Tech → CVC Investor",
+      "title": "Pekka Iso-Ketola → Volvo Car Technology Fund AB",
+      "description": "2-hop verified Cala path from Finnish sensor startup founder/CTO Pekka Iso-Ketola via Forciot Oy to investor Volvo Car Technology Fund AB",
+      "subtitle": "2-hop verified Cala path from Finnish sensor startup founder/CTO Pekka Iso-Ketola via Forciot Oy to investor Volvo Car Technology Fund AB",
+      "expected_status": "partial",
+      "question_id": "person_to_company",
+      "question_label": "How is this person connected to this company?",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Pekka Iso-Ketola",
+        "target": "Volvo Car Technology Fund AB"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 1 supported professional path from Pekka Iso-Ketola to Volvo Car Technology Fund AB within 4 steps.",
+        "result_count": 1,
+        "path_count": 1,
+        "top_path_hops": 2,
+        "node_count": 3,
+        "edge_count": 2,
+        "evidence_count": 26,
+        "top_explanation": "Pekka Iso-Ketola has a documented board role at Forciot Oy (relationship dates unverified). Volvo Car Technology Fund AB has a documented investment in Forciot Oy (relationship dates unverified)."
+      }
+    },
+    {
+      "id": "showcase_13_speedinvest_fj_labs_2hop",
+      "preset_id": "showcase_13_speedinvest_fj_labs_2hop",
+      "group": "vc_and_investor_showcase",
+      "featured": true,
+      "badge": "2-Hop · Cala VC Co-Investment Syndicate",
+      "title": "Speedinvest GmbH → FJ Labs, LLC",
+      "description": "2-hop Cala investor co-syndicate connected via mobility-AI startup Bliq GmbH (Speedinvest also verified in Slush investor registry)",
+      "subtitle": "2-hop Cala investor co-syndicate connected via mobility-AI startup Bliq GmbH (Speedinvest also verified in Slush investor registry)",
+      "expected_status": "partial",
+      "question_id": "company_to_company",
+      "question_label": "How are these two companies connected?",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Speedinvest GmbH",
+        "target": "FJ Labs, LLC"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 1 supported professional path from Speedinvest GmbH to FJ Labs, LLC within 4 steps.",
+        "result_count": 1,
+        "path_count": 1,
+        "top_path_hops": 2,
+        "node_count": 3,
+        "edge_count": 2,
+        "evidence_count": 33,
+        "top_explanation": "Speedinvest GmbH has a documented investment in Bliq GmbH (relationship dates unverified). FJ Labs, LLC has a documented investment in Bliq GmbH (relationship dates unverified)."
+      }
+    },
+    {
+      "id": "showcase_14_planhat_network_3groups",
+      "preset_id": "showcase_14_planhat_network_3groups",
+      "group": "vc_and_investor_showcase",
+      "featured": true,
+      "badge": "Q3 Network · People + Subsidiary + Investor",
+      "title": "Planhat — 3-Group Cala Corporate & VC Network",
+      "description": "Richest multi-category Cala company network: 5 founders/board members, beneficial owner link to PLANHAT LTD, and Series A investor Sprints",
+      "subtitle": "Richest multi-category Cala company network: 5 founders/board members, beneficial owner link to PLANHAT LTD, and Series A investor Sprints",
+      "expected_status": "partial",
+      "question_id": "company_network",
+      "question_label": "What professional network surrounds this company?",
+      "request": {
+        "question_id": "company_network",
+        "company": "Planhat"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Showing 7 people or organizations within 2 supported professional steps of Planhat.",
+        "result_count": 7,
+        "path_count": 12,
+        "top_path_hops": 1,
+        "node_count": 8,
+        "edge_count": 12,
+        "evidence_count": 21,
+        "top_explanation": "Kaveh Rostampor founded Planhat.",
+        "network_groups": {
+          "direct_people": 5,
+          "direct_companies": 1,
+          "investors": 1
+        }
+      },
+      "cala_verified_investor_matches": [
+        {
+          "snapshot_node_id": "cala:66858cef-59f1-4951-81a5-5ff15750aaf5",
+          "snapshot_name": "Sprints",
+          "cala_id": "1681b958-505e-4eb8-81a2-89b644d77459",
+          "cala_name": "SPRINTS CAPITAL MANAGEMENT LIMITED",
+          "cala_type": "Company",
+          "cala_desc": "A consulting firm founded in 2016 with headquarters at 28 Savile Row in London.",
+          "company_type": "vc-investor",
+          "country": "GB",
+          "website": "https://sprints.com/",
+          "best_score": 119,
+          "namespace": "cala_verified_investor_match"
+        }
+      ]
+    },
+    {
+      "id": "showcase_15_general_catalyst_speakers",
+      "preset_id": "showcase_15_general_catalyst_speakers",
+      "group": "slush_speakers_showcase",
+      "featured": true,
+      "badge": "Q4 Slush Speakers · Cala-Verified Global VC",
+      "title": "General Catalyst — 3 Announced Slush 2026 Speakers",
+      "description": "Surfaces Dr. Jeannette zu Fürstenberg, Alexandre Momeni, and Robin Dechant with documented speaker roles + Cala UUID 03faa252-0570-4e3f-be48-39d7740d964c",
+      "subtitle": "Surfaces Dr. Jeannette zu Fürstenberg, Alexandre Momeni, and Robin Dechant with documented speaker roles + Cala UUID 03faa252-0570-4e3f-be48-39d7740d964c",
+      "expected_status": "partial",
+      "question_id": "company_representatives",
+      "question_label": "Who from this company can I approach at Slush, and what should I know about them?",
+      "request": {
+        "question_id": "company_representatives",
+        "company": "General Catalyst"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 3 people with documented affiliations to General Catalyst and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
+        "result_count": 3,
+        "path_count": 3,
+        "top_path_hops": 1,
+        "node_count": 4,
+        "edge_count": 3,
+        "evidence_count": 16,
+        "top_explanation": "Dr. Jeannette zu Fürstenberg has a documented affiliation with General Catalyst (relationship dates unverified).",
+        "attendance_unverified_count": 0
+      },
+      "cala_verified_investor_matches": [
+        {
+          "snapshot_node_id": "slush-company:e4dd9e8b-c759-4ad6-bf95-83ee9b125e81",
+          "snapshot_name": "General Catalyst",
+          "cala_id": "03faa252-0570-4e3f-be48-39d7740d964c",
+          "cala_name": "General Catalyst",
+          "cala_type": "Organization",
+          "cala_desc": "A venture capital firm based in Cambridge, Massachusetts, founded in 2000.",
+          "company_type": "vc-investor",
+          "country": "GB",
+          "website": "https://www.generalcatalyst.com/",
+          "best_score": 138,
+          "namespace": "cala_verified_investor_match"
+        }
+      ]
+    },
+    {
+      "id": "showcase_16_iceye_finnish_unicorn_speakers",
+      "preset_id": "showcase_16_iceye_finnish_unicorn_speakers",
+      "group": "slush_speakers_showcase",
+      "featured": false,
+      "badge": "Q4 Slush Speakers · Finnish Space Unicorn",
+      "title": "ICEYE — Finnish SAR Satellite Unicorn Speakers",
+      "description": "Surfaces co-founder & CEO Rafal Modrzewski and Chief Strategy Officer Marko Ahtisaari as announced Slush 2026 speakers",
+      "subtitle": "Surfaces co-founder & CEO Rafal Modrzewski and Chief Strategy Officer Marko Ahtisaari as announced Slush 2026 speakers",
+      "expected_status": "partial",
+      "question_id": "company_representatives",
+      "question_label": "Who from this company can I approach at Slush, and what should I know about them?",
+      "request": {
+        "question_id": "company_representatives",
+        "company": "ICEYE"
+      },
+      "verified_outcome": {
+        "status": "partial",
+        "summary": "Found 2 people with documented affiliations to ICEYE and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
+        "result_count": 2,
+        "path_count": 3,
+        "top_path_hops": 1,
+        "node_count": 3,
+        "edge_count": 3,
+        "evidence_count": 11,
+        "top_explanation": "Rafal Modrzewski founded ICEYE.",
+        "attendance_unverified_count": 0
+      }
+    }
+  ],
+  "featured_cala_verified_slush_investors": [
+    {
+      "slush_company_name": "Maki.vc",
+      "slush_snapshot_id": "slush-company:064d2f99-f6e2-4933-982a-e9b0db023afb",
+      "slush_resolution_status": "resolved",
+      "cala_id": "3100c303-0795-4673-a04d-7e612b421eb4",
+      "cala_name": "MAKI.VC FUND I Ky",
+      "cala_type": "Company",
+      "cala_desc": "Finnish venture capital firm headquartered in Helsinki, founded in 2017.",
+      "company_type": "vc-investor",
+      "country": "FI",
+      "website": "https://maki.vc/",
+      "best_score": 134,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Icebreaker.vc",
+      "slush_snapshot_id": "slush-company:c3647c0a-27df-4c1a-bfc3-f77169f35b53",
+      "slush_resolution_status": "resolved",
+      "cala_id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
+      "cala_name": "Icebreaker.vc",
+      "cala_type": "Company",
+      "cala_desc": "Nordic early-stage VC firm backing teams at the earliest stages with €120M Fund III.",
+      "company_type": "vc-investor",
+      "country": "FI",
+      "website": "https://www.icebreaker.vc",
+      "best_score": 130,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Lifeline Ventures",
+      "slush_snapshot_id": "slush-company:61dbc602-cabf-470b-88d7-c49fade9522e",
+      "slush_resolution_status": "resolved",
+      "cala_id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "cala_name": "Lifeline Ventures",
+      "cala_type": "Organization",
+      "cala_desc": "Finnish venture capital firm headquartered in Helsinki.",
+      "company_type": "vc-investor",
+      "country": "FI",
+      "website": "https://www.lifelineventures.com/",
+      "best_score": 130,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "General Catalyst",
+      "slush_snapshot_id": "slush-company:e4dd9e8b-c759-4ad6-bf95-83ee9b125e81",
+      "slush_resolution_status": "resolved",
+      "cala_id": "03faa252-0570-4e3f-be48-39d7740d964c",
+      "cala_name": "General Catalyst",
+      "cala_type": "Organization",
+      "cala_desc": "A venture capital firm based in Cambridge, Massachusetts, founded in 2000.",
+      "company_type": "vc-investor",
+      "country": "GB",
+      "website": "https://www.generalcatalyst.com/",
+      "best_score": 138,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Project A Ventures",
+      "slush_snapshot_id": "slush-company:d8dff72f-bb99-4a17-818c-8b898d901866",
+      "slush_resolution_status": "resolved",
+      "cala_id": "7b1b7e16-c539-429d-8af0-883594236fdb",
+      "cala_name": "Project A Ventures GmbH & Co. KG",
+      "cala_type": "Company",
+      "cala_desc": "German private equity and venture capital firm founded in 2014 and based in Berlin.",
+      "company_type": "vc-investor",
+      "country": "DE",
+      "website": "https://www.project-a.com/",
+      "best_score": 134,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Speedinvest",
+      "slush_snapshot_id": "slush-company:1aaec80d-f0d4-464b-92ce-f9eef1e136e5",
+      "slush_resolution_status": "resolved",
+      "cala_id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+      "cala_name": "Speedinvest GmbH",
+      "cala_type": "Company",
+      "cala_desc": "A Vienna-based Austrian venture‑capital firm founded in 2011.",
+      "company_type": "vc-investor",
+      "country": "AT",
+      "website": "https://www.speedinvest.com/",
+      "best_score": 134,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "OTB Ventures",
+      "slush_snapshot_id": "slush-company:e91fdce9-5ee5-473b-ab87-fed816eb6d9b",
+      "slush_resolution_status": "resolved",
+      "cala_id": "d26a193e-78e6-47ed-a265-877bc5a60b35",
+      "cala_name": "OTB Ventures",
+      "cala_type": "Company",
+      "cala_desc": "European venture capital firm specializing in DeepTech investments in early-stage technology businesses with R&D in Central and Eastern Europe.",
+      "company_type": "vc-investor",
+      "country": "NL",
+      "website": "https://www.otb.vc/",
+      "best_score": 115,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "AlbionVC",
+      "slush_snapshot_id": "slush-company:b1f24eb7-a1f5-4751-8b81-b635f8a66b8e",
+      "slush_resolution_status": "resolved",
+      "cala_id": "b750fe8f-886a-44df-b0e1-a3037d4727fb",
+      "cala_name": "AlbionVC",
+      "cala_type": "Company",
+      "cala_desc": "UK-based venture capital firm investing in early-stage technology companies, one of the most active VCs in London.",
+      "company_type": "vc-investor",
+      "country": "GB",
+      "website": "https://albion.vc/",
+      "best_score": 130,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Accel",
+      "slush_snapshot_id": null,
+      "slush_resolution_status": "needs_resolution",
+      "cala_id": "aee065b7-5ae9-45c7-8c30-457f6d339958",
+      "cala_name": "Accel",
+      "cala_type": "Organization",
+      "cala_desc": "A venture capital firm founded in 1983 in Palo Alto, California, that created Viktor.",
+      "company_type": "vc-investor",
+      "country": "US",
+      "website": "https://www.accel.com/",
+      "best_score": 138,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Index Ventures",
+      "slush_snapshot_id": null,
+      "slush_resolution_status": "needs_resolution",
+      "cala_id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
+      "cala_name": "Index Ventures",
+      "cala_type": "Company",
+      "cala_desc": "a London‑based venture capital firm founded in 1996 that invests in fintech and retail sectors",
+      "company_type": "vc-investor",
+      "country": "GB",
+      "website": "",
+      "best_score": 138,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Balderton Capital (LLP)",
+      "slush_snapshot_id": "slush-company:2bfa44f3-d352-4a0f-87e0-ed350aef59b1",
+      "slush_resolution_status": "resolved",
+      "cala_id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+      "cala_name": "Balderton Capital",
+      "cala_type": "Organization",
+      "cala_desc": "a London-based venture capital firm",
+      "company_type": "vc-investor",
+      "country": "GB",
+      "website": "https://www.balderton.com/",
+      "best_score": 130,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Northzone",
+      "slush_snapshot_id": "slush-company:c8814097-fc10-4e24-9fa6-02b8c8431e4c",
+      "slush_resolution_status": "resolved",
+      "cala_id": "208d7baa-10cd-4a73-825b-5bd3e827f79f",
+      "cala_name": "Northzone",
+      "cala_type": "Organization",
+      "cala_desc": "a London‑based venture capital firm founded in 2006 that invests in fintech companies",
+      "company_type": "vc-investor",
+      "country": "GB",
+      "website": "https://northzone.com/",
+      "best_score": 130,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "EQT Ventures / Scaleup Europe Fund, managed by EQT",
+      "slush_snapshot_id": "slush-company:ef101af4-4746-406b-b00a-68815b150a93",
+      "slush_resolution_status": "resolved",
+      "cala_id": "d6cf13e1-92ff-4567-bd72-30316f2498e5",
+      "cala_name": "EQT Ventures",
+      "cala_type": "Organization",
+      "cala_desc": "A venture capital firm.",
+      "company_type": "vc-investor",
+      "country": "SE",
+      "website": "https://eqtgroup.com/private-capital/eqt-ventures",
+      "best_score": 115,
+      "namespace": "cala_verified_investor_match"
+    },
+    {
+      "slush_company_name": "Innovestor",
+      "slush_snapshot_id": "slush-company:2f85bbee-a483-4bbd-a174-a443ca293df7",
+      "slush_resolution_status": "resolved",
+      "cala_id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+      "cala_name": "Innovestor Oy",
+      "cala_type": "Company",
+      "cala_desc": "Finnish venture capital firm headquartered in Helsinki, founded in 2014.",
+      "company_type": "vc-investor",
+      "country": "FI",
+      "website": "https://innovestorgroup.com/venture-capital/",
+      "best_score": 134,
+      "namespace": "cala_verified_investor_match"
+    }
+  ]
+}

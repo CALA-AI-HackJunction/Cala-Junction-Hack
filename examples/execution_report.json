@@ -1,0 +1,135 @@
+{
+  "basis": "Executed on the supplied data with deterministic evidence templates; original web sources not reverified.",
+  "load_seconds": 0.648,
+  "generation_mode": "evidence_template",
+  "external_model_called": false,
+  "cache_recovery_verified": true,
+  "examples": [
+    {
+      "file": "01_person_to_company.json",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Camille Accolas",
+        "target": "Trust Exchange"
+      },
+      "status": "partial",
+      "summary": "Found 2 supported professional paths from Camille Accolas to Trust Exchange within 4 steps.",
+      "result_count": 2,
+      "path_count": 2,
+      "run_id": "bda06a69-4714-4862-a16f-4991a5910a37",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 32.824,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "02_ambiguous_target.json",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Dani Penev",
+        "target": "Y Combinator"
+      },
+      "status": "needs_resolution",
+      "summary": "Resolve the indicated entity before searching its professional connections.",
+      "result_count": 0,
+      "path_count": 0,
+      "run_id": "ba1fe5f0-4ea6-4e87-afd6-94defec33c28",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 57.422,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "03_person_to_company_selected_target.json",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Dani Penev",
+        "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
+      },
+      "status": "partial",
+      "summary": "Found 3 supported professional paths from Dani Penev to Y Combinator within 4 steps.",
+      "result_count": 3,
+      "path_count": 3,
+      "run_id": "ee87ab19-da7c-4a5b-b969-6b53c0db6297",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 14.946,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "04_company_to_company.json",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Slicker",
+        "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
+      },
+      "status": "partial",
+      "summary": "Found 1 supported professional path from Slicker to Y Combinator within 4 steps.",
+      "result_count": 1,
+      "path_count": 1,
+      "run_id": "aa00b0c5-4e23-4461-9d0b-4c4bbcaafe37",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 15.401,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "05_company_network.json",
+      "request": {
+        "question_id": "company_network",
+        "company": "Trust Exchange"
+      },
+      "status": "partial",
+      "summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
+      "result_count": 4,
+      "path_count": 9,
+      "run_id": "c4cd0809-e4d9-43e9-b673-e4edbff7cece",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 21.638,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "06_company_representatives.json",
+      "request": {
+        "question_id": "company_representatives",
+        "company": "Trust Exchange"
+      },
+      "status": "partial",
+      "summary": "Found 1 person with documented affiliations to Trust Exchange and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
+      "result_count": 1,
+      "path_count": 4,
+      "run_id": "47f36fbf-5481-4776-847f-0046e34815be",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 21.515,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "07_no_supported_path.json",
+      "request": {
+        "question_id": "company_to_company",
+        "source": "Trust Exchange",
+        "target": "Slicker"
+      },
+      "status": "insufficient_data",
+      "summary": "No supported professional path was found from Trust Exchange to Slicker within 4 steps in the loaded snapshot.",
+      "result_count": 0,
+      "path_count": 0,
+      "run_id": "83762655-f573-4472-9366-3aaf79e51371",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 33.988,
+      "saved_result_recovered_exactly": true
+    },
+    {
+      "file": "08_ambiguous_person.json",
+      "request": {
+        "question_id": "person_to_company",
+        "source": "Ben Fletcher",
+        "target": "Trust Exchange"
+      },
+      "status": "needs_resolution",
+      "summary": "Resolve the indicated entity before searching its professional connections.",
+      "result_count": 0,
+      "path_count": 0,
+      "run_id": "03188fb7-b420-4867-a4ee-5dd9c9860d0e",
+      "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+      "elapsed_ms_including_save": 61.156,
+      "saved_result_recovered_exactly": true
+    }
+  ]
+}

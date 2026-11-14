@@ -1,0 +1,259 @@
+name: Unicorn Radar — CRACI Supply-Chain & Provenance CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: craci-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-and-sbom:
+    name: Verify Graph Snapshot, Provenance Suite & Complete SBOM
+    runs-on: craci
+    timeout-minutes: 15
+    # NOTE: Do NOT override SSL_CERT_FILE, REQUESTS_CA_BUNDLE, CURL_CA_BUNDLE,
+    # NIX_SSL_CERT_FILE, NODE_EXTRA_CA_CERTS, or JAVA_TOOL_OPTIONS — CRACI runners
+    # inject a managed CA trust store for the package-aware egress proxy.
+    env:
+      UV_PYTHON: "3.12"
+      PYTHONUTF8: "1"
+    steps:
+      # 1. CRACI Runner Sizing & Package-Aware Egress Lockdown:
+      #    - `size: "4"` provisions an isolated Linux amd64 VM with 4 vCPU and 12 GiB RAM.
+      #    - `default: deny` + `presets: [pypi, github]` routes all Python/GitHub dependency
+      #      fetches through CRACI's package-aware proxy while blocking every unmatched
+      #      outbound destination. Blocking unmatched traffic prevents a compromised
+      #      transitive dependency or install hook from exfiltrating source code, secrets,
+      #      or build artifacts, and earns the build a 100% Complete Verified CycloneDX SBOM.
+      - uses: cracicorp/setup@v1
+        with:
+          size: "4"
+          network: |
+            default: deny
+            presets: [pypi, github]
+
+      # 2. Checkout repository source
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 3. Install uv and pin Python 3.12 runtime
+      - name: Set up uv (Python 3.12)
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+          python-version: "3.12"
+
+      # 4. Sync locked Python dependencies via CRACI PyPI package-aware proxy
+      - name: Install dependencies
+        run: uv sync --frozen || uv sync
+
+      # 5. Dataset SHA-256 integrity & zero-secret leakage audit
+      - name: Verify dataset SHA-256 manifest & scan for leaked secrets
+        run: |
+          uv run python - <<'PY'
+          import hashlib
+          import json
+          import re
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          manifest_path = Path("backend/data/input_manifest.json")
+          if not manifest_path.is_file():
+              raise SystemExit("FATAL: Missing backend/data/input_manifest.json")
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          if len(manifest) < 3:
+              raise SystemExit(f"FATAL: Expected >=3 source datasets in manifest, got {len(manifest)}")
+
+          for entry in manifest:
+              rel = entry["packaged_filename"]
+              target = Path("backend") / rel
+              if not target.is_file():
+                  target = Path("backend/data") / Path(rel).name
+              if not target.is_file():
+                  raise SystemExit(f"FATAL: Dataset missing on disk: {rel}")
+              actual_size = target.stat().st_size
+              if actual_size != entry["size_bytes"]:
+                  raise SystemExit(
+                      f"FATAL: Size mismatch for {rel}: expected {entry['size_bytes']}, got {actual_size}"
+                  )
+              actual_sha = hashlib.sha256(target.read_bytes()).hexdigest()
+              if actual_sha != entry["sha256"]:
+                  raise SystemExit(
+                      f"FATAL: SHA-256 mismatch for {rel}: expected {entry['sha256']}, got {actual_sha}"
+                  )
+              print(f"[OK] Verified dataset {rel} ({actual_size:,} bytes, sha256={actual_sha[:16]}...)")
+
+          secret_patterns = [
+              ("Google/Gemini API Key", re.compile(r"\bAIza[0-9A-Za-z_-]{35}\b")),
+              ("OpenAI/Compatible Secret Key", re.compile(r"\bsk-[A-Za-z0-9]{20,}\b")),
+              ("GitHub Personal Access Token", re.compile(r"\bgh[pousr]_[A-Za-z0-9]{30,}\b")),
+              ("Private PEM Key", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
+              (
+                  "Hardcoded Secret Env Assignment",
+                  re.compile(
+                      r"^[ \t]*(?:export[ \t]+)?(?:CALA_API_KEY|GEMINI_API_KEY|GEMMA_API_KEY|FEATHERLESS_API_KEY|CRACI_API_TOKEN|AIVEN_PG_URI|AIVEN_VALKEY_URL)[ \t]*=[ \t]*['\"]?[A-Za-z0-9_:/@-]{12,}",
+                      re.MULTILINE,
+                  ),
+              ),
+          ]
+
+          tracked = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
+          for rel_file in tracked:
+              p = Path(rel_file)
+              if not p.is_file() or p.name.endswith((".png", ".jpg", ".ico", ".woff2")):
+                  continue
+              if p.parts[:2] == ("backend", "data") and p.suffix == ".json":
+                  continue
+              text = p.read_text(encoding="utf-8", errors="ignore")
+              for label, pattern in secret_patterns:
+                  if pattern.search(text):
+                      raise SystemExit(f"FATAL: Potential {label} detected in tracked file {rel_file}")
+
+          print(f"[OK] Scanned {len(tracked)} tracked files — zero hardcoded secrets found.")
+          PY
+
+      # 6. Deterministic Graph Build from the 3 reconciled Cala + Slush snapshots
+      - name: Build deterministic connection graph snapshot
+        run: uv run python -m backend.cli build
+
+      # 7. Full Automated Test Suite (Epistemic invariants, API contract, CRACI & UI integrity)
+      - name: Run full pytest suite
+        run: uv run pytest -v
+
+      # 8. Frontend ES2022 Zero-Build Module & Asset Integrity Check
+      - name: Verify zero-build ES2022 frontend modules & static assets
+        run: |
+          uv run python - <<'PY'
+          import re
+          from html.parser import HTMLParser
+          from pathlib import Path
+
+          frontend_dir = Path("frontend")
+          index_html = frontend_dir / "index.html"
+          if not index_html.is_file():
+              raise SystemExit("FATAL: frontend/index.html is missing")
+
+          class AssetParser(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.refs = []
+                  self.module_scripts = []
+
+              def handle_starttag(self, tag, attrs):
+                  attr_map = dict(attrs)
+                  if tag == "link" and attr_map.get("href"):
+                      self.refs.append(attr_map["href"])
+                  elif tag == "script" and attr_map.get("src"):
+                      self.refs.append(attr_map["src"])
+                      if attr_map.get("type") == "module":
+                          self.module_scripts.append(attr_map["src"])
+
+          parser = AssetParser()
+          parser.feed(index_html.read_text(encoding="utf-8"))
+          if not parser.module_scripts:
+              raise SystemExit("FATAL: frontend/index.html must load at least one <script type='module'> entry")
+
+          def resolve_web_path(base_dir: Path, raw_ref: str) -> Path | None:
+              clean = raw_ref.split("?", 1)[0].split("#", 1)[0].strip()
+              if not clean or clean.startswith(("http://", "https://", "data:", "//")):
+                  return None
+              if clean.startswith("/static/"):
+                  return frontend_dir / clean.removeprefix("/static/")
+              if clean.startswith("/"):
+                  return frontend_dir / clean.lstrip("/")
+              return (base_dir / clean).resolve()
+
+          for ref in parser.refs:
+              resolved = resolve_web_path(frontend_dir, ref)
+              if resolved is not None and not resolved.is_file():
+                  raise SystemExit(f"FATAL: Missing asset referenced in frontend/index.html: {ref} -> {resolved}")
+
+          import_re = re.compile(
+              r"""(?:import\s+(?:[^'"]+?\s+from\s+)?|export\s+[^'"]+?\s+from\s+|import\s*\()\s*['"]([^'"]+)['"]"""
+          )
+          js_files = sorted(frontend_dir.rglob("*.js"))
+          if not js_files:
+              raise SystemExit("FATAL: No ES2022 .js modules found under frontend/")
+
+          for js_file in js_files:
+              source = js_file.read_text(encoding="utf-8")
+              for spec in import_re.findall(source):
+                  if not spec.startswith((".", "/")):
+                      raise SystemExit(
+                          f"FATAL: Bare npm specifier '{spec}' in {js_file} violates zero-build ES2022 contract"
+                      )
+                  target = resolve_web_path(js_file.parent, spec)
+                  if target is not None and not target.is_file():
+                      raise SystemExit(f"FATAL: Broken ES module import '{spec}' in {js_file} -> {target}")
+
+          print(
+              f"[OK] Verified frontend/index.html ({len(parser.refs)} asset refs) and {len(js_files)} ES2022 modules."
+          )
+          PY
+
+      # 9. Generate & upload build provenance summary artifact
+      - name: Generate build provenance summary
+        run: |
+          uv run python - <<'PY'
+          import hashlib
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          snapshot_path = Path("backend/data/snapshot.json")
+          manifest_path = Path("backend/data/input_manifest.json")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+          snapshot_meta = {}
+          if snapshot_path.is_file():
+              snap = json.loads(snapshot_path.read_text(encoding="utf-8"))
+              snapshot_meta = {
+                  "graph_version": snap.get("graph_version"),
+                  "snapshot_sha256": hashlib.sha256(snapshot_path.read_bytes()).hexdigest(),
+                  "snapshot_size_bytes": snapshot_path.stat().st_size,
+                  "counts": snap.get("manifest", {}).get("counts", {}),
+              }
+
+          summary = {
+              "schema_version": "1.0",
+              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "runner": "craci",
+              "egress_policy": {
+                  "default": "deny",
+                  "presets": ["pypi", "github"],
+                  "complete_sbom_eligible": True,
+              },
+              "git": {
+                  "repository": os.environ.get("GITHUB_REPOSITORY", "local/unicorn-radar"),
+                  "sha": os.environ.get("GITHUB_SHA", "HEAD"),
+                  "ref": os.environ.get("GITHUB_REF", "refs/heads/main"),
+                  "run_id": os.environ.get("GITHUB_RUN_ID", "local"),
+              },
+              "verified_datasets": manifest,
+              "snapshot": snapshot_meta,
+          }
+          out_dir = Path("artifacts")
+          out_dir.mkdir(parents=True, exist_ok=True)
+          out_file = out_dir / "craci-build-provenance.json"
+          out_file.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+          print(f"[OK] Wrote {out_file} ({out_file.stat().st_size} bytes)")
+          PY
+
+      - name: Upload build provenance summary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: craci-build-provenance
+          path: artifacts/craci-build-provenance.json
+          if-no-files-found: error
+          retention-days: 30
