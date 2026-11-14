@@ -4,42 +4,103 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Cala Research</title>
+  <title>Cala Research — Verified Knowledge Graph</title>
   <link rel="stylesheet" href="/static/style.css">
   <script src="/static/chat.js" defer></script>
 </head>
 <body>
-  <header class="top">
-    <div class="brand"><span class="mark" aria-hidden="true">C</span> Cala Research</div>
-    <div class="actions">
-      <button type="button" id="access">Access token</button>
-      <button type="button" id="reset" class="outline">New chat</button>
+  <header class="top-shell">
+    <div class="top">
+      <div class="brand">
+        <svg class="brand-emblem" width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M19.5 5.2C14.2 3.4 8.2 6.4 6.6 11.9C5.0 17.4 8.2 22.9 13.8 24.1C16.4 24.7 19.1 24.0 21.1 22.4C17.2 22.9 13.3 20.4 12.4 16.3C11.4 11.8 14.4 7.3 19.5 5.2Z" fill="#2e2723"/>
+          <path d="M22.2 8.4C18.4 7.8 14.9 10.5 14.5 14.3C14.1 18.0 16.9 21.1 20.7 21.2" stroke="#2e2723" stroke-width="2.1" stroke-linecap="round"/>
+        </svg>
+        <span class="brand-wordmark">cala</span>
+        <span class="brand-pill">Cala Research</span>
+      </div>
+      <div class="actions">
+        <button type="button" id="access" class="btn-ghost">Access token</button>
+        <button type="button" id="reset" class="btn-primary">New chat</button>
+      </div>
+    </div>
+    <div class="ink-divider-wrap">
+      <svg viewBox="0 0 1152 8" fill="none" xmlns="http://www.w3.org/2000/svg" class="ink-divider" aria-hidden="true" preserveAspectRatio="none">
+        <path d="M2 4.6C185 3.1 392 5.4 584 3.8C776 2.3 968 4.9 1150 3.5" stroke="#2e2723" stroke-width="1.65" stroke-linecap="round"/>
+        <path d="M14 5.1C240 4.2 510 3.4 820 4.6C960 5.1 1080 3.9 1146 4.2" stroke="#2e2723" stroke-width="0.75" stroke-opacity="0.45" stroke-linecap="round"/>
+      </svg>
     </div>
   </header>
+
   <main>
     <section id="welcome">
-      <h1>What are you<br>looking into?</h1>
-      <p>Search Cala’s knowledge and follow up with Gemini.</p>
+      <div class="eyebrow">
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Verified Knowledge Graph · Gemini
+      </div>
+      <h1>
+        What are you<br>
+        <span class="strike-wrap">
+          searching
+          <svg viewBox="0 0 210 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="strike-svg" aria-hidden="true">
+            <path d="M4 17C58 13 138 14 205 15.5M9 21.5C72 18.5 135 19.5 199 18" stroke="#2e2723" stroke-width="3.4" stroke-linecap="round" stroke-opacity="0.88"/>
+          </svg>
+        </span>
+        <span class="accent-verb">verifying?</span>
+      </h1>
+      <p class="subtitle">
+        Query typed, sourced facts from Cala and synthesize with Gemini —
+        <span class="hand-callout">
+          query knowledge, not chaos.
+          <svg viewBox="0 0 240 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="squiggle-svg" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M4 9C22 3 40 14 58 8C76 2 94 14 112 8C130 2 148 14 166 8C184 2 202 13 220 8C228 5.5 233 9 237 8" stroke="#2e2723" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </p>
+
+      <div class="query-chain" aria-hidden="true">
+        <span class="query-segment">
+          <span class="query-keycap"><span class="query-face">Entity</span><span class="query-shadow"></span></span>
+          <span class="query-dot">.</span>
+        </span>
+        <span class="query-segment">
+          <span class="query-keycap"><span class="query-face">FundingRounds</span><span class="query-shadow"></span></span>
+          <span class="query-dot">.</span>
+        </span>
+        <span class="query-segment">
+          <span class="query-keycap">
+            <span class="query-face">Source <span class="query-op">=</span> <span class="query-val">Verified</span></span>
+            <span class="query-shadow"></span>
+          </span>
+        </span>
+      </div>
     </section>
+
     <section id="transcript" aria-label="Conversation" aria-live="polite"></section>
+
     <div class="composer">
       <p id="error" role="alert" hidden></p>
-      <p id="progress" role="status" hidden><span class="spinner" aria-hidden="true"></span><span id="progress-text"></span><span id="elapsed" aria-hidden="true"></span></p>
+      <p id="progress" role="status" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <span id="progress-text"></span>
+        <span id="elapsed" aria-hidden="true"></span>
+      </p>
       <form id="chat">
         <label for="message" class="sr-only">Message</label>
-        <textarea id="message" rows="2" maxlength="12000" required placeholder="Ask a research question…"></textarea>
-        <button type="submit" id="send">Send</button>
+        <textarea id="message" rows="2" maxlength="12000" required placeholder="Ask a research question backed by Cala provenance…"></textarea>
+        <button type="submit" id="send">Ask Cala</button>
       </form>
     </div>
   </main>
+
   <dialog id="login">
     <form method="dialog" id="token-form">
       <h2>Access token</h2>
       <label for="token">Enter the token provided by your administrator.</label>
       <input type="password" id="token" autocomplete="off" spellcheck="false">
       <div class="actions">
-        <button type="submit" value="cancel">Cancel</button>
-        <button type="submit" value="save" class="outline">Save</button>
+        <button type="submit" value="cancel" class="btn-ghost">Cancel</button>
+        <button type="submit" value="save" class="btn-primary">Save</button>
       </div>
     </form>
   </dialog>

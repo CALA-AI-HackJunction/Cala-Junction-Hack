@@ -2,9 +2,11 @@
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from agent import run_agent_turn
@@ -22,13 +24,21 @@ _cala_cm = None  # context manager reference for cleanup
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _cala_client, _cala_cm
-    logger.info("Connecting to Cala MCP server…")
-    _cala_cm = connect_cala()
-    _cala_client = await _cala_cm.__aenter__()
-    logger.info(f"Connected — discovered tools: {_cala_client.tool_names}")
-    yield
-    await _cala_cm.__aexit__(None, None, None)
-    logger.info("Cala MCP connection closed.")
+    try:
+        logger.info("Connecting to Cala MCP server…")
+        _cala_cm = connect_cala()
+        _cala_client = await _cala_cm.__aenter__()
+        logger.info(f"Connected — discovered tools: {_cala_client.tool_names}")
+    except Exception as exc:
+        _cala_cm = None
+        _cala_client = None
+        logger.warning(f"Starting in UI preview mode (Cala MCP not connected: {exc})")
+    try:
+        yield
+    finally:
+        if _cala_cm is not None:
+            await _cala_cm.__aexit__(None, None, None)
+            logger.info("Cala MCP connection closed.")
 
 
 app = FastAPI(title="Cala + Gemini Agent", lifespan=lifespan)
@@ -56,9 +66,13 @@ class TraverseResponse(BaseModel):
 
 # ── Routes ──────────────────────────────────────────────────────────────────
 
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
 @app.get("/")
 async def index():
-    return FileResponse("static/network.html")
+    return FileResponse(STATIC_DIR / "network.html")
 
 
 @app.get("/health")
@@ -82,14 +96,20 @@ async def query(req: QueryRequest):
 
 @app.get("/slush/attendees")
 async def slush_attendees(limit: int = 50):
-    engine = CalaGraphTraversalEngine()
+    try:
+        engine = CalaGraphTraversalEngine()
+    except RuntimeError as exc:
+        raise HTTPException(503, str(exc)) from None
     attendees = await engine.get_slush_attendees(limit=limit)
     return {"count": len(attendees), "attendees": attendees}
 
 
 @app.post("/traverse", response_model=TraverseResponse)
 async def traverse(req: TraverseRequest):
-    engine = CalaGraphTraversalEngine()
+    try:
+        engine = CalaGraphTraversalEngine()
+    except RuntimeError as exc:
+        raise HTTPException(503, str(exc)) from None
     results = await engine.traverse_network(req.people_ids)
     conns = [
         {

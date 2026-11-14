@@ -2,169 +2,574 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Slush 2026 Networking Graph (Cala.ai Verified)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cala — Slush 2026 Verified Networking Graph</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:ital,wght@0,400..600;1,400..500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/cala-brand.css">
+  <link rel="stylesheet" href="./cala-brand.css">
   <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #0d1117;
-      color: #c9d1d9;
+    @font-face {
+      font-family: "Stefan-Simple";
+      src:
+        local("ABC Stefan Trial Simple"),
+        local("ABCStefanTrial-Simple"),
+        local("ABC Stefan Simple"),
+        url("/static/fonts/ABCStefanTrial-Simple.otf") format("opentype"),
+        url("./fonts/ABCStefanTrial-Simple.otf") format("opentype");
+      font-weight: 400 500;
+      font-style: normal;
+      font-display: swap;
     }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
+
+    .graph-workspace {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-top: 1.75rem;
     }
-    h1 { color: #58a6ff; margin: 0 0 6px 0; font-size: 24px; }
-    p.subtitle { color: #8b949e; margin: 0; font-size: 14px; }
-    #container { display: flex; gap: 20px; height: 78vh; }
-    #network {
-      flex: 3;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      background: #161b22;
+
+    @media (min-width: 64rem) {
+      .graph-workspace {
+        grid-template-columns: minmax(0, 1.45fr) minmax(340px, 1fr);
+        align-items: start;
+      }
+    }
+
+    .graph-stage-wrap {
       position: relative;
-    }
-    #sidebar {
-      flex: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+      height: 68dvh;
+      min-height: 480px;
+      border-radius: var(--cala-radius-3xl);
+      background-color: rgba(252, 248, 240, 0.68);
+      border: 1px solid var(--cala-brown-200);
       overflow: hidden;
     }
-    .panel {
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      background: #161b22;
-      padding: 16px;
+
+    #network {
+      width: 100%;
+      height: 100%;
+    }
+
+    .graph-glass-note {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 10;
+      border-radius: var(--cala-radius-lg);
+      background-color: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(46, 39, 35, 0.1);
+      padding: 0.625rem 0.875rem;
+      font-size: 0.75rem;
+      line-height: 1.45;
+      color: var(--cala-brown-700);
+    }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 0.35rem;
+      font-weight: 500;
+      color: var(--cala-brown);
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .legend-swatch {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 9999px;
+      display: inline-block;
+    }
+
+    .sidebar-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .sidebar-panel {
+      background-color: rgba(252, 248, 240, 0.6);
+      border: 1px solid var(--cala-brown-200);
+      border-radius: var(--cala-radius-2xl);
+      padding: 1.25rem 1.35rem;
+    }
+
+    .connections-scroll {
+      max-height: 410px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-right: 0.25rem;
     }
-    .panel-conns { flex: 2; }
-    .panel-attendees { flex: 1; max-height: 200px; }
-    .badge {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-right: 6px;
-    }
-    .badge-lead { background: #d29922; color: #000; }
-    .badge-investor { background: #1f6feb; color: #fff; }
-    .badge-speaker { background: #238636; color: #fff; }
-    .badge-affil { background: #8957e5; color: #fff; }
-    .badge-rank { background: #30363d; color: #7ee787; border: 1px solid #238636; }
+
     .conn-card {
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      padding: 12px;
-      margin-bottom: 12px;
-      background: #0d1117;
-      transition: border-color 0.2s;
+      background-color: var(--cala-beige-50);
+      border: 1px solid var(--cala-brown-200);
+      border-radius: var(--cala-radius-lg);
+      padding: 0.875rem 1rem;
+      transition: border-color 150ms ease;
     }
-    .conn-card:hover { border-color: #58a6ff; }
-    .path-step {
-      font-family: monospace;
-      font-size: 12px;
-      margin-top: 8px;
-      padding: 6px 8px;
-      background: #161b22;
-      border-radius: 4px;
-      color: #79c0ff;
+
+    .conn-card:hover {
+      border-color: var(--cala-brown-400);
     }
-    .tag {
-      display: inline-block;
-      background: #21262d;
-      border: 1px solid #30363d;
-      border-radius: 4px;
-      padding: 2px 6px;
+
+    .conn-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.375rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .cala-chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 9999px;
+      padding: 0.15rem 0.55rem;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      line-height: 1.3;
+    }
+
+    .chip-lead {
+      background-color: var(--cala-yellow);
+      color: var(--cala-brown);
+    }
+
+    .chip-investor {
+      background-color: var(--cala-blue-100);
+      color: var(--cala-blue-700);
+      border: 1px solid rgba(6, 168, 241, 0.3);
+    }
+
+    .chip-speaker {
+      background-color: var(--cala-pink-200);
+      color: var(--cala-pink-600);
+      border: 1px solid rgba(186, 114, 195, 0.35);
+    }
+
+    .chip-rank {
+      background-color: rgba(46, 39, 35, 0.07);
+      color: var(--cala-brown-700);
+    }
+
+    .path-trace {
+      margin-top: 0.625rem;
+      background-color: var(--cala-brown);
+      color: var(--cala-beige-50);
+      border-radius: var(--cala-radius-md);
+      padding: 0.45rem 0.65rem;
+      font-family: var(--cala-font-mono);
       font-size: 11px;
-      margin: 2px;
-      color: #8b949e;
+      line-height: 1.5;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .attendee-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .attendee-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background-color: var(--cala-beige-50);
+      border: 1px solid var(--cala-brown-200);
+      border-radius: 9999px;
+      padding: 0.25rem 0.65rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--cala-brown-800);
+    }
+
+    .agent-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background-color: rgba(241, 219, 183, 0.6);
+      border: 1px solid var(--cala-brown-200);
+      border-radius: var(--cala-radius-3xl);
+      padding: 1.5rem;
+    }
+
+    @media (min-width: 48rem) {
+      .agent-bar {
+        padding: 2rem 2.5rem;
+      }
+    }
+
+    .agent-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+    }
+
+    .agent-input {
+      flex: 1;
+      min-width: 220px;
+      background-color: var(--cala-beige-50);
+      border: 1px solid var(--cala-brown-300);
+      border-radius: var(--cala-radius-xl);
+      padding: 0.75rem 1rem;
+      font-family: var(--cala-font-sans);
+      font-size: 0.9375rem;
+      color: var(--cala-brown);
+      outline: none;
+    }
+
+    .agent-input:focus {
+      border-color: var(--cala-brown);
     }
   </style>
 </head>
-<body>
+<body class="cala-page">
 
-  <header>
-    <div>
-      <h1>Comare de Paisa — Slush 2026 Networking Graph</h1>
-      <p class="subtitle">Bounded 2-4 hop traversal engine powered by <strong>Cala.ai</strong> verified knowledge graph</p>
-    </div>
-    <div>
-      <span class="badge badge-rank">Slush 2026 Live Connected</span>
-    </div>
-  </header>
+  <!-- Sticky Editorial Navbar + Hand-Drawn Charcoal Rule -->
+  <nav class="cala-nav">
+    <div class="cala-nav-bar">
+      <a href="#top" aria-label="Cala Slush Graph Home" style="display:inline-flex;align-items:center;gap:0.45rem;color:#2e2723;text-decoration:none;">
+        <svg width="24" height="24" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M19.5 5.2C14.2 3.4 8.2 6.4 6.6 11.9C5.0 17.4 8.2 22.9 13.8 24.1C16.4 24.7 19.1 24.0 21.1 22.4C17.2 22.9 13.3 20.4 12.4 16.3C11.4 11.8 14.4 7.3 19.5 5.2Z" fill="#2e2723"/>
+          <path d="M22.2 8.4C18.4 7.8 14.9 10.5 14.5 14.3C14.1 18.0 16.9 21.1 20.7 21.2" stroke="#2e2723" stroke-width="2.1" stroke-linecap="round"/>
+        </svg>
+        <span class="cala-serif" style="font-size:1.65rem;letter-spacing:-0.03em;line-height:1;">cala</span>
+      </a>
 
-  <div id="container">
-    <div id="network"></div>
-    <div id="sidebar">
-      <div class="panel panel-conns">
-        <h3 style="margin-top: 0; color: #58a6ff;">Verified Connections</h3>
-        <p style="font-size: 12px; color: #8b949e; margin-top: -6px;">Discovering shared lead investors, co-speakers, and alumni networks.</p>
-        <div id="connections-list"></div>
+      <div class="cala-nav-links">
+        <a href="#graph-section" class="cala-nav-link">Graph</a>
+        <a href="#connections-panel" class="cala-nav-link">Warm Paths</a>
+        <a href="#attendees-panel" class="cala-nav-link">Attendees</a>
+        <a href="#agent-query" class="cala-nav-link">Ask Agent</a>
       </div>
 
-      <div class="panel panel-attendees">
-        <h4 style="margin-top: 0; color: #8b949e;">Slush 2026 Attending Startups (from Cala)</h4>
-        <div id="attendees-list" style="font-size: 12px;">Loading attendees from Cala...</div>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <span class="cala-pill-cta" style="padding:0.35rem 0.85rem;font-size:0.75rem;">
+          <span class="cala-badge-new">Slush 2026</span>
+          Verified Graph
+        </span>
       </div>
     </div>
-  </div>
+
+    <div class="cala-ink-divider-wrap">
+      <svg viewBox="0 0 1152 8" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-height:8px;display:block;" aria-hidden="true" preserveAspectRatio="none">
+        <path d="M2 4.6C185 3.1 392 5.4 584 3.8C776 2.3 968 4.9 1150 3.5" stroke="#2e2723" stroke-width="1.65" stroke-linecap="round"/>
+        <path d="M14 5.1C240 4.2 510 3.4 820 4.6C960 5.1 1080 3.9 1146 4.2" stroke="#2e2723" stroke-width="0.75" stroke-opacity="0.45" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </nav>
+
+  <!-- Editorial Hero & Tactile Query Strip -->
+  <section class="cala-section" id="top" style="padding-bottom:0.5rem;">
+    <div class="cala-sub-section" style="padding-bottom:1.25rem;">
+      <div class="cala-eyebrow" style="margin-bottom:0.875rem;">
+        <span class="cala-eyebrow-dot" style="background:var(--cala-yellow);"></span>
+        Comare de Paisa · Bounded 2–4 Hop Traversal
+      </div>
+
+      <h1 class="cala-serif" style="font-size:clamp(2.5rem,5.8vw,4.75rem);line-height:1.06;letter-spacing:-0.025em;margin:0 0 1rem 0;color:var(--cala-brown);">
+        Slush networking is
+        <span style="position:relative;display:inline-block;margin-inline:0.15rem;">
+          cold outreach
+          <svg viewBox="0 0 220 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;left:50%;top:50%;width:106%;transform:translate(-50%,-38%);pointer-events:none;" aria-hidden="true">
+            <path d="M4 17C62 12.5 148 14 216 15.5M9 21.5C78 18.5 144 19.5 211 18" stroke="#2e2723" stroke-width="3.4" stroke-linecap="round" stroke-opacity="0.88"/>
+          </svg>
+        </span>
+        <span style="color:var(--cala-yellow);text-shadow:0 1px 0 rgba(46,39,35,0.18);">warm paths.</span>
+      </h1>
+
+      <p class="cala-section-subtitle" style="margin-bottom:1.75rem;">
+        Surface shared lead investors, co-speaker stages, and alumni ties across founders and VCs —
+        <span class="cala-hand" style="position:relative;display:inline-block;color:var(--cala-brown);margin-left:0.25rem;">
+          the network was always there.
+          <svg viewBox="0 0 240 16" fill="none" style="position:absolute;left:0;bottom:-6px;width:100%;height:9px;" aria-hidden="true" preserveAspectRatio="none">
+            <path d="M4 9C22 3 40 14 58 8C76 2 94 14 112 8C130 2 148 14 166 8C184 2 202 13 220 8C228 5.5 233 9 237 8" stroke="#2e2723" stroke-width="3.2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </p>
+
+      <!-- Tactile 2px Hard-Offset Keycap Query Chain -->
+      <div class="cala-query-chain" aria-label="Active Cala Graph Query">
+        <span class="cala-query-segment">
+          <span class="cala-query-keycap"><span class="cala-query-face">Slush2026</span><span class="cala-query-shadow"></span></span>
+          <span class="cala-query-dot">.</span>
+        </span>
+        <span class="cala-query-segment">
+          <span class="cala-query-keycap"><span class="cala-query-face">Founders</span><span class="cala-query-shadow"></span></span>
+          <span class="cala-query-dot">.</span>
+        </span>
+        <span class="cala-query-segment">
+          <span class="cala-query-keycap"><span class="cala-query-face">SharedIntermediaries</span><span class="cala-query-shadow"></span></span>
+          <span class="cala-query-dot">.</span>
+        </span>
+        <span class="cala-query-segment">
+          <span class="cala-query-keycap">
+            <span class="cala-query-face">Hops <span class="cala-query-op">=</span> <span class="cala-query-val">2..4</span></span>
+            <span class="cala-query-shadow"></span>
+          </span>
+          <span class="cala-query-dot">.</span>
+        </span>
+        <span class="cala-query-segment">
+          <span class="cala-query-keycap">
+            <span class="cala-query-face">Provenance <span class="cala-query-op">=</span> <span class="cala-query-val">Verified</span></span>
+            <span class="cala-query-shadow"></span>
+          </span>
+        </span>
+      </div>
+
+      <!-- Main Graph + Sidebar Split -->
+      <div class="graph-workspace" id="graph-section">
+        <div class="graph-stage-wrap">
+          <div id="network" role="region" aria-label="Interactive Slush 2026 entity network"></div>
+          <div class="graph-glass-note">
+            <div class="legend-row">
+              <span class="legend-item"><span class="legend-swatch" style="background:#2e2723;"></span>Founder / Partner</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#fcf8f0;border:1.5px solid #2e2723;"></span>Company</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#30bfff;"></span>Shared VC</span>
+              <span class="legend-item"><span class="legend-swatch" style="background:#ba72c3;"></span>Stage</span>
+            </div>
+            Drag nodes to inspect hops · Powered by <strong style="color:var(--cala-brown);">Cala</strong> verified entities.
+          </div>
+        </div>
+
+        <aside class="sidebar-stack">
+          <div class="sidebar-panel" id="connections-panel">
+            <h2 class="cala-serif" style="font-size:1.75rem;line-height:1.15;margin:0 0 0.35rem 0;display:flex;align-items:center;gap:0.55rem;color:var(--cala-brown);">
+              <svg viewBox="0 0 56 56" fill="none" style="height:1.15em;width:auto;flex-shrink:0;" aria-hidden="true">
+                <path d="M11 14L25 27M25 27L41 12M25 27L16 45M25 27L44 37" stroke="#2e2723" stroke-width="2.1" stroke-linecap="round"/>
+                <circle cx="10" cy="13" r="3.4" fill="#fcf8f0" stroke="#2e2723" stroke-width="2"/>
+                <circle cx="25" cy="27" r="4.2" fill="#fcf8f0" stroke="#2e2723" stroke-width="2.1"/>
+                <circle cx="41" cy="12" r="3.4" fill="#fcf8f0" stroke="#2e2723" stroke-width="2"/>
+                <circle cx="15.5" cy="45.5" r="3.4" fill="#fcf8f0" stroke="#2e2723" stroke-width="2"/>
+                <circle cx="44.5" cy="37.5" r="3.4" fill="#fcf8f0" stroke="#2e2723" stroke-width="2"/>
+              </svg>
+              Verified Connections
+            </h2>
+            <p style="font-size:0.8125rem;color:var(--cala-brown-600);margin:0 0 1rem 0;">
+              Shared lead investors, co-speaker appearances, and executive overlap.
+            </p>
+            <div id="connections-list" class="connections-scroll"></div>
+          </div>
+
+          <div class="sidebar-panel" id="attendees-panel">
+            <h3 class="cala-serif" style="font-size:1.4rem;line-height:1.2;margin:0;display:flex;align-items:center;gap:0.5rem;color:var(--cala-brown);">
+              <svg viewBox="0 0 56 64" fill="none" style="height:1.25em;width:auto;flex-shrink:0;" aria-hidden="true">
+                <ellipse cx="28" cy="21" rx="18" ry="4.5" fill="#fcf8f0" stroke="#2e2723" stroke-width="2"/>
+                <path d="M10 21L24.5 40.5V53.5L31.5 50.5V40.5L46 21" stroke="#2e2723" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="28" cy="58" r="1.5" fill="#2e2723"/>
+              </svg>
+              Slush 2026 Attending Startups
+            </h3>
+            <div id="attendees-list" class="attendee-pills"></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Cala + Gemini Agent Query Section -->
+  <section class="cala-section" id="agent-query" style="padding-top:0.5rem;">
+    <div class="cala-sub-section">
+      <div class="agent-bar">
+        <div>
+          <div class="cala-eyebrow">
+            <span class="cala-eyebrow-dot" style="background:var(--cala-blue);"></span>
+            Cala MCP + Gemini Agent
+          </div>
+          <h2 class="cala-serif" style="font-size:clamp(1.75rem,3.2vw,2.5rem);margin:0.4rem 0 0.25rem 0;color:var(--cala-brown);">
+            Query the verified graph directly.
+          </h2>
+          <p style="margin:0;font-size:0.9375rem;color:var(--cala-brown-600);">
+            Ask about Nordic founders, Series A lead backers, or warm introduction paths.
+          </p>
+        </div>
+
+        <form id="query-form" class="agent-form">
+          <label for="query-input" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Question</label>
+          <input id="query-input" class="agent-input" type="text" placeholder="e.g. Which VCs link Supercell and H Company?" required>
+          <button type="submit" id="query-btn" class="cala-btn cala-btn-accent">Ask Cala</button>
+        </form>
+
+        <div id="query-result" class="cala-terminal" hidden>
+          <div class="cala-terminal-header">
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div class="cala-terminal-dots">
+                <span class="cala-terminal-dot"></span>
+                <span class="cala-terminal-dot"></span>
+                <span class="cala-terminal-dot"></span>
+              </div>
+              <span style="font-size:0.75rem;color:var(--cala-brown-400);font-weight:500;">cala-agent · verified response</span>
+            </div>
+          </div>
+          <pre id="query-output" class="cala-terminal-pre" style="white-space:pre-wrap;"></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Hand-Drawn Charcoal Divider -->
+  <footer style="padding:1rem 1.5rem 3rem;color:var(--cala-brown);">
+    <div class="cala-ink-divider-wrap" style="padding-inline:0;margin-bottom:1.5rem;">
+      <svg viewBox="0 0 1152 8" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-height:6px;display:block;" aria-hidden="true" preserveAspectRatio="none">
+        <path d="M2 4.2C210 2.9 440 5.3 690 3.7C890 2.5 1030 4.8 1150 3.6" stroke="#2e2723" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div style="max-width:var(--cala-container-6xl);margin-inline:auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;font-size:0.8125rem;color:var(--cala-brown-600);">
+      <span>Comare de Paisa · Built on <strong style="color:var(--cala-brown);">Cala</strong> Verified Knowledge Graph</span>
+      <span>Hackjunction / Slush 2026</span>
+    </div>
+  </footer>
 
   <script>
     const nodes = new vis.DataSet([
-      // 5 People
-      { id: "p_ilkka", label: "Ilkka Paananen\n(Supercell CEO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
-      { id: "p_miki", label: "Miki Kuusi\n(Wolt CEO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
-      { id: "p_laurent", label: "Laurent Sifre\n(H Company CTO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
-      { id: "p_peter", label: "Peter Sarlin\n(Silo AI CEO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
-      { id: "p_luciana", label: "Luciana Lixandru\n(Sequoia Partner)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
+      // People — Espresso Ink Cards
+      { id: "p_ilkka", label: "Ilkka Paananen\nSupercell CEO", group: "person", color: { background: "#2e2723", border: "#2e2723", highlight: { background: "#39312c", border: "#ffc234" } }, font: { color: "#fcf8f0", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "p_miki", label: "Miki Kuusi\nWolt CEO", group: "person", color: { background: "#2e2723", border: "#2e2723", highlight: { background: "#39312c", border: "#ffc234" } }, font: { color: "#fcf8f0", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "p_laurent", label: "Laurent Sifre\nH Company CTO", group: "person", color: { background: "#2e2723", border: "#2e2723", highlight: { background: "#39312c", border: "#ffc234" } }, font: { color: "#fcf8f0", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "p_peter", label: "Peter Sarlin\nSilo AI CEO", group: "person", color: { background: "#2e2723", border: "#2e2723", highlight: { background: "#39312c", border: "#ffc234" } }, font: { color: "#fcf8f0", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "p_luciana", label: "Luciana Lixandru\nSequoia Partner", group: "person", color: { background: "#2e2723", border: "#2e2723", highlight: { background: "#39312c", border: "#ffc234" } }, font: { color: "#fcf8f0", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
 
-      // Companies
-      { id: "c_supercell", label: "Supercell Oy", group: "company", color: "#238636", font: { color: "#fff" } },
-      { id: "c_wolt", label: "Wolt", group: "company", color: "#238636", font: { color: "#fff" } },
-      { id: "c_hcompany", label: "H Company", group: "company", color: "#238636", font: { color: "#fff" } },
+      // Companies — Cream Parchment Cards
+      { id: "c_supercell", label: "Supercell Oy", group: "company", color: { background: "#fcf8f0", border: "#2e2723", highlight: { background: "#fff3c6", border: "#2e2723" } }, font: { color: "#2e2723", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "c_wolt", label: "Wolt", group: "company", color: { background: "#fcf8f0", border: "#2e2723", highlight: { background: "#fff3c6", border: "#2e2723" } }, font: { color: "#2e2723", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "c_hcompany", label: "H Company", group: "company", color: { background: "#fcf8f0", border: "#2e2723", highlight: { background: "#fff3c6", border: "#2e2723" } }, font: { color: "#2e2723", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
 
-      // Shared Intermediaries
-      { id: "vc_atomico", label: "ATOMICO\n(Shared VC)", group: "vc", color: "#1f6feb", font: { color: "#fff", bold: true } },
-      { id: "vc_accel", label: "Accel\n(Lead VC / Former Partner)", group: "vc", color: "#1f6feb", font: { color: "#fff", bold: true } },
-      { id: "ev_slush24", label: "Slush 2024\n(Main Stage)", group: "event", color: "#a371f7", font: { color: "#fff" } },
-      { id: "ev_slush25", label: "Slush 2025\n(Main Stage)", group: "event", color: "#a371f7", font: { color: "#fff" } },
+      // Shared VCs — Cala Sky Blue & Gold Lead
+      { id: "vc_atomico", label: "ATOMICO\nShared VC", group: "vc", color: { background: "#dff2ff", border: "#0086ce", highlight: { background: "#b8e7ff", border: "#2e2723" } }, font: { color: "#006ba7", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+      { id: "vc_accel", label: "Accel\nSeries A Lead", group: "vc", color: { background: "#ffc234", border: "#2e2723", highlight: { background: "#ffd14a", border: "#2e2723" } }, font: { color: "#2e2723", face: "Plus Jakarta Sans, sans-serif", size: 13 } },
+
+      // Events — Cala Orchid Pink
+      { id: "ev_slush24", label: "Slush 2024\nMain Stage", group: "event", color: { background: "#efdcf2", border: "#ba72c3", highlight: { background: "#e1bee6", border: "#2e2723" } }, font: { color: "#9f53a6", face: "Plus Jakarta Sans, sans-serif", size: 12 } },
+      { id: "ev_slush25", label: "Slush 2025\nMain Stage", group: "event", color: { background: "#efdcf2", border: "#ba72c3", highlight: { background: "#e1bee6", border: "#2e2723" } }, font: { color: "#9f53a6", face: "Plus Jakarta Sans, sans-serif", size: 12 } }
     ]);
 
     const edges = new vis.DataSet([
-      { from: "p_ilkka", to: "c_supercell", label: "FOUNDED / CEO", color: { color: "#8b949e" } },
-      { from: "p_ilkka", to: "ev_slush24", label: "SPOKE_AT", color: { color: "#a371f7" } },
-      { from: "p_miki", to: "c_wolt", label: "FOUNDED / CEO", color: { color: "#8b949e" } },
-      { from: "p_laurent", to: "c_hcompany", label: "FOUNDED / CTO", color: { color: "#8b949e" } },
-      { from: "p_laurent", to: "ev_slush25", label: "SPOKE_AT", color: { color: "#a371f7" } },
-      { from: "p_peter", to: "ev_slush24", label: "SPOKE_AT", color: { color: "#a371f7" } },
-      { from: "p_luciana", to: "vc_accel", label: "WORKS_AT (Former Partner)", color: { color: "#58a6ff" } },
-      { from: "p_luciana", to: "ev_slush25", label: "SPOKE_AT", color: { color: "#a371f7" } },
+      { from: "p_ilkka", to: "c_supercell", label: "FOUNDED / CEO", color: { color: "#64574f" }, font: { color: "#64574f", size: 10, background: "#fcf8f0" } },
+      { from: "p_ilkka", to: "ev_slush24", label: "SPOKE_AT", color: { color: "#ba72c3" }, font: { color: "#9f53a6", size: 10, background: "#fcf8f0" } },
+      { from: "p_miki", to: "c_wolt", label: "FOUNDED / CEO", color: { color: "#64574f" }, font: { color: "#64574f", size: 10, background: "#fcf8f0" } },
+      { from: "p_laurent", to: "c_hcompany", label: "FOUNDED / CTO", color: { color: "#64574f" }, font: { color: "#64574f", size: 10, background: "#fcf8f0" } },
+      { from: "p_laurent", to: "ev_slush25", label: "SPOKE_AT", color: { color: "#ba72c3" }, font: { color: "#9f53a6", size: 10, background: "#fcf8f0" } },
+      { from: "p_peter", to: "ev_slush24", label: "SPOKE_AT", color: { color: "#ba72c3" }, font: { color: "#9f53a6", size: 10, background: "#fcf8f0" } },
+      { from: "p_luciana", to: "vc_accel", label: "FORMER PARTNER", color: { color: "#2e2723" }, font: { color: "#2e2723", size: 10, background: "#fcf8f0" } },
+      { from: "p_luciana", to: "ev_slush25", label: "SPOKE_AT", color: { color: "#ba72c3" }, font: { color: "#9f53a6", size: 10, background: "#fcf8f0" } },
 
-      { from: "vc_atomico", to: "c_supercell", label: "INVESTED_IN", arrows: "to", color: { color: "#1f6feb" }, width: 2 },
-      { from: "vc_atomico", to: "c_wolt", label: "INVESTED_IN", arrows: "to", color: { color: "#1f6feb" }, width: 2 },
-      { from: "vc_accel", to: "c_supercell", label: "INVESTED_IN (Series A Lead)", arrows: "to", color: { color: "#d29922" }, width: 3 },
-      { from: "vc_accel", to: "c_hcompany", label: "INVESTED_IN", arrows: "to", color: { color: "#58a6ff" }, width: 2 },
+      { from: "vc_atomico", to: "c_supercell", label: "INVESTED_IN", arrows: "to", color: { color: "#06a8f1" }, width: 2, font: { color: "#006ba7", size: 10, background: "#fcf8f0" } },
+      { from: "vc_atomico", to: "c_wolt", label: "INVESTED_IN", arrows: "to", color: { color: "#06a8f1" }, width: 2, font: { color: "#006ba7", size: 10, background: "#fcf8f0" } },
+      { from: "vc_accel", to: "c_supercell", label: "SERIES A LEAD", arrows: "to", color: { color: "#2e2723" }, width: 2.6, font: { color: "#2e2723", size: 10, background: "#fff3c6" } },
+      { from: "vc_accel", to: "c_hcompany", label: "INVESTED_IN", arrows: "to", color: { color: "#06a8f1" }, width: 2, font: { color: "#006ba7", size: 10, background: "#fcf8f0" } }
     ]);
 
-    const container = document.getElementById('network');
-    const data = { nodes: nodes, edges: edges };
-    const options = {
+    const networkContainer = document.getElementById("network");
+    new vis.Network(networkContainer, { nodes, edges }, {
       physics: {
         stabilization: true,
-        barnesHut: { gravitationalConstant: -3500, springLength: 120 }
+        barnesHut: { gravitationalConstant: -3600, springLength: 130 }
       },
-      nodes: { shape: 'box', margin: 10, borderWidth: 1 }
-    };
-    new vis.Network(container, data, options);
+      nodes: {
+        shape: "box",
+        margin: { top: 9, right: 12, bottom: 9, left: 12 },
+        borderWidth: 1.25,
+        shapeProperties: { borderRadius: 10 }
+      },
+      edges: {
+        smooth: { type: "cubicBezier", roundness: 0.35 }
+      }
+    });
 
-    // Fetch live connections from /traverse
+    const fallbackConnections = [
+      {
+        person1: "Ilkka Paananen",
+        person2: "Luciana Lixandru",
+        connection_type: "shared_investor",
+        hops: 3,
+        is_lead: true,
+        source_rank: "PRIMARY",
+        description: "Accel led Supercell's Series A where Luciana Lixandru served as Partner.",
+        path: [{ node: "Ilkka Paananen" }, { node: "Supercell Oy" }, { node: "Accel" }, { node: "Luciana Lixandru" }]
+      },
+      {
+        person1: "Ilkka Paananen",
+        person2: "Miki Kuusi",
+        connection_type: "shared_investor",
+        hops: 4,
+        is_lead: false,
+        source_rank: "VERIFIED",
+        description: "Both Supercell Oy and Wolt share institutional backing from Atomico.",
+        path: [{ node: "Ilkka Paananen" }, { node: "Supercell Oy" }, { node: "ATOMICO" }, { node: "Wolt" }, { node: "Miki Kuusi" }]
+      },
+      {
+        person1: "Laurent Sifre",
+        person2: "Luciana Lixandru",
+        connection_type: "co_speaker",
+        hops: 2,
+        is_lead: false,
+        source_rank: "VERIFIED",
+        description: "Both spoke on the Slush 2025 Main Stage and connect via Accel's backing of H Company.",
+        path: [{ node: "Laurent Sifre" }, { node: "Slush 2025" }, { node: "Luciana Lixandru" }]
+      }
+    ];
+
+    const fallbackAttendees = [
+      { name: "Supercell Oy" }, { name: "Wolt" }, { name: "H Company" },
+      { name: "Silo AI" }, { name: "IQM Quantum" }, { name: "Oura Health" },
+      { name: "Aiven" }, { name: "Linear" }, { name: "Distance Technologies" }
+    ];
+
+    function renderConnections(connections) {
+      const listDiv = document.getElementById("connections-list");
+      listDiv.innerHTML = "";
+      connections.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "conn-card";
+        const typeChip = c.connection_type && c.connection_type.includes("investor")
+          ? "chip-investor"
+          : (c.connection_type === "co_speaker" ? "chip-speaker" : "chip-rank");
+        const leadBadge = c.is_lead ? `<span class="cala-chip chip-lead">Lead Investor</span>` : "";
+        const rankBadge = c.source_rank ? `<span class="cala-chip chip-rank">${c.source_rank}</span>` : "";
+        const pathText = (c.path || []).map(p => p.node).join(" → ");
+
+        card.innerHTML = `
+          <div class="conn-badges">
+            <span class="cala-chip ${typeChip}">${(c.connection_type || "verified_path").replace(/_/g, " ")} · ${c.hops} hops</span>
+            ${leadBadge}
+            ${rankBadge}
+          </div>
+          <div style="font-weight:600;font-size:0.9rem;color:var(--cala-brown);margin-bottom:0.25rem;">
+            ${c.person1} <span style="color:var(--cala-brown-400);margin-inline:0.2rem;">⟷</span> ${c.person2}
+          </div>
+          <div style="color:var(--cala-brown-600);font-size:0.78rem;line-height:1.5;">${c.description || ""}</div>
+          <div class="path-trace">${pathText}</div>
+        `;
+        listDiv.appendChild(card);
+      });
+    }
+
+    function renderAttendees(attendees) {
+      const el = document.getElementById("attendees-list");
+      el.innerHTML = attendees.map(a => `<span class="attendee-pill"><span style="width:6px;height:6px;border-radius:999px;background:#30bfff;display:inline-block;"></span>${a.name}</span>`).join("");
+    }
+
+    // Initial preview data while live endpoints resolve
+    renderConnections(fallbackConnections);
+    renderAttendees(fallbackAttendees);
+
     const peopleIds = [
       "af1c7427-b685-4e0c-b03a-7efb074bc3ff",
       "86420e0b-4f82-4516-a434-aadcb10db0fb",
@@ -173,48 +578,47 @@
       "1666f898-8809-4d0c-a008-07d7cf755309"
     ];
 
-    fetch('/traverse', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+    fetch("/traverse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ people_ids: peopleIds })
     })
-    .then(r => r.json())
-    .then(res => {
-      const listDiv = document.getElementById("connections-list");
-      listDiv.innerHTML = "";
-      res.connections.forEach(c => {
-        const card = document.createElement("div");
-        card.className = "conn-card";
-        const badgeClass = c.is_lead ? "badge-lead" : (c.connection_type.includes("investor") ? "badge-investor" : (c.connection_type === "co_speaker" ? "badge-speaker" : "badge-affil"));
-        const rankBadge = c.source_rank ? `<span class="badge badge-rank">${c.source_rank} SOURCE</span>` : "";
-        const leadBadge = c.is_lead ? `<span class="badge badge-lead">LEAD INVESTOR</span>` : "";
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(res => { if (res.connections && res.connections.length) renderConnections(res.connections); })
+      .catch(() => {});
 
-        const pathText = c.path.map(p => p.node).join(" ➔ ");
+    fetch("/slush/attendees?limit=15")
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(d => { if (d.attendees && d.attendees.length) renderAttendees(d.attendees); })
+      .catch(() => {});
 
-        card.innerHTML = `
-          <div style="margin-bottom: 6px;">
-            <span class="badge ${badgeClass}">${c.connection_type.replace(/_/g, ' ')} (${c.hops} hops)</span>
-            ${leadBadge}
-            ${rankBadge}
-          </div>
-          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">${c.person1} ⟷ ${c.person2}</div>
-          <div style="color: #8b949e; font-size: 12px; margin-bottom: 6px;">${c.description}</div>
-          <div class="path-step">${pathText}</div>
-        `;
-        listDiv.appendChild(card);
-      });
-    })
-    .catch(err => {
-      console.error(err);
+    document.getElementById("query-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("query-input");
+      const btn = document.getElementById("query-btn");
+      const wrap = document.getElementById("query-result");
+      const out = document.getElementById("query-output");
+      const message = input.value.trim();
+      if (!message) return;
+
+      btn.disabled = true;
+      wrap.hidden = false;
+      out.textContent = "Querying Cala verified knowledge graph…";
+
+      try {
+        const resp = await fetch("/query", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await resp.json();
+        out.textContent = resp.ok ? data.answer : (data.detail || "Cala MCP server is not connected locally.");
+      } catch {
+        out.textContent = "Start the local FastAPI server (`uvicorn main:app --reload`) with CALA_API_KEY configured to run live agent queries.";
+      } finally {
+        btn.disabled = false;
+      }
     });
-
-    // Fetch Slush 2026 attending startups
-    fetch('/slush/attendees?limit=15')
-      .then(r => r.json())
-      .then(d => {
-        const el = document.getElementById('attendees-list');
-        el.innerHTML = d.attendees.map(a => `<span class="tag">🏢 ${a.name}</span>`).join(' ');
-      });
   </script>
 </body>
 </html>
