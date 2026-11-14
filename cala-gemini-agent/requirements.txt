@@ -1,0 +1,9 @@
+google-genai==2.34.0
+fastapi==0.162.7
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+httpx==0.28.1
+python-dotenv==1.2.4
+markdown-it-py==4.3.0
+itsdangerous==2.2.0
+mcp==1.30.0
