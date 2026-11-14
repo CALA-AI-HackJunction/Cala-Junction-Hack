@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Slush 2026 Networking Graph (Cala.ai Verified)</title>
+  <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #0d1117;
+      color: #c9d1d9;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    h1 { color: #58a6ff; margin: 0 0 6px 0; font-size: 24px; }
+    p.subtitle { color: #8b949e; margin: 0; font-size: 14px; }
+    #container { display: flex; gap: 20px; height: 78vh; }
+    #network {
+      flex: 3;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: #161b22;
+      position: relative;
+    }
+    #sidebar {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow: hidden;
+    }
+    .panel {
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      background: #161b22;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .panel-conns { flex: 2; }
+    .panel-attendees { flex: 1; max-height: 200px; }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-right: 6px;
+    }
+    .badge-lead { background: #d29922; color: #000; }
+    .badge-investor { background: #1f6feb; color: #fff; }
+    .badge-speaker { background: #238636; color: #fff; }
+    .badge-affil { background: #8957e5; color: #fff; }
+    .badge-rank { background: #30363d; color: #7ee787; border: 1px solid #238636; }
+    .conn-card {
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 12px;
+      background: #0d1117;
+      transition: border-color 0.2s;
+    }
+    .conn-card:hover { border-color: #58a6ff; }
+    .path-step {
+      font-family: monospace;
+      font-size: 12px;
+      margin-top: 8px;
+      padding: 6px 8px;
+      background: #161b22;
+      border-radius: 4px;
+      color: #79c0ff;
+    }
+    .tag {
+      display: inline-block;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 11px;
+      margin: 2px;
+      color: #8b949e;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div>
+      <h1>Comare de Paisa — Slush 2026 Networking Graph</h1>
+      <p class="subtitle">Bounded 2-4 hop traversal engine powered by <strong>Cala.ai</strong> verified knowledge graph</p>
+    </div>
+    <div>
+      <span class="badge badge-rank">Slush 2026 Live Connected</span>
+    </div>
+  </header>
+
+  <div id="container">
+    <div id="network"></div>
+    <div id="sidebar">
+      <div class="panel panel-conns">
+        <h3 style="margin-top: 0; color: #58a6ff;">Verified Connections</h3>
+        <p style="font-size: 12px; color: #8b949e; margin-top: -6px;">Discovering shared lead investors, co-speakers, and alumni networks.</p>
+        <div id="connections-list"></div>
+      </div>
+
+      <div class="panel panel-attendees">
+        <h4 style="margin-top: 0; color: #8b949e;">Slush 2026 Attending Startups (from Cala)</h4>
+        <div id="attendees-list" style="font-size: 12px;">Loading attendees from Cala...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const nodes = new vis.DataSet([
+      // 5 People
+      { id: "p_ilkka", label: "Ilkka Paananen\n(Supercell CEO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
+      { id: "p_miki", label: "Miki Kuusi\n(Wolt CEO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
+      { id: "p_laurent", label: "Laurent Sifre\n(H Company CTO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
+      { id: "p_peter", label: "Peter Sarlin\n(Silo AI CEO)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
+      { id: "p_luciana", label: "Luciana Lixandru\n(Sequoia Partner)", group: "person", color: "#f0883e", font: { color: "#fff", bold: true } },
+
+      // Companies
+      { id: "c_supercell", label: "Supercell Oy", group: "company", color: "#238636", font: { color: "#fff" } },
+      { id: "c_wolt", label: "Wolt", group: "company", color: "#238636", font: { color: "#fff" } },
+      { id: "c_hcompany", label: "H Company", group: "company", color: "#238636", font: { color: "#fff" } },
+
+      // Shared Intermediaries
+      { id: "vc_atomico", label: "ATOMICO\n(Shared VC)", group: "vc", color: "#1f6feb", font: { color: "#fff", bold: true } },
+      { id: "vc_accel", label: "Accel\n(Lead VC / Former Partner)", group: "vc", color: "#1f6feb", font: { color: "#fff", bold: true } },
+      { id: "ev_slush24", label: "Slush 2024\n(Main Stage)", group: "event", color: "#a371f7", font: { color: "#fff" } },
+      { id: "ev_slush25", label: "Slush 2025\n(Main Stage)", group: "event", color: "#a371f7", font: { color: "#fff" } },
+    ]);
+
+    const edges = new vis.DataSet([
+      { from: "p_ilkka", to: "c_supercell", label: "FOUNDED / CEO", color: { color: "#8b949e" } },
+      { from: "p_ilkka", to: "ev_slush24", label: "SPOKE_AT", color: { color: "#a371f7" } },
+      { from: "p_miki", to: "c_wolt", label: "FOUNDED / CEO", color: { color: "#8b949e" } },
+      { from: "p_laurent", to: "c_hcompany", label: "FOUNDED / CTO", color: { color: "#8b949e" } },
+      { from: "p_laurent", to: "ev_slush25", label: "SPOKE_AT", color: { color: "#a371f7" } },
+      { from: "p_peter", to: "ev_slush24", label: "SPOKE_AT", color: { color: "#a371f7" } },
+      { from: "p_luciana", to: "vc_accel", label: "WORKS_AT (Former Partner)", color: { color: "#58a6ff" } },
+      { from: "p_luciana", to: "ev_slush25", label: "SPOKE_AT", color: { color: "#a371f7" } },
+
+      { from: "vc_atomico", to: "c_supercell", label: "INVESTED_IN", arrows: "to", color: { color: "#1f6feb" }, width: 2 },
+      { from: "vc_atomico", to: "c_wolt", label: "INVESTED_IN", arrows: "to", color: { color: "#1f6feb" }, width: 2 },
+      { from: "vc_accel", to: "c_supercell", label: "INVESTED_IN (Series A Lead)", arrows: "to", color: { color: "#d29922" }, width: 3 },
+      { from: "vc_accel", to: "c_hcompany", label: "INVESTED_IN", arrows: "to", color: { color: "#58a6ff" }, width: 2 },
+    ]);
+
+    const container = document.getElementById('network');
+    const data = { nodes: nodes, edges: edges };
+    const options = {
+      physics: {
+        stabilization: true,
+        barnesHut: { gravitationalConstant: -3500, springLength: 120 }
+      },
+      nodes: { shape: 'box', margin: 10, borderWidth: 1 }
+    };
+    new vis.Network(container, data, options);
+
+    // Fetch live connections from /traverse
+    const peopleIds = [
+      "af1c7427-b685-4e0c-b03a-7efb074bc3ff",
+      "86420e0b-4f82-4516-a434-aadcb10db0fb",
+      "414ac222-96b0-4538-ab4d-0e992433dca9",
+      "b1e3b86c-d300-46e0-be41-cc860b4744bd",
+      "1666f898-8809-4d0c-a008-07d7cf755309"
+    ];
+
+    fetch('/traverse', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ people_ids: peopleIds })
+    })
+    .then(r => r.json())
+    .then(res => {
+      const listDiv = document.getElementById("connections-list");
+      listDiv.innerHTML = "";
+      res.connections.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "conn-card";
+        const badgeClass = c.is_lead ? "badge-lead" : (c.connection_type.includes("investor") ? "badge-investor" : (c.connection_type === "co_speaker" ? "badge-speaker" : "badge-affil"));
+        const rankBadge = c.source_rank ? `<span class="badge badge-rank">${c.source_rank} SOURCE</span>` : "";
+        const leadBadge = c.is_lead ? `<span class="badge badge-lead">LEAD INVESTOR</span>` : "";
+
+        const pathText = c.path.map(p => p.node).join(" ➔ ");
+
+        card.innerHTML = `
+          <div style="margin-bottom: 6px;">
+            <span class="badge ${badgeClass}">${c.connection_type.replace(/_/g, ' ')} (${c.hops} hops)</span>
+            ${leadBadge}
+            ${rankBadge}
+          </div>
+          <div style="font-weight: 600; font-size: 14px; margin-bottom: 4px;">${c.person1} ⟷ ${c.person2}</div>
+          <div style="color: #8b949e; font-size: 12px; margin-bottom: 6px;">${c.description}</div>
+          <div class="path-step">${pathText}</div>
+        `;
+        listDiv.appendChild(card);
+      });
+    })
+    .catch(err => {
+      console.error(err);
+    });
+
+    // Fetch Slush 2026 attending startups
+    fetch('/slush/attendees?limit=15')
+      .then(r => r.json())
+      .then(d => {
+        const el = document.getElementById('attendees-list');
+        el.innerHTML = d.attendees.map(a => `<span class="tag">🏢 ${a.name}</span>`).join(' ');
+      });
+  </script>
+</body>
+</html>
