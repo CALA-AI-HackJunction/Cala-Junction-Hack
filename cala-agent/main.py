@@ -2,9 +2,11 @@
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from agent import run_agent_turn
@@ -56,9 +58,13 @@ class TraverseResponse(BaseModel):
 
 # ── Routes ──────────────────────────────────────────────────────────────────
 
+STATIC_DIR = Path(__file__).resolve().parent / "static"
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+
 @app.get("/")
 async def index():
-    return FileResponse("static/network.html")
+    return FileResponse(STATIC_DIR / "network.html")
 
 
 @app.get("/health")
