@@ -1,6 +1,7 @@
 """FastAPI entry point — exposes /query and /health endpoints."""
 
 import logging
+import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
@@ -73,6 +74,17 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 @app.get("/")
 async def index():
     return FileResponse(STATIC_DIR / "network.html")
+
+
+@app.get("/slush/snapshot")
+def slush_snapshot():
+    configured_path = os.environ.get("CALA_SNAPSHOT_REPORT")
+    if not configured_path:
+        raise HTTPException(404, "No Slush snapshot report configured.")
+    report = Path(configured_path)
+    if not report.is_file():
+        raise HTTPException(503, "The configured Slush snapshot report is unavailable.")
+    return FileResponse(report, media_type="application/json")
 
 
 @app.get("/health")

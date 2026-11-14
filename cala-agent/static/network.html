@@ -350,6 +350,22 @@
         </div>
 
         <aside class="sidebar-stack">
+          <section class="sidebar-panel" aria-labelledby="snapshot-heading">
+            <h2 id="snapshot-heading" class="cala-serif">Slush snapshot</h2>
+            <label for="snapshot-file">Open a scanner report</label>
+            <input id="snapshot-file" type="file" accept=".json,application/json">
+            <p id="snapshot-status" aria-live="polite">The map starts with demo data. Open a report to explore Cala relationships.</p>
+            <div id="snapshot-controls" hidden>
+              <p id="snapshot-coverage"></p>
+              <p><label for="snapshot-focus">Start from</label>
+                <select id="snapshot-focus" style="max-width:100%"></select></p>
+              <p><label for="snapshot-target">Slush attendee</label>
+                <select id="snapshot-target" style="max-width:100%"></select></p>
+              <label><input id="snapshot-context" type="checkbox"> Include industry, headquarters and registration</label>
+              <p id="snapshot-path" aria-live="polite"></p>
+              <div id="snapshot-evidence" aria-live="polite">Select an edge to inspect its evidence.</div>
+            </div>
+          </section>
           <div class="sidebar-panel" id="connections-panel">
             <h2 class="cala-serif" style="font-size:1.75rem;line-height:1.15;margin:0 0 0.35rem 0;display:flex;align-items:center;gap:0.55rem;color:var(--cala-brown);">
               <svg viewBox="0 0 56 56" fill="none" style="height:1.15em;width:auto;flex-shrink:0;" aria-hidden="true">
@@ -477,7 +493,7 @@
     ]);
 
     const networkContainer = document.getElementById("network");
-    new vis.Network(networkContainer, { nodes, edges }, {
+    const network = new vis.Network(networkContainer, { nodes, edges }, {
       physics: {
         stabilization: true,
         barnesHut: { gravitationalConstant: -3600, springLength: 130 }
@@ -619,6 +635,10 @@
         btn.disabled = false;
       }
     });
+  </script>
+  <script type="module">
+    import { bindSnapshot } from "/static/snapshot.js";
+    bindSnapshot(network, nodes, edges);
   </script>
 </body>
 </html>
