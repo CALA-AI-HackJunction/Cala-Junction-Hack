@@ -1,0 +1,1211 @@
+{
+  "audit_version": "1.0",
+  "basis": "Counts computed directly from the three supplied JSON files; no live source re-verification.",
+  "input_files": [
+    {
+      "role": "slush_people",
+      "filename": "slush_2026_people_partial (1).json",
+      "bytes": 7998945,
+      "sha256": "3beadebfc774cbe667b015864def351b3328c0d4f33318902b7bcac19c870066"
+    },
+    {
+      "role": "cala_graph",
+      "filename": "slush-2026-graph.json",
+      "bytes": 2698348,
+      "sha256": "efd9524d1bebe002dbcc04b6e0d789b4da3756d903117752612a4d81f3165cf3"
+    },
+    {
+      "role": "slush_companies",
+      "filename": "meeting_tool_companies_export_all (1)(2).json",
+      "bytes": 12751296,
+      "sha256": "19609f6834aaedcdae8b99f7e6fb54cabe7d8af8dd76b3ef916ffa688dc8e431"
+    }
+  ],
+  "slush_people": {
+    "primary_records": 952,
+    "unique_local_record_keys": 952,
+    "unique_normalized_display_names": 951,
+    "records_with_platform_person_id": 10,
+    "records_without_platform_person_id": 942,
+    "records_with_nonempty_company": 209,
+    "records_with_nonempty_affiliations": 209,
+    "affiliation_rows": 210,
+    "records_with_biography": 533,
+    "records_with_work_experience_entries": 131,
+    "records_with_full_profile_text": 10,
+    "source_types": {
+      "company_dataset_attendee": 208,
+      "directory_card": 734,
+      "full_profile": 10
+    },
+    "attendance_statuses": {
+      "announced_attendee": 89,
+      "announced_speaker": 105,
+      "not_set": 743,
+      "reported_in_supplied_slush26_company_profile": 15
+    },
+    "existing_attendance_evidence_rows": 210,
+    "existing_attendance_evidence_links": 210,
+    "unique_linked_primary_people": 209,
+    "possible_duplicate_people": [
+      {
+        "name": "Ben Fletcher",
+        "record_keys": [
+          "directory_record:6d3edccdad057893e035",
+          "imported_person:cca415303c435fa8d349"
+        ],
+        "status": "possible_duplicate_not_merged",
+        "evidence_for_match": [
+          "Exact displayed name",
+          "Partner role",
+          "Compatible UK/London context"
+        ],
+        "reason_not_merged": "The original platform card has no company, person UUID, biography, avatar or identity link. Name, general role and country do not conclusively establish the same individual."
+      }
+    ],
+    "interpretation": "952 is a record count, not a guaranteed count of distinct humans or physical attendees. Audit evidence/link arrays are not additional people."
+  },
+  "slush_companies": {
+    "records": 6275,
+    "unique_normalized_names": 6266,
+    "unique_profile_links": 6275,
+    "records_with_named_attendees": 137,
+    "named_attendee_rows": 210,
+    "distinct_normalized_attendee_names": 209,
+    "attendee_status_counts": {
+      "announced_attendee": 89,
+      "announced_speaker": 106,
+      "reported_in_supplied_slush26_company_profile": 15
+    }
+  },
+  "cala_graph": {
+    "declared_maximum_hops": 4,
+    "complete": false,
+    "incomplete_reason": "Cala retrieval reached its time limit.",
+    "retrieved_by_hop_as_supplied": {
+      "0": 1,
+      "1": 40
+    },
+    "full_records": 41,
+    "unique_full_record_ids": 41,
+    "full_record_types": {
+      "Company": 40,
+      "Event": 1
+    },
+    "edges": 3411,
+    "distinct_source_type_target_triples": 3398,
+    "endpoint_ids": 3279,
+    "endpoints_without_full_records": 3238,
+    "endpoints_without_even_stub_metadata": 0,
+    "full_and_stub_node_types": {
+      "Company": 3007,
+      "Country": 6,
+      "CountrySubdivision": 1,
+      "DomainName": 39,
+      "EducationalInstitution": 1,
+      "Event": 1,
+      "FundingRound": 46,
+      "Group": 1,
+      "Industry": 13,
+      "Organization": 36,
+      "Person": 123,
+      "PrivateCompanyFundingRound": 5
+    },
+    "edge_types": {
+      "FOUNDED": 67,
+      "HAS_DOMAIN_NAME": 39,
+      "HAS_HEADQUARTERS_IN": 6,
+      "HAS_PRESENCE_IN": 1,
+      "INVESTED_IN": 63,
+      "IS_BENEFICIARY_OWNER_OF": 1,
+      "IS_BOARD_MEMBER_OF": 45,
+      "IS_CCO_OF": 2,
+      "IS_CEO_OF": 29,
+      "IS_CFO_OF": 1,
+      "IS_CMO_OF": 2,
+      "IS_CONTROL_PERSON_OF": 1,
+      "IS_COO_OF": 5,
+      "IS_CSO_OF": 2,
+      "IS_CTO_OF": 15,
+      "IS_MANAGING_DIRECTOR_OF": 15,
+      "IS_MEMBER_OF": 1,
+      "IS_REGISTERED_IN": 2,
+      "IS_VICEPRESIDENT_OF": 2,
+      "OPERATES_IN_INDUSTRY": 47,
+      "PARTICIPATES_IN_CORPORATE_EVENT": 5,
+      "PARTICIPATES_IN_EVENT": 2990,
+      "PARTICIPATES_IN_FUNDING_ROUND": 46,
+      "WORKS_AT": 24
+    },
+    "event_edges": 2990,
+    "category_location_domain_edges": 95,
+    "transaction_context_edges": 51,
+    "direct_professional_edges": 275,
+    "edges_with_nonempty_source_document": 3407,
+    "edges_without_nonempty_source_document": 4,
+    "unique_source_document_urls": 330,
+    "direct_professional_connected_components": 37,
+    "components_joining_multiple_rich_company_records": 0,
+    "example_quality_flag": {
+      "entity_name": "including renowned industry leaders",
+      "entity_type_as_supplied": "Organization",
+      "context": "INVESTED_IN defguard",
+      "recommendation": "Treat vague collective names as unresolved; do not present as a resolved named organization."
+    }
+  },
+  "matching": {
+    "normalization": "Unicode NFKC, casefold, collapse whitespace; website hosts lowercased and leading www removed.",
+    "rich_cala_companies_with_unique_exact_name_candidate": 28,
+    "rich_cala_companies_with_unique_exact_name_and_domain_candidate": 26,
+    "rich_cala_companies_with_unique_domain_candidate": 37,
+    "all_cala_company_nodes_with_unique_exact_name_candidate": 2304,
+    "rich_company_candidates": [
+      {
+        "cala_id": "001eb587-ff78-5d7a-85bb-7c454cd0c176",
+        "cala_name": "Humanpath",
+        "cala_domain": "humanpath.si",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": []
+      },
+      {
+        "cala_id": "00200320-e131-52f9-885e-f147c80fcc9e",
+        "cala_name": "ExoSphere by Exoft",
+        "cala_domain": "exo-sphere.net",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          1940
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 1940,
+            "name": "Exoft",
+            "website": "https://exo-sphere.net/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/e4ef8eec-812e-4187-88d5-55964bfd7a4d"
+          }
+        ]
+      },
+      {
+        "cala_id": "002fa088-723a-55ca-a047-15aa02cb731c",
+        "cala_name": "Sonofit",
+        "cala_domain": "sonofit.no",
+        "exact_name_match_indices": [
+          86
+        ],
+        "domain_match_indices": [
+          86
+        ],
+        "exact_name_and_domain_match_indices": [
+          86
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 86,
+            "name": "Sonofit",
+            "website": "https://sonofit.no/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ed94d480-f94e-40b8-b4b3-f2f3e9c37c7c"
+          }
+        ]
+      },
+      {
+        "cala_id": "003825c5-8263-554f-b821-630f62f4f4ad",
+        "cala_name": "Principius AI",
+        "cala_domain": "principius.ai",
+        "exact_name_match_indices": [
+          4456
+        ],
+        "domain_match_indices": [
+          4456
+        ],
+        "exact_name_and_domain_match_indices": [
+          4456
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 4456,
+            "name": "Principius AI",
+            "website": "https://principius.ai/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/3dd1b274-0524-4d70-a199-a68b02b27d66"
+          }
+        ]
+      },
+      {
+        "cala_id": "0040ced7-13d6-5082-ba33-6d81cd8a53bb",
+        "cala_name": "AMOS.io",
+        "cala_domain": "claimsleakages.com",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          5329
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 5329,
+            "name": "AMOS Technologies Oy",
+            "website": "https://claimsleakages.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/c1fe4242-294f-4753-be37-5aaf602b7999"
+          }
+        ]
+      },
+      {
+        "cala_id": "00541f9a-8af0-5d33-b013-c32d90ba3076",
+        "cala_name": "Finadeck Oy",
+        "cala_domain": "finadeck.com",
+        "exact_name_match_indices": [
+          146
+        ],
+        "domain_match_indices": [
+          146
+        ],
+        "exact_name_and_domain_match_indices": [
+          146
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 146,
+            "name": "Finadeck Oy",
+            "website": "https://finadeck.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/702d100e-2afb-43bf-8fd1-5feccb7cee39"
+          }
+        ]
+      },
+      {
+        "cala_id": "0055d4e5-f287-5f55-bb3f-85eda43185e7",
+        "cala_name": "Under Industries",
+        "cala_domain": "underindustries.com",
+        "exact_name_match_indices": [
+          4197
+        ],
+        "domain_match_indices": [
+          4197
+        ],
+        "exact_name_and_domain_match_indices": [
+          4197
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 4197,
+            "name": "Under Industries",
+            "website": "https://www.underindustries.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/a0a0e0c4-e48f-4aa7-85d9-9c745e5385e5"
+          }
+        ]
+      },
+      {
+        "cala_id": "006ba4ce-f9ed-53e4-8697-07c3e130915a",
+        "cala_name": "Paramatrix",
+        "cala_domain": "paramatrix.io",
+        "exact_name_match_indices": [
+          5455
+        ],
+        "domain_match_indices": [
+          5455
+        ],
+        "exact_name_and_domain_match_indices": [
+          5455
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 5455,
+            "name": "Paramatrix",
+            "website": "https://paramatrix.io",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/59d1398a-46bf-4f97-b9b8-e0dca022e93a"
+          }
+        ]
+      },
+      {
+        "cala_id": "006f57a2-d9c7-522c-b310-461efae89794",
+        "cala_name": "Bliq",
+        "cala_domain": "bliq.ai",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          1485
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 1485,
+            "name": "Bliq GmbH",
+            "website": "https://www.bliq.ai",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/6039fd18-34b8-4e6a-b973-973ae639f060"
+          }
+        ]
+      },
+      {
+        "cala_id": "007017a9-ebe9-5efa-b3ad-ccb40d46ed74",
+        "cala_name": "Dream On Technology",
+        "cala_domain": "panicsafe.app",
+        "exact_name_match_indices": [
+          2307
+        ],
+        "domain_match_indices": [],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 2307,
+            "name": "Dream On Technology",
+            "website": "https://dream-on.tech",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/5f24d7d7-c7f7-4788-bb45-45496a1e94ba"
+          }
+        ]
+      },
+      {
+        "cala_id": "008a8778-1201-4c4b-b762-1ed861cbc3e9",
+        "cala_name": "Secrets Vault",
+        "cala_domain": "secretsvault.xyz",
+        "exact_name_match_indices": [
+          5437
+        ],
+        "domain_match_indices": [
+          5437
+        ],
+        "exact_name_and_domain_match_indices": [
+          5437
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 5437,
+            "name": "Secrets Vault",
+            "website": "https://www.secretsvault.xyz",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/b8b7dec5-f644-4f51-b344-9448b86a4a5c"
+          }
+        ]
+      },
+      {
+        "cala_id": "008f630f-6e44-54bc-a119-eb9c628bb00b",
+        "cala_name": "Luminous Algorithms",
+        "cala_domain": "luminous-algo.com",
+        "exact_name_match_indices": [
+          2595
+        ],
+        "domain_match_indices": [
+          2595
+        ],
+        "exact_name_and_domain_match_indices": [
+          2595
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 2595,
+            "name": "Luminous Algorithms",
+            "website": "https://luminous-algo.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/d957316b-42ad-4e28-9c9a-ee5180e98b8a"
+          }
+        ]
+      },
+      {
+        "cala_id": "0094ec10-bd61-4833-bf19-c2ab9d78312b",
+        "cala_name": "GREÏ",
+        "cala_domain": "grei.ai",
+        "exact_name_match_indices": [
+          4166
+        ],
+        "domain_match_indices": [
+          4166
+        ],
+        "exact_name_and_domain_match_indices": [
+          4166
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 4166,
+            "name": "GREÏ",
+            "website": "https://www.grei.ai/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/2050f4dc-5c90-476b-a4b8-0c6aff16c126"
+          }
+        ]
+      },
+      {
+        "cala_id": "00ab3c60-c724-58e8-b0ea-d15c9fe27044",
+        "cala_name": "Scoped",
+        "cala_domain": "scoped.no",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          4694
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 4694,
+            "name": "Scoped Solutions AS",
+            "website": "https://www.scoped.no/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/16b1cd1c-22a7-4add-b8c5-2d2eeacc0872"
+          }
+        ]
+      },
+      {
+        "cala_id": "00cf271e-f53c-5f3f-8c60-cf363d429e38",
+        "cala_name": "Visiontag GmbH",
+        "cala_domain": "visiontag.de",
+        "exact_name_match_indices": [
+          4185
+        ],
+        "domain_match_indices": [
+          4185
+        ],
+        "exact_name_and_domain_match_indices": [
+          4185
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 4185,
+            "name": "Visiontag GmbH",
+            "website": "https://www.visiontag.de",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/d7267920-6671-4df3-a213-39a2841e8659"
+          }
+        ]
+      },
+      {
+        "cala_id": "00fd23cf-5a6b-58af-9f78-a24f39487dad",
+        "cala_name": "Fenix Energy",
+        "cala_domain": "fenixenergy.fr",
+        "exact_name_match_indices": [
+          1437
+        ],
+        "domain_match_indices": [
+          1437
+        ],
+        "exact_name_and_domain_match_indices": [
+          1437
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 1437,
+            "name": "Fenix Energy",
+            "website": "https://www.fenixenergy.fr",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/799be557-cea0-452d-8293-aa945c750e25"
+          }
+        ]
+      },
+      {
+        "cala_id": "00ff9907-cdbb-4e3f-a56e-4cd4a28a333b",
+        "cala_name": "Forciot",
+        "cala_domain": "forciot.com",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          2036
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 2036,
+            "name": "Forciot Oy",
+            "website": "https://www.forciot.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/20b4cc13-5466-4161-905d-212a2a3ce94d"
+          }
+        ]
+      },
+      {
+        "cala_id": "01137109-a541-56c9-9f60-0d49520a710c",
+        "cala_name": "Rupert",
+        "cala_domain": "rupert.digital",
+        "exact_name_match_indices": [
+          723
+        ],
+        "domain_match_indices": [
+          723
+        ],
+        "exact_name_and_domain_match_indices": [
+          723
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 723,
+            "name": "Rupert",
+            "website": "https://www.rupert.digital/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/5b54c136-1b9a-4bde-acbc-750524f9e3a4"
+          }
+        ]
+      },
+      {
+        "cala_id": "01190659-81ef-5945-8618-27a920f28d08",
+        "cala_name": "Gopf",
+        "cala_domain": "gopf.com",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          34
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 34,
+            "name": "Gopf – Strategic Intelligence",
+            "website": "https://gopf.com",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/d67e27dd-c859-46ef-aa9e-029d006e67bb"
+          }
+        ]
+      },
+      {
+        "cala_id": "0119ac7c-ec00-57fb-8108-3619f10ceaca",
+        "cala_name": "Applied AI Studio",
+        "cala_domain": "studio.appliedai.club",
+        "exact_name_match_indices": [
+          4583
+        ],
+        "domain_match_indices": [
+          4583
+        ],
+        "exact_name_and_domain_match_indices": [
+          4583
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 4583,
+            "name": "Applied AI Studio",
+            "website": "https://studio.appliedai.club",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ec77d4e8-10ec-4e45-9fc9-c8629f9a36c4"
+          }
+        ]
+      },
+      {
+        "cala_id": "01272a9a-df9d-49b7-a3f3-4258a7e52c1e",
+        "cala_name": "Nextesy",
+        "cala_domain": "nextesy.com",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          4374
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 4374,
+            "name": "nextesy AG",
+            "website": "https://nextesy.com/en-ch/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/42e76133-94ea-4f70-96ab-0a6ad0282b23"
+          }
+        ]
+      },
+      {
+        "cala_id": "0157670d-5607-542a-8504-914f43a771ff",
+        "cala_name": "polySCOUT",
+        "cala_domain": "polyscout.ai",
+        "exact_name_match_indices": [
+          3498
+        ],
+        "domain_match_indices": [
+          3498
+        ],
+        "exact_name_and_domain_match_indices": [
+          3498
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 3498,
+            "name": "polySCOUT",
+            "website": "https://www.polyscout.ai",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/a3aea5a0-6ea9-4fdb-a6ee-667aeac7f200"
+          }
+        ]
+      },
+      {
+        "cala_id": "0159ce1e-b44d-5ad8-9ef8-77f6825d630b",
+        "cala_name": "umob",
+        "cala_domain": "umob.app",
+        "exact_name_match_indices": [
+          5330
+        ],
+        "domain_match_indices": [
+          5330
+        ],
+        "exact_name_and_domain_match_indices": [
+          5330
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 5330,
+            "name": "umob",
+            "website": "https://umob.app/nl",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/e7fa9061-5f14-45c2-b522-8e713e6c1a6d"
+          }
+        ]
+      },
+      {
+        "cala_id": "0167a302-d286-51bc-874f-a7fad3abf4f1",
+        "cala_name": "Vectis.ai",
+        "cala_domain": "vectis.ai",
+        "exact_name_match_indices": [
+          5636
+        ],
+        "domain_match_indices": [
+          5636
+        ],
+        "exact_name_and_domain_match_indices": [
+          5636
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 5636,
+            "name": "Vectis.ai",
+            "website": "https://vectis.ai",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/f630a972-f372-496f-91ef-f424fc045f2d"
+          }
+        ]
+      },
+      {
+        "cala_id": "017826f8-558b-4209-b4e8-0b6a1e5f3b9e",
+        "cala_name": "Slicker",
+        "cala_domain": "slickerhq.com",
+        "exact_name_match_indices": [
+          1723
+        ],
+        "domain_match_indices": [
+          1723
+        ],
+        "exact_name_and_domain_match_indices": [
+          1723
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 1723,
+            "name": "Slicker",
+            "website": "https://www.slickerhq.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/73b4e984-e8a6-4703-a5e5-863ff6d97e57"
+          }
+        ]
+      },
+      {
+        "cala_id": "018157af-f7a8-4d34-92bb-35eeebf10418",
+        "cala_name": "dEEGtal Insight SA",
+        "cala_domain": "deegtal.ai",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          1610
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 1610,
+            "name": "dEEGtal Insights SA",
+            "website": "https://www.deegtal.ai/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/7ed9024c-02c5-4af9-8b70-09e27c5ff5ff"
+          }
+        ]
+      },
+      {
+        "cala_id": "01d4dec8-2607-576e-a4fa-07028ebdce8e",
+        "cala_name": "RiverPool",
+        "cala_domain": "riverpool.ai",
+        "exact_name_match_indices": [
+          6201
+        ],
+        "domain_match_indices": [
+          6201
+        ],
+        "exact_name_and_domain_match_indices": [
+          6201
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 6201,
+            "name": "RiverPool",
+            "website": "https://riverpool.ai/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/a866a227-445f-49d7-9abd-7b72502abbbe"
+          }
+        ]
+      },
+      {
+        "cala_id": "01ddf1aa-bd55-5802-8893-f333209d25c7",
+        "cala_name": "Canopic",
+        "cala_domain": null,
+        "exact_name_match_indices": [
+          3006
+        ],
+        "domain_match_indices": [],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 3006,
+            "name": "Canopic",
+            "website": "",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/3004e3b0-f3a8-4035-9019-5ad83d12eaa7"
+          }
+        ]
+      },
+      {
+        "cala_id": "01eeb50b-e428-41a6-ae7f-6287ec5c1ee5",
+        "cala_name": "Trince",
+        "cala_domain": "trincebio.com",
+        "exact_name_match_indices": [
+          5324
+        ],
+        "domain_match_indices": [
+          5324
+        ],
+        "exact_name_and_domain_match_indices": [
+          5324
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 5324,
+            "name": "Trince",
+            "website": "https://www.trincebio.com",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/325c609c-c566-471e-a317-a835896488e0"
+          }
+        ]
+      },
+      {
+        "cala_id": "01fb935e-7993-48e1-9e55-137b3668c01a",
+        "cala_name": "defguard",
+        "cala_domain": "defguard.net",
+        "exact_name_match_indices": [
+          3203
+        ],
+        "domain_match_indices": [
+          3203
+        ],
+        "exact_name_and_domain_match_indices": [
+          3203
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 3203,
+            "name": "Defguard",
+            "website": "https://defguard.net",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/35a96ba3-8235-4d45-a4a7-b4445361612c"
+          }
+        ]
+      },
+      {
+        "cala_id": "01fde26f-f74c-54ad-a24f-984a78ca0e2f",
+        "cala_name": "Mamboo Entertainment",
+        "cala_domain": "ent.mamboo.games",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          5103
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 5103,
+            "name": "Mamboo Entertainment ME FZ LLC",
+            "website": "https://ent.mamboo.games/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ab596110-c4d7-4e06-9d29-b6a7fc91ae42"
+          }
+        ]
+      },
+      {
+        "cala_id": "0216be36-8d00-5b77-bf3b-0bfa89cd6a25",
+        "cala_name": "People Made Machines",
+        "cala_domain": "peoplemademachines.com",
+        "exact_name_match_indices": [
+          1265
+        ],
+        "domain_match_indices": [
+          1265
+        ],
+        "exact_name_and_domain_match_indices": [
+          1265
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 1265,
+            "name": "People Made Machines",
+            "website": "https://www.peoplemademachines.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/f51ed7f8-5aa2-4fc6-bc71-b800f8d7b7cb"
+          }
+        ]
+      },
+      {
+        "cala_id": "0220cf38-d013-5600-9616-31da01caa416",
+        "cala_name": "Trust Exchange",
+        "cala_domain": "trustexchange.world",
+        "exact_name_match_indices": [
+          2015
+        ],
+        "domain_match_indices": [
+          2015
+        ],
+        "exact_name_and_domain_match_indices": [
+          2015
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 2015,
+            "name": "Trust Exchange",
+            "website": "https://trustexchange.world/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890"
+          }
+        ]
+      },
+      {
+        "cala_id": "0254ea0e-382b-52f0-822b-3485c77be7ad",
+        "cala_name": "Otherkind Oy",
+        "cala_domain": "otherkind.tech",
+        "exact_name_match_indices": [
+          4392
+        ],
+        "domain_match_indices": [
+          4392
+        ],
+        "exact_name_and_domain_match_indices": [
+          4392
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 4392,
+            "name": "Otherkind Oy",
+            "website": "https://otherkind.tech/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/cbd64414-f37d-4a73-aab4-51178345bd69"
+          }
+        ]
+      },
+      {
+        "cala_id": "025f6b61-7efa-4427-80ae-10d9d2884aa7",
+        "cala_name": "Planhat AB",
+        "cala_domain": "planhat.com",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          1341
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 1341,
+            "name": "Planhat",
+            "website": "https://www.planhat.com/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/4612d969-1c0c-4c57-b7f2-5bbe5593b10f"
+          }
+        ]
+      },
+      {
+        "cala_id": "0268fe7c-a6c8-5ecf-8a79-1a5775254752",
+        "cala_name": "Eka Labs AI",
+        "cala_domain": "ekalabs.ai",
+        "exact_name_match_indices": [
+          2957
+        ],
+        "domain_match_indices": [
+          2957
+        ],
+        "exact_name_and_domain_match_indices": [
+          2957
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 2957,
+            "name": "Eka Labs AI",
+            "website": "https://www.ekalabs.ai/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/7feeb35a-e7ea-4c03-8003-e4a55306e941"
+          }
+        ]
+      },
+      {
+        "cala_id": "026aa4f7-d92c-5c5d-83c7-1301a56f010c",
+        "cala_name": "VISS GmbH",
+        "cala_domain": "viss.cc",
+        "exact_name_match_indices": [
+          2132
+        ],
+        "domain_match_indices": [
+          2132
+        ],
+        "exact_name_and_domain_match_indices": [
+          2132
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 2132,
+            "name": "VISS GmbH",
+            "website": "https://www.viss.cc/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/1f4fed26-ddb5-41e9-99bc-567317187cdc"
+          }
+        ]
+      },
+      {
+        "cala_id": "026c38cd-48b9-45b8-a0a1-4a745d91d507",
+        "cala_name": "JawBuddy",
+        "cala_domain": "jawbuddy.com",
+        "exact_name_match_indices": [],
+        "domain_match_indices": [
+          5777
+        ],
+        "exact_name_and_domain_match_indices": [],
+        "candidate_slush_companies": [
+          {
+            "index": 5777,
+            "name": "JawBuddy GmbH",
+            "website": "https://jawbuddy.com",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/a1f09c3c-8530-46c1-859a-513796909c2a"
+          }
+        ]
+      },
+      {
+        "cala_id": "0294c741-b308-59fc-8482-e8992ac02afe",
+        "cala_name": "Ver.iD",
+        "cala_domain": "ver.id",
+        "exact_name_match_indices": [
+          494
+        ],
+        "domain_match_indices": [
+          494
+        ],
+        "exact_name_and_domain_match_indices": [
+          494
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 494,
+            "name": "Ver.iD",
+            "website": "https://ver.id/",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/1b49f156-2c88-4018-bc53-eba55beb7acb"
+          }
+        ]
+      },
+      {
+        "cala_id": "02bdb9fc-3ade-4f2b-97ac-43031a94e685",
+        "cala_name": "Constrct",
+        "cala_domain": "constrct.eu",
+        "exact_name_match_indices": [
+          1512
+        ],
+        "domain_match_indices": [
+          1512
+        ],
+        "exact_name_and_domain_match_indices": [
+          1512
+        ],
+        "candidate_slush_companies": [
+          {
+            "index": 1512,
+            "name": "Constrct",
+            "website": "https://www.constrct.eu",
+            "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/1ef5b30a-af8a-42a4-bdae-a0f792c70c3d"
+          }
+        ]
+      }
+    ],
+    "cala_person_name_overlaps": [
+      {
+        "cala_id": "f2539cca-dfe2-524c-bd78-7780a2d75505",
+        "name": "Camille Accolas",
+        "slush_people_indices": [
+          148
+        ],
+        "slush_record_keys": [
+          "imported_person:20b90a5b99f9e01d4073"
+        ],
+        "slush_affiliations": [
+          [
+            {
+              "company_name": "Trust Exchange",
+              "slush_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+              "company_profile_url": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890",
+              "role_as_supplied": "Co-Founder",
+              "department": null,
+              "source_affiliations": [
+                "Trust Exchange"
+              ],
+              "company_match": {
+                "original_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+                "original_company_index": 2015,
+                "match_methods": [
+                  "exact_or_reviewed_company_name_with_export_metadata"
+                ],
+                "source_affiliations": [
+                  "Trust Exchange"
+                ],
+                "source_role_labels": [
+                  "Co-Founder"
+                ],
+                "limitations": []
+              },
+              "provenance": {
+                "source_kind": "supplied_company_dataset",
+                "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+                "source_filename": "meeting_tool_companies_export_all (1).json",
+                "input_company_index": 2015,
+                "input_attendee_index": 0,
+                "research_index": 72,
+                "checked_at": "2026-11-14"
+              },
+              "source_urls": [
+                "https://ie.linkedin.com/showcase/discover-swisstech"
+              ]
+            }
+          ]
+        ]
+      }
+    ],
+    "warning": "Name-only and domain-only counts describe candidates, not automatic identity merge authorizations."
+  },
+  "sample_queries": [
+    {
+      "question_id": "person_to_company",
+      "source": "Camille Accolas",
+      "target": "Trust Exchange",
+      "path": {
+        "node_ids": [
+          "f2539cca-dfe2-524c-bd78-7780a2d75505",
+          "0220cf38-d013-5600-9616-31da01caa416"
+        ],
+        "node_names": [
+          "Camille Accolas",
+          "Trust Exchange"
+        ],
+        "steps": 1,
+        "edge_indices": [
+          3326
+        ],
+        "edges": [
+          {
+            "source": "f2539cca-dfe2-524c-bd78-7780a2d75505",
+            "type": "FOUNDED",
+            "target": "0220cf38-d013-5600-9616-31da01caa416",
+            "source_documents": [
+              "https://trustexchange.world/about/"
+            ],
+            "pointer": "/edges/3326"
+          }
+        ]
+      },
+      "note": "Cross-source person affiliation and separately recorded Slush attendance can enrich this path."
+    },
+    {
+      "question_id": "person_to_company",
+      "source": "Dani Penev",
+      "target": "Y Combinator",
+      "path": {
+        "node_ids": [
+          "fb5d6a32-3812-4524-ad32-f02c005473fd",
+          "017826f8-558b-4209-b4e8-0b6a1e5f3b9e",
+          "1e86655e-373d-4fe8-be13-af3713581f73"
+        ],
+        "node_names": [
+          "Dani Penev",
+          "Slicker",
+          "Y Combinator"
+        ],
+        "steps": 2,
+        "edge_indices": [
+          3233,
+          3235
+        ],
+        "edges": [
+          {
+            "source": "fb5d6a32-3812-4524-ad32-f02c005473fd",
+            "type": "FOUNDED",
+            "target": "017826f8-558b-4209-b4e8-0b6a1e5f3b9e",
+            "source_documents": [
+              "https://tracxn.com/d/companies/slicker/__MRjHNb9mrdP42sZKnmEjwjZ_dwfMNN_aEK8V4QNAgk0",
+              "https://uk.linkedin.com/in/dani-penev",
+              "https://www.crunchbase.com/organization/slicker-48d5",
+              "https://www.ycombinator.com/companies/slicker"
+            ],
+            "pointer": "/edges/3233"
+          },
+          {
+            "source": "1e86655e-373d-4fe8-be13-af3713581f73",
+            "type": "INVESTED_IN",
+            "target": "017826f8-558b-4209-b4e8-0b6a1e5f3b9e",
+            "source_documents": [
+              "https://github.com/yc-oss/api",
+              "https://seedtable.com/startups/slickerhq",
+              "https://www.vcbacked.co/company/slicker",
+              "https://www.ycombinator.com/companies/slicker"
+            ],
+            "pointer": "/edges/3235"
+          }
+        ]
+      },
+      "note": "Two professional relationships through Slicker; no implied personal introduction."
+    },
+    {
+      "question_id": "company_to_company",
+      "source": "Slicker",
+      "target": "Y Combinator",
+      "path": {
+        "node_ids": [
+          "017826f8-558b-4209-b4e8-0b6a1e5f3b9e",
+          "1e86655e-373d-4fe8-be13-af3713581f73"
+        ],
+        "node_names": [
+          "Slicker",
+          "Y Combinator"
+        ],
+        "steps": 1,
+        "edge_indices": [
+          3235
+        ],
+        "edges": [
+          {
+            "source": "1e86655e-373d-4fe8-be13-af3713581f73",
+            "type": "INVESTED_IN",
+            "target": "017826f8-558b-4209-b4e8-0b6a1e5f3b9e",
+            "source_documents": [
+              "https://github.com/yc-oss/api",
+              "https://seedtable.com/startups/slickerhq",
+              "https://www.vcbacked.co/company/slicker",
+              "https://www.ycombinator.com/companies/slicker"
+            ],
+            "pointer": "/edges/3235"
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "company_to_company",
+      "source": "GREÏ",
+      "target": "FIRSTPICK",
+      "path": {
+        "node_ids": [
+          "0094ec10-bd61-4833-bf19-c2ab9d78312b",
+          "88b67750-caa3-40ca-bfde-8eb88aa48ae4"
+        ],
+        "node_names": [
+          "GREÏ",
+          "FIRSTPICK"
+        ],
+        "steps": 1,
+        "edge_indices": [
+          3082
+        ],
+        "edges": [
+          {
+            "source": "88b67750-caa3-40ca-bfde-8eb88aa48ae4",
+            "type": "INVESTED_IN",
+            "target": "0094ec10-bd61-4833-bf19-c2ab9d78312b",
+            "source_documents": [
+              "https://firstpick.vc/blog/deeptech-startup-grei-raises-e650k-to-bring-ai-monitoring-to-complex-industrial-and-retail-sites",
+              "https://firstpick.vc/portfolio",
+              "https://www.startuphub.ai/news/lithuanian-deeptech-grei-raises-e650k-for-ai-industrial-monitoring"
+            ],
+            "pointer": "/edges/3082"
+          }
+        ]
+      }
+    },
+    {
+      "question_id": "company_to_company",
+      "source": "Trust Exchange",
+      "target": "Slicker",
+      "path": null,
+      "note": "No supported professional path in the supplied Cala snapshot; shared Slush event is not a valid bridge."
+    },
+    {
+      "question_id": "company_network",
+      "company": "Trust Exchange",
+      "expected_named_people": [
+        "Camille Accolas",
+        "Martin Studer"
+      ]
+    },
+    {
+      "question_id": "company_representatives",
+      "company": "Trust Exchange",
+      "expected_named_people": [
+        "Camille Accolas"
+      ],
+      "attendance_status": "announced_attendee"
+    }
+  ],
+  "limitations": [
+    "The Cala export requested four hops but stopped after the seed plus 40 rich first-hop company records; it is not a complete four-hop expansion.",
+    "Stub nodes preserve relationship endpoint identity and names, but do not imply that their full profile or further relationships were retrieved.",
+    "All event, industry, location and domain links must be excluded as professional path bridges.",
+    "Dataset provenance records are retained claims from the supplied exports; original web pages were not rechecked in this audit.",
+    "Platform directory membership, announced participation and physical attendance are different evidence statuses.",
+    "A broad name overlap is insufficient to assert an identity match across sources."
+  ]
+}

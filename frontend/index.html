@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comare di Slush — Cala AI</title>
+  <meta
+    name="description"
+    content="Comare di Slush maps verified professional relationships across founders, investors, and companies at Slush via the Cala AI Knowledge Graph."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <!-- Quiet Cala-style Top Bar (56px height, 4px grid) -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a href="/" class="brand-link" id="brandResetLink" title="Reset search">
+          <span class="cala-mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="6" r="3" />
+              <circle cx="18" cy="18" r="3" />
+              <path d="M8.7 10.7L15.3 7.3M8.7 13.3L15.3 16.7" />
+            </svg>
+          </span>
+          <span class="brand-name">Comare di Slush</span>
+          <span class="brand-meta">by Cala AI</span>
+        </a>
+
+        <nav class="topbar-actions" aria-label="Workspace actions">
+          <button type="button" class="nav-link-btn" id="openSavedBtn">
+            Recent <span class="mono-count" id="savedCountBadge">0</span>
+          </button>
+          <button type="button" class="nav-login-btn" id="loginBtn">
+            <span class="live-dot" id="calaApiDot" aria-hidden="true"></span>
+            <span>Log in</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <!-- Centered Hero: Title -> Mode Pills -> Relationship Sentence -> Depth & Search -->
+      <section class="hero-section" id="heroSection">
+        <div class="hero-header">
+          <h1 class="hero-title">Comare di Slush</h1>
+          <p class="hero-subtitle">
+            Trace verified founders, investors, board seats, and warm Slush paths through the Cala AI graph
+          </p>
+        </div>
+
+        <!-- Question Mode Selection directly below the title -->
+        <div class="mode-tabs" role="tablist" aria-label="Relationship query mode">
+          <button type="button" class="mode-tab active" data-qid="person_to_company">
+            Person &rarr; Company
+          </button>
+          <button type="button" class="mode-tab" data-qid="company_to_company">
+            Company &rarr; Company
+          </button>
+          <button type="button" class="mode-tab" data-qid="company_network">
+            Company network
+          </button>
+          <button type="button" class="mode-tab" data-qid="company_representatives">
+            People at Slush
+          </button>
+        </div>
+
+        <!-- Interactive Fill-in-the-Blank Sentence Card -->
+        <form id="analysisForm" class="query-card" autocomplete="off">
+          <div class="sentence-builder" id="sentenceBuilder">
+            <span class="sentence-text" id="sentencePrefix">How is</span>
+
+            <span class="inline-slot" id="fieldGroupSource">
+              <span class="slot-input-wrap">
+                <input
+                  type="text"
+                  id="inputSource"
+                  class="sentence-input"
+                  placeholder="Camille Accolas"
+                  aria-label="Starting person or company"
+                />
+                <span id="lockedBadgeSource" class="locked-slot-badge"></span>
+                <div class="typeahead-dropdown" id="dropdownSource" role="listbox"></div>
+              </span>
+            </span>
+
+            <button
+              type="button"
+              class="swap-inline-btn"
+              id="swapEntitiesBtn"
+              title="Swap companies"
+              style="display: none;"
+              aria-label="Swap companies"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
+              </svg>
+            </button>
+
+            <span class="sentence-text" id="sentenceConnector">connected to</span>
+
+            <span class="inline-slot" id="fieldGroupTarget">
+              <span class="slot-input-wrap">
+                <input
+                  type="text"
+                  id="inputTarget"
+                  class="sentence-input"
+                  placeholder="Trust Exchange"
+                  aria-label="Target company"
+                />
+                <span id="lockedBadgeTarget" class="locked-slot-badge"></span>
+                <div class="typeahead-dropdown" id="dropdownTarget" role="listbox"></div>
+              </span>
+            </span>
+
+            <span class="inline-slot" id="fieldGroupCompany" style="display: none;">
+              <span class="slot-input-wrap">
+                <input
+                  type="text"
+                  id="inputCompany"
+                  class="sentence-input"
+                  placeholder="Trust Exchange"
+                  aria-label="Company"
+                />
+                <span id="lockedBadgeCompany" class="locked-slot-badge"></span>
+                <div class="typeahead-dropdown" id="dropdownCompany" role="listbox"></div>
+              </span>
+            </span>
+
+            <span class="sentence-text" id="sentenceSuffix">?</span>
+          </div>
+
+          <!-- Search Depth + Primary Action -->
+          <div class="search-controls-row">
+            <div class="depth-control" id="hopSelectorGroup">
+              <span class="depth-label">Search depth</span>
+              <div class="depth-stepper">
+                <button type="button" class="depth-step-btn" id="hopStepDec" title="Decrease hops" aria-label="Decrease hops">&minus;</button>
+                <input
+                  type="number"
+                  id="hopCustomInput"
+                  class="depth-number-input"
+                  min="1"
+                  max="8"
+                  value="4"
+                  aria-label="Number of relationship hops"
+                />
+                <button type="button" class="depth-step-btn" id="hopStepInc" title="Increase hops" aria-label="Increase hops">+</button>
+              </div>
+              <button type="button" class="depth-chip active" data-hop-mode="suggested" id="hopBtnSuggested">
+                Suggested (<span id="hopSuggestedNum">4</span>)
+              </button>
+              <button type="button" class="depth-chip" data-hop-mode="max" id="hopBtnMax">
+                Max (<span id="hopMaxNum">8</span>)
+              </button>
+            </div>
+
+            <button type="submit" class="search-submit-btn" id="runAnalysisBtn">
+              <span id="runAnalysisBtnLabel">Find relationships</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14m-6-6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <!-- Quiet Example Queries -->
+        <div class="examples-strip" id="examplesStrip">
+          <span class="examples-label">Examples</span>
+          <div class="examples-chips" id="presetsRail"></div>
+        </div>
+      </section>
+
+      <!-- Progressive Result Section: Hidden until search starts -->
+      <section class="result-section" id="resultSection" hidden>
+        <div class="search-status-bar" id="pipelineBar">
+          <div class="status-bar-left">
+            <span class="status-spinner" id="statusSpinner" aria-hidden="true"></span>
+            <span class="status-badge" id="pipelineStateBadge">Cala API</span>
+            <span class="status-message" id="pipelineMessageText">Tracing relationships</span>
+          </div>
+          <div class="status-bar-right" id="pipelineMetaRight"></div>
+        </div>
+
+        <div id="disambiguationPanel"></div>
+
+        <!-- 1. Relationship Subgraph (The single rich visual centerpiece) -->
+        <div class="subgraph-card" id="subgraphCard">
+          <div class="section-bar">
+            <div class="section-bar-left">
+              <h2 class="section-heading">Relationship subgraph</h2>
+              <span class="subgraph-stats" id="graphStatsFooter">0 nodes · 0 edges</span>
+            </div>
+
+            <div class="graph-controls">
+              <div class="layout-switch" role="group" aria-label="Graph layout">
+                <button type="button" class="graph-btn active" data-layout="auto">Auto</button>
+                <button type="button" class="graph-btn" data-layout="layered">Paths</button>
+                <button type="button" class="graph-btn" data-layout="radial">Network</button>
+              </div>
+              <button type="button" class="graph-btn" id="graphZoomOutBtn" title="Zoom out" aria-label="Zoom out">&minus;</button>
+              <button type="button" class="graph-btn" id="graphZoomInBtn" title="Zoom in" aria-label="Zoom in">+</button>
+              <button type="button" class="graph-btn" id="graphResetBtn" title="Fit graph">Fit</button>
+              <button
+                type="button"
+                class="graph-btn highlight-btn"
+                id="clearIsolationBtn"
+                style="display: none;"
+              >
+                Show all paths
+              </button>
+            </div>
+          </div>
+
+          <div class="subgraph-canvas-wrap">
+            <svg
+              id="knowledgeGraphSvg"
+              aria-label="Interactive Cala relationship subgraph"
+            ></svg>
+
+            <div class="graph-empty-overlay" id="graphEmptyOverlay">
+              <div class="graph-empty-box">
+                <div class="graph-empty-title" id="graphEmptyTitle">Tracing relationships</div>
+                <p class="graph-empty-sub" id="graphEmptySubtitle">
+                  Choose an entity above to inspect its verified connections
+                </p>
+              </div>
+            </div>
+
+            <div class="graph-legend">
+              <div class="legend-items">
+                <span class="legend-chip"><i class="dot dot-person"></i> Person</span>
+                <span class="legend-chip"><i class="dot dot-company"></i> Company</span>
+                <span class="legend-chip"><i class="dot dot-cala"></i> Cala</span>
+                <span class="legend-chip"><i class="dot dot-slush"></i> Slush</span>
+              </div>
+              <span class="legend-hint">Drag nodes · Scroll to zoom · Click any link</span>
+            </div>
+          </div>
+
+          <div class="inspector-drawer" id="nodeEdgeInspector"></div>
+        </div>
+
+        <!-- 2. Infos & Verified Sources -->
+        <div class="infos-section" id="infosSection">
+          <div class="infos-header">
+            <h2 class="section-heading">Connection details</h2>
+          </div>
+          <div class="infos-stack" id="intelColumn"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Recent Searches Modal -->
+  <div class="modal-backdrop" id="savedModalBackdrop">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="savedModalTitle">
+      <div class="modal-header">
+        <div>
+          <h3 id="savedModalTitle" class="modal-title">Recent searches</h3>
+          <p class="modal-sub">Reopen a previous relationship query</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeSavedModalBtn" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="savedModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Cala Workspace Modal -->
+  <div class="modal-backdrop" id="loginModalBackdrop">
+    <div class="modal-panel modal-panel-sm" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+      <div class="modal-header">
+        <div>
+          <h3 id="loginModalTitle" class="modal-title">Cala AI session</h3>
+          <p class="modal-sub">Connected to Cala Knowledge Graph API</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeLoginModalBtn" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="loginModalBody">
+        <div class="workspace-status-box">
+          <div class="ws-row">
+            <span>Status</span>
+            <span class="ws-ok">Connected</span>
+          </div>
+          <div class="ws-row">
+            <span>Data source</span>
+            <span>Cala entity &amp; relationship graph</span>
+          </div>
+          <div class="ws-row">
+            <span>Event scope</span>
+            <span>Slush 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>

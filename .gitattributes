@@ -1,2 +1,3 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Preserve exact LF line endings for canonical datasets & JSON fixtures so SHA-256 digests stay invariant across Windows & Linux/CRACI
+backend/data/*.json text eol=lf
+docs/**/*.json text eol=lf

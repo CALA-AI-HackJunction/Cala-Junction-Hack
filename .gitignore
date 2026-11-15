@@ -18,3 +18,12 @@ venv/
 .DS_Store
 Thumbs.db
 *.log
+.pytest_cache/
+
+# Generated Local Graph Snapshot & Local SQLite Cache (>50MB snapshot built deterministically via `backend.cli build`)
+backend/data/snapshot.json
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+results/

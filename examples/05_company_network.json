@@ -1,0 +1,2519 @@
+{
+  "schema_version": "2.0",
+  "question_id": "company_network",
+  "question": "What professional network surrounds this company?",
+  "inputs": {
+    "company": "Trust Exchange",
+    "company_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890"
+  },
+  "status": "partial",
+  "resolved_entities": {
+    "company": {
+      "id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+      "name": "Trust Exchange",
+      "entity_type": "Company",
+      "record_completeness": "full",
+      "participation": [
+        {
+          "status": "company_listed",
+          "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+          "evidence_ids": [
+            "ev:9f12cf630d86eae5a72258b5"
+          ]
+        },
+        {
+          "status": "cala_event_link",
+          "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+          "evidence_ids": [
+            "ev:d55667b212ef3120ceda58b5"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "ev:9f12cf630d86eae5a72258b5",
+        "ev:c2835f6f5c1d9ffd84760792",
+        "ev:d55667b212ef3120ceda58b5",
+        "ev:679d212a401e51d30dcbcf54",
+        "ev:b5ef120c440a56560113860c",
+        "ev:a8c29ea6afb5e53d1bc57b82",
+        "ev:20e2530641e051ed4c5c056d",
+        "ev:7bbf2df2ea9b4783829488af",
+        "ev:f682ef8649906af9968fb02d",
+        "ev:77e50c5a7cb324cf6ca4eda4",
+        "ev:cb541847e912bd0879c59544"
+      ],
+      "profile": {
+        "description": "Nobody in Europe agrees on what makes a young company backable. So founders guess, investors overinvest time to analyse, and both sides lose years. Trust Exchange is the reference underneath: one published standard, one honest read of a venture, carried from one conversation to the next. Stakeholder agnostic, industry agnostic, and like any ecosystem it gets stronger the more of the market plugs into it.",
+        "website": "https://trustexchange.world/",
+        "company_type": "startup",
+        "primary_industry": "fintech"
+      },
+      "source_ids": {
+        "slush": [
+          "ad355578-0a33-40e0-bb20-cc7e3e56d890"
+        ],
+        "cala": [
+          "0220cf38-d013-5600-9616-31da01caa416"
+        ]
+      }
+    }
+  },
+  "resolution": null,
+  "summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
+  "results": [
+    {
+      "rank": 1,
+      "entity": {
+        "id": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+        "name": "Martin Studer",
+        "entity_type": "Person",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:a8c29ea6afb5e53d1bc57b82",
+          "ev:7bbf2df2ea9b4783829488af"
+        ]
+      },
+      "group": "direct_people",
+      "min_hop_distance": 1,
+      "path_ids": [
+        "path:17a68478f4898c586f0f",
+        "path:9b5f40606bbbae8701d4"
+      ],
+      "rank_reasons": [
+        "1 supported relationship step",
+        "Every relationship has a preserved evidence record",
+        "Every relationship also has a source-document reference",
+        "Some relationship dates are unverified"
+      ],
+      "explanation": "Martin Studer founded Trust Exchange."
+    },
+    {
+      "rank": 2,
+      "entity": {
+        "id": "slush-person:a853ebe4032701b5326988a7",
+        "name": "Camille Accolas",
+        "entity_type": "Person",
+        "record_completeness": "full",
+        "participation": [
+          {
+            "status": "announced_attendee",
+            "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "evidence_ids": [
+              "ev:c978302e3e133606c2d3ac70",
+              "ev:cb541847e912bd0879c59544"
+            ]
+          }
+        ],
+        "evidence_ids": [
+          "ev:d0cc7c796bae9386e77c1f35",
+          "ev:77e50c5a7cb324cf6ca4eda4",
+          "ev:9c532ecadb9e30bd731dc880",
+          "ev:cfc434c12b3875140bc5ae9a",
+          "ev:cb541847e912bd0879c59544",
+          "ev:20e2530641e051ed4c5c056d",
+          "ev:f682ef8649906af9968fb02d",
+          "ev:c978302e3e133606c2d3ac70"
+        ]
+      },
+      "group": "direct_people",
+      "min_hop_distance": 1,
+      "path_ids": [
+        "path:1251aa6e8fafef4128d0",
+        "path:23577bffc1667a2ba209"
+      ],
+      "rank_reasons": [
+        "1 supported relationship step",
+        "Every relationship has a preserved evidence record",
+        "Every relationship also has a source-document reference",
+        "Some relationship dates are unverified"
+      ],
+      "explanation": "Camille Accolas founded Trust Exchange."
+    },
+    {
+      "rank": 3,
+      "entity": {
+        "id": "slush-organization:0059689f47f7babd17cd341e",
+        "name": "The Decision Room",
+        "entity_type": "Company",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:cfc434c12b3875140bc5ae9a"
+        ]
+      },
+      "group": "indirect_connections",
+      "min_hop_distance": 2,
+      "path_ids": [
+        "path:9e3af6c9e17a06a8f24b",
+        "path:741545f5f2de4125bf9c",
+        "path:f55a6bfcfc73d5453b1e"
+      ],
+      "rank_reasons": [
+        "2 supported relationship steps",
+        "Every relationship has a preserved evidence record",
+        "Every relationship also has a source-document reference",
+        "Some relationship dates are unverified"
+      ],
+      "explanation": "Camille Accolas founded Trust Exchange. Camille Accolas founded The Decision Room."
+    },
+    {
+      "rank": 4,
+      "entity": {
+        "id": "slush-organization:e39521c6c1ea2bd5484672c2",
+        "name": "Brainforest",
+        "entity_type": "Company",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:9c532ecadb9e30bd731dc880"
+        ]
+      },
+      "group": "indirect_connections",
+      "min_hop_distance": 2,
+      "path_ids": [
+        "path:4baadbc74239fa74ce83",
+        "path:0141831cbe498cb91bcd"
+      ],
+      "rank_reasons": [
+        "2 supported relationship steps",
+        "Every relationship has a preserved evidence record",
+        "Every relationship also has a source-document reference",
+        "Some relationship dates are unverified"
+      ],
+      "explanation": "Camille Accolas founded Trust Exchange. Camille Accolas has a documented employment link to Brainforest (relationship dates unverified)."
+    }
+  ],
+  "groups": {
+    "direct_people": [
+      "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+      "slush-person:a853ebe4032701b5326988a7"
+    ],
+    "indirect_connections": [
+      "slush-organization:0059689f47f7babd17cd341e",
+      "slush-organization:e39521c6c1ea2bd5484672c2"
+    ]
+  },
+  "attendance_unverified": null,
+  "graph": {
+    "nodes": [
+      {
+        "id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "name": "Trust Exchange",
+        "entity_type": "Company",
+        "record_completeness": "full",
+        "participation": [
+          {
+            "status": "company_listed",
+            "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "evidence_ids": [
+              "ev:9f12cf630d86eae5a72258b5"
+            ]
+          },
+          {
+            "status": "cala_event_link",
+            "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "evidence_ids": [
+              "ev:d55667b212ef3120ceda58b5"
+            ]
+          }
+        ],
+        "evidence_ids": [
+          "ev:9f12cf630d86eae5a72258b5",
+          "ev:c2835f6f5c1d9ffd84760792",
+          "ev:d55667b212ef3120ceda58b5",
+          "ev:679d212a401e51d30dcbcf54",
+          "ev:b5ef120c440a56560113860c",
+          "ev:a8c29ea6afb5e53d1bc57b82",
+          "ev:20e2530641e051ed4c5c056d",
+          "ev:7bbf2df2ea9b4783829488af",
+          "ev:f682ef8649906af9968fb02d",
+          "ev:77e50c5a7cb324cf6ca4eda4",
+          "ev:cb541847e912bd0879c59544"
+        ],
+        "profile": {
+          "description": "Nobody in Europe agrees on what makes a young company backable. So founders guess, investors overinvest time to analyse, and both sides lose years. Trust Exchange is the reference underneath: one published standard, one honest read of a venture, carried from one conversation to the next. Stakeholder agnostic, industry agnostic, and like any ecosystem it gets stronger the more of the market plugs into it.",
+          "website": "https://trustexchange.world/",
+          "company_type": "startup",
+          "primary_industry": "fintech"
+        },
+        "source_ids": {
+          "slush": [
+            "ad355578-0a33-40e0-bb20-cc7e3e56d890"
+          ],
+          "cala": [
+            "0220cf38-d013-5600-9616-31da01caa416"
+          ]
+        }
+      },
+      {
+        "id": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+        "name": "Martin Studer",
+        "entity_type": "Person",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:a8c29ea6afb5e53d1bc57b82",
+          "ev:7bbf2df2ea9b4783829488af"
+        ],
+        "profile": {},
+        "source_ids": {
+          "cala": [
+            "b203b964-3cea-5444-809f-aeb5ddc99620"
+          ]
+        }
+      },
+      {
+        "id": "slush-person:a853ebe4032701b5326988a7",
+        "name": "Camille Accolas",
+        "entity_type": "Person",
+        "record_completeness": "full",
+        "participation": [
+          {
+            "status": "announced_attendee",
+            "event_id": "cala:bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "evidence_ids": [
+              "ev:c978302e3e133606c2d3ac70",
+              "ev:cb541847e912bd0879c59544"
+            ]
+          }
+        ],
+        "evidence_ids": [
+          "ev:d0cc7c796bae9386e77c1f35",
+          "ev:77e50c5a7cb324cf6ca4eda4",
+          "ev:9c532ecadb9e30bd731dc880",
+          "ev:cfc434c12b3875140bc5ae9a",
+          "ev:cb541847e912bd0879c59544",
+          "ev:20e2530641e051ed4c5c056d",
+          "ev:f682ef8649906af9968fb02d",
+          "ev:c978302e3e133606c2d3ac70"
+        ],
+        "profile": {
+          "job_title": "Co-Founder",
+          "headline": "Co-Founder",
+          "biography": "Camille Accolas co-founded Trust Exchange and is a co-founder and adviser of The Decision Room. Her work spans climate ventures, impact finance and institutional relationships; previously she led Brainforest's accelerator programme.",
+          "professional_topics": [
+            "Impact finance",
+            "Climate ventures",
+            "Institutional capital"
+          ],
+          "work_experience": {
+            "section_present": false,
+            "reported_count": null,
+            "entries": [
+              {
+                "organization": "Brainforest",
+                "role": "Led accelerator programme",
+                "source_url": "https://thedecisionroom.net/about",
+                "start_date": null,
+                "end_date": null,
+                "title": "Led accelerator programme",
+                "location_raw": null,
+                "provenance": [
+                  {
+                    "source_kind": "public_source_research",
+                    "research_index": 72,
+                    "url": "https://thedecisionroom.net/about",
+                    "title": "The Decision Room — About",
+                    "checked_at": "2026-11-14",
+                    "access_status": "opened_primary",
+                    "provenance_specificity": "field_level_sources"
+                  }
+                ]
+              },
+              {
+                "organization": "The Decision Room",
+                "role": "Co-founder & Advisor",
+                "source_url": "https://thedecisionroom.net/about",
+                "start_date": null,
+                "end_date": null,
+                "title": "Co-founder & Advisor",
+                "location_raw": null,
+                "provenance": [
+                  {
+                    "source_kind": "public_source_research",
+                    "research_index": 72,
+                    "url": "https://thedecisionroom.net/about",
+                    "title": "The Decision Room — About",
+                    "checked_at": "2026-11-14",
+                    "access_status": "opened_primary",
+                    "provenance_specificity": "field_level_sources"
+                  }
+                ]
+              }
+            ],
+            "raw_text": null,
+            "parsing_status": "sourced_external_enrichment",
+            "external_entries_added": 2,
+            "coverage": "selected_source_supported_entries_not_complete_history"
+          }
+        },
+        "source_ids": {
+          "slush": [
+            "imported_person:20b90a5b99f9e01d4073"
+          ],
+          "cala": [
+            "f2539cca-dfe2-524c-bd78-7780a2d75505"
+          ]
+        }
+      },
+      {
+        "id": "slush-organization:0059689f47f7babd17cd341e",
+        "name": "The Decision Room",
+        "entity_type": "Company",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:cfc434c12b3875140bc5ae9a"
+        ],
+        "profile": {},
+        "source_ids": {
+          "slush_reference": [
+            "imported_person:20b90a5b99f9e01d4073/work/1"
+          ]
+        }
+      },
+      {
+        "id": "slush-organization:e39521c6c1ea2bd5484672c2",
+        "name": "Brainforest",
+        "entity_type": "Company",
+        "record_completeness": "stub",
+        "participation": [],
+        "evidence_ids": [
+          "ev:9c532ecadb9e30bd731dc880"
+        ],
+        "profile": {},
+        "source_ids": {
+          "slush_reference": [
+            "imported_person:20b90a5b99f9e01d4073/work/0"
+          ]
+        }
+      }
+    ],
+    "edges": [
+      {
+        "id": "edge:250a492bc95ce5385a38b0ae",
+        "source": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+        "target": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "type": "FOUNDED",
+        "properties": {},
+        "evidence_ids": [
+          "ev:a8c29ea6afb5e53d1bc57b82"
+        ],
+        "origins": [
+          "cala"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      },
+      {
+        "id": "edge:89d83c4fbd6974f92c8aaca5",
+        "source": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+        "target": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "type": "IS_BOARD_MEMBER_OF",
+        "properties": {
+          "valid_since": "2026-10-22"
+        },
+        "evidence_ids": [
+          "ev:7bbf2df2ea9b4783829488af"
+        ],
+        "origins": [
+          "cala"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      },
+      {
+        "id": "edge:c04fc7bf9ea7f920569c7ea6",
+        "source": "slush-person:a853ebe4032701b5326988a7",
+        "target": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "type": "FOUNDED",
+        "properties": {},
+        "evidence_ids": [
+          "ev:20e2530641e051ed4c5c056d",
+          "ev:77e50c5a7cb324cf6ca4eda4",
+          "ev:cb541847e912bd0879c59544"
+        ],
+        "origins": [
+          "cala",
+          "slush"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      },
+      {
+        "id": "edge:e82abef1d47c2dd36d84cd49",
+        "source": "slush-person:a853ebe4032701b5326988a7",
+        "target": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "type": "IS_BOARD_MEMBER_OF",
+        "properties": {
+          "valid_since": "2026-10-22"
+        },
+        "evidence_ids": [
+          "ev:f682ef8649906af9968fb02d"
+        ],
+        "origins": [
+          "cala"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      },
+      {
+        "id": "edge:2aaf0920206e49550704dd58",
+        "source": "slush-person:a853ebe4032701b5326988a7",
+        "target": "slush-organization:0059689f47f7babd17cd341e",
+        "type": "FOUNDED",
+        "properties": {},
+        "evidence_ids": [
+          "ev:cfc434c12b3875140bc5ae9a"
+        ],
+        "origins": [
+          "slush"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      },
+      {
+        "id": "edge:4e64b0c996c6840bc897a581",
+        "source": "slush-person:a853ebe4032701b5326988a7",
+        "target": "slush-organization:0059689f47f7babd17cd341e",
+        "type": "ADVISES",
+        "properties": {
+          "role": "Co-founder & Advisor"
+        },
+        "evidence_ids": [
+          "ev:cfc434c12b3875140bc5ae9a"
+        ],
+        "origins": [
+          "slush"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      },
+      {
+        "id": "edge:c29d4ba7d1f2a5d7e8fe5f30",
+        "source": "slush-person:a853ebe4032701b5326988a7",
+        "target": "slush-organization:e39521c6c1ea2bd5484672c2",
+        "type": "WORKS_AT",
+        "properties": {
+          "role": "Led accelerator programme"
+        },
+        "evidence_ids": [
+          "ev:9c532ecadb9e30bd731dc880"
+        ],
+        "origins": [
+          "slush"
+        ],
+        "traversable": true,
+        "hop_cost": 1,
+        "temporal_status": "undated",
+        "derived": false,
+        "evidence_strength": "documented_primary",
+        "support_status": "documented",
+        "source_support": "documented"
+      }
+    ],
+    "paths": [
+      {
+        "id": "path:17a68478f4898c586f0f",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "cala:b203b964-3cea-5444-809f-aeb5ddc99620"
+        ],
+        "edge_ids": [
+          "edge:250a492bc95ce5385a38b0ae"
+        ],
+        "hop_count": 1,
+        "relations": [
+          {
+            "edge_id": "edge:250a492bc95ce5385a38b0ae",
+            "source_id": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "FOUNDED",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:a8c29ea6afb5e53d1bc57b82"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Martin Studer founded Trust Exchange."
+          }
+        ],
+        "explanation": "Martin Studer founded Trust Exchange.",
+        "rank_reasons": [
+          "1 supported relationship step",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:9b5f40606bbbae8701d4",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "cala:b203b964-3cea-5444-809f-aeb5ddc99620"
+        ],
+        "edge_ids": [
+          "edge:89d83c4fbd6974f92c8aaca5"
+        ],
+        "hop_count": 1,
+        "relations": [
+          {
+            "edge_id": "edge:89d83c4fbd6974f92c8aaca5",
+            "source_id": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "IS_BOARD_MEMBER_OF",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "cala:b203b964-3cea-5444-809f-aeb5ddc99620",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:7bbf2df2ea9b4783829488af"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Martin Studer has a documented board role at Trust Exchange (relationship dates unverified)."
+          }
+        ],
+        "explanation": "Martin Studer has a documented board role at Trust Exchange (relationship dates unverified).",
+        "rank_reasons": [
+          "1 supported relationship step",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:1251aa6e8fafef4128d0",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7"
+        ],
+        "edge_ids": [
+          "edge:c04fc7bf9ea7f920569c7ea6"
+        ],
+        "hop_count": 1,
+        "relations": [
+          {
+            "edge_id": "edge:c04fc7bf9ea7f920569c7ea6",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "FOUNDED",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:20e2530641e051ed4c5c056d",
+              "ev:77e50c5a7cb324cf6ca4eda4",
+              "ev:cb541847e912bd0879c59544"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas founded Trust Exchange."
+          }
+        ],
+        "explanation": "Camille Accolas founded Trust Exchange.",
+        "rank_reasons": [
+          "1 supported relationship step",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:23577bffc1667a2ba209",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7"
+        ],
+        "edge_ids": [
+          "edge:e82abef1d47c2dd36d84cd49"
+        ],
+        "hop_count": 1,
+        "relations": [
+          {
+            "edge_id": "edge:e82abef1d47c2dd36d84cd49",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "IS_BOARD_MEMBER_OF",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:f682ef8649906af9968fb02d"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified)."
+          }
+        ],
+        "explanation": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified).",
+        "rank_reasons": [
+          "1 supported relationship step",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:9e3af6c9e17a06a8f24b",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7",
+          "slush-organization:0059689f47f7babd17cd341e"
+        ],
+        "edge_ids": [
+          "edge:c04fc7bf9ea7f920569c7ea6",
+          "edge:2aaf0920206e49550704dd58"
+        ],
+        "hop_count": 2,
+        "relations": [
+          {
+            "edge_id": "edge:c04fc7bf9ea7f920569c7ea6",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "FOUNDED",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:20e2530641e051ed4c5c056d",
+              "ev:77e50c5a7cb324cf6ca4eda4",
+              "ev:cb541847e912bd0879c59544"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas founded Trust Exchange."
+          },
+          {
+            "edge_id": "edge:2aaf0920206e49550704dd58",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-organization:0059689f47f7babd17cd341e",
+            "predicate": "FOUNDED",
+            "from_id": "slush-person:a853ebe4032701b5326988a7",
+            "to_id": "slush-organization:0059689f47f7babd17cd341e",
+            "traversal": "forward",
+            "evidence_ids": [
+              "ev:cfc434c12b3875140bc5ae9a"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas founded The Decision Room."
+          }
+        ],
+        "explanation": "Camille Accolas founded Trust Exchange. Camille Accolas founded The Decision Room.",
+        "rank_reasons": [
+          "2 supported relationship steps",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:741545f5f2de4125bf9c",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7",
+          "slush-organization:0059689f47f7babd17cd341e"
+        ],
+        "edge_ids": [
+          "edge:c04fc7bf9ea7f920569c7ea6",
+          "edge:4e64b0c996c6840bc897a581"
+        ],
+        "hop_count": 2,
+        "relations": [
+          {
+            "edge_id": "edge:c04fc7bf9ea7f920569c7ea6",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "FOUNDED",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:20e2530641e051ed4c5c056d",
+              "ev:77e50c5a7cb324cf6ca4eda4",
+              "ev:cb541847e912bd0879c59544"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas founded Trust Exchange."
+          },
+          {
+            "edge_id": "edge:4e64b0c996c6840bc897a581",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-organization:0059689f47f7babd17cd341e",
+            "predicate": "ADVISES",
+            "from_id": "slush-person:a853ebe4032701b5326988a7",
+            "to_id": "slush-organization:0059689f47f7babd17cd341e",
+            "traversal": "forward",
+            "evidence_ids": [
+              "ev:cfc434c12b3875140bc5ae9a"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas has a documented advisory relationship with The Decision Room (relationship dates unverified)."
+          }
+        ],
+        "explanation": "Camille Accolas founded Trust Exchange. Camille Accolas has a documented advisory relationship with The Decision Room (relationship dates unverified).",
+        "rank_reasons": [
+          "2 supported relationship steps",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:f55a6bfcfc73d5453b1e",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7",
+          "slush-organization:0059689f47f7babd17cd341e"
+        ],
+        "edge_ids": [
+          "edge:e82abef1d47c2dd36d84cd49",
+          "edge:2aaf0920206e49550704dd58"
+        ],
+        "hop_count": 2,
+        "relations": [
+          {
+            "edge_id": "edge:e82abef1d47c2dd36d84cd49",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "IS_BOARD_MEMBER_OF",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:f682ef8649906af9968fb02d"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified)."
+          },
+          {
+            "edge_id": "edge:2aaf0920206e49550704dd58",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-organization:0059689f47f7babd17cd341e",
+            "predicate": "FOUNDED",
+            "from_id": "slush-person:a853ebe4032701b5326988a7",
+            "to_id": "slush-organization:0059689f47f7babd17cd341e",
+            "traversal": "forward",
+            "evidence_ids": [
+              "ev:cfc434c12b3875140bc5ae9a"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas founded The Decision Room."
+          }
+        ],
+        "explanation": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified). Camille Accolas founded The Decision Room.",
+        "rank_reasons": [
+          "2 supported relationship steps",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:4baadbc74239fa74ce83",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7",
+          "slush-organization:e39521c6c1ea2bd5484672c2"
+        ],
+        "edge_ids": [
+          "edge:c04fc7bf9ea7f920569c7ea6",
+          "edge:c29d4ba7d1f2a5d7e8fe5f30"
+        ],
+        "hop_count": 2,
+        "relations": [
+          {
+            "edge_id": "edge:c04fc7bf9ea7f920569c7ea6",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "FOUNDED",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:20e2530641e051ed4c5c056d",
+              "ev:77e50c5a7cb324cf6ca4eda4",
+              "ev:cb541847e912bd0879c59544"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas founded Trust Exchange."
+          },
+          {
+            "edge_id": "edge:c29d4ba7d1f2a5d7e8fe5f30",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-organization:e39521c6c1ea2bd5484672c2",
+            "predicate": "WORKS_AT",
+            "from_id": "slush-person:a853ebe4032701b5326988a7",
+            "to_id": "slush-organization:e39521c6c1ea2bd5484672c2",
+            "traversal": "forward",
+            "evidence_ids": [
+              "ev:9c532ecadb9e30bd731dc880"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas has a documented employment link to Brainforest (relationship dates unverified)."
+          }
+        ],
+        "explanation": "Camille Accolas founded Trust Exchange. Camille Accolas has a documented employment link to Brainforest (relationship dates unverified).",
+        "rank_reasons": [
+          "2 supported relationship steps",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      },
+      {
+        "id": "path:0141831cbe498cb91bcd",
+        "node_ids": [
+          "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "slush-person:a853ebe4032701b5326988a7",
+          "slush-organization:e39521c6c1ea2bd5484672c2"
+        ],
+        "edge_ids": [
+          "edge:e82abef1d47c2dd36d84cd49",
+          "edge:c29d4ba7d1f2a5d7e8fe5f30"
+        ],
+        "hop_count": 2,
+        "relations": [
+          {
+            "edge_id": "edge:e82abef1d47c2dd36d84cd49",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "predicate": "IS_BOARD_MEMBER_OF",
+            "from_id": "slush-company:ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "to_id": "slush-person:a853ebe4032701b5326988a7",
+            "traversal": "reverse",
+            "evidence_ids": [
+              "ev:f682ef8649906af9968fb02d"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified)."
+          },
+          {
+            "edge_id": "edge:c29d4ba7d1f2a5d7e8fe5f30",
+            "source_id": "slush-person:a853ebe4032701b5326988a7",
+            "target_id": "slush-organization:e39521c6c1ea2bd5484672c2",
+            "predicate": "WORKS_AT",
+            "from_id": "slush-person:a853ebe4032701b5326988a7",
+            "to_id": "slush-organization:e39521c6c1ea2bd5484672c2",
+            "traversal": "forward",
+            "evidence_ids": [
+              "ev:9c532ecadb9e30bd731dc880"
+            ],
+            "temporal_status": "undated",
+            "hop_cost": 1,
+            "statement": "Camille Accolas has a documented employment link to Brainforest (relationship dates unverified)."
+          }
+        ],
+        "explanation": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified). Camille Accolas has a documented employment link to Brainforest (relationship dates unverified).",
+        "rank_reasons": [
+          "2 supported relationship steps",
+          "Every relationship has a preserved evidence record",
+          "Every relationship also has a source-document reference",
+          "Some relationship dates are unverified"
+        ]
+      }
+    ]
+  },
+  "evidence": [
+    {
+      "id": "ev:9f12cf630d86eae5a72258b5",
+      "dataset": "slush_companies",
+      "record_pointer": "/2015",
+      "source_documents": [
+        {
+          "url": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890"
+        }
+      ],
+      "record": {
+        "company_name": "Trust Exchange",
+        "company_type": "startup",
+        "company_country": "CH",
+        "company_city": "Schwyz",
+        "website": "https://trustexchange.world/",
+        "company_linked_in": "https://www.linkedin.com/company/trust-exchange-world/",
+        "company_description": "Nobody in Europe agrees on what makes a young company backable. So founders guess, investors overinvest time to analyse, and both sides lose years. Trust Exchange is the reference underneath: one published standard, one honest read of a venture, carried from one conversation to the next. Stakeholder agnostic, industry agnostic, and like any ecosystem it gets stronger the more of the market plugs into it.",
+        "founding_year": 2026,
+        "primary_industry": "fintech",
+        "secondary_industry": [
+          "enterpriseSoftware",
+          "ai",
+          "climate"
+        ],
+        "focus_industries": null,
+        "business_types": [
+          "b2b"
+        ],
+        "software_hardware": [
+          "software"
+        ],
+        "round_role": null,
+        "lp_class": null,
+        "lp_fund_stage": null,
+        "focus_startup_stage": null,
+        "investment_into_vc_as_a_lp": null,
+        "curated_collections_tags": null,
+        "profile_link": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "description": "Nobody in Europe agrees on what makes a young company backable. So founders guess, investors overinvest time to analyse, and both sides lose years. Trust Exchange is the reference underneath: one published standard, one honest read of a venture, carried from one conversation to the next. Stakeholder agnostic, industry agnostic, and like any ecosystem it gets stronger the more of the market plugs into it."
+      }
+    },
+    {
+      "id": "ev:c2835f6f5c1d9ffd84760792",
+      "dataset": "cala",
+      "record_pointer": "/entities/33/record",
+      "source_documents": [
+        {
+          "name": "trustexchange.world",
+          "document": "https://trustexchange.world/",
+          "date": "2026-11-02",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "dns.google",
+          "document": "https://dns.google/query?name=trustexchange.world&type=A",
+          "date": "2026-11-02",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "trustexchange.world",
+          "document": "https://www.trustexchange.world/our-updates/",
+          "date": "2026-11-12",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "trustexchange.world",
+          "document": "https://www.trustexchange.world/about/",
+          "date": "2026-11-12",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "trustexchange.world",
+          "document": "https://www.trustexchange.world/",
+          "date": "2026-11-12",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "shab.ch",
+          "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+          "date": "2026-10-22",
+          "date_precision": "day",
+          "source_rank": "FILING"
+        },
+        {
+          "name": "zefix.admin.ch",
+          "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+          "date": "2026-10-22",
+          "date_precision": "day",
+          "source_rank": "FILING"
+        },
+        {
+          "name": "trustexchange.world",
+          "document": "https://www.trustexchange.world/legal-notice/",
+          "date": "2026-11-12",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "linkedin.com",
+          "document": "https://www.linkedin.com/company/trust-exchange-world/",
+          "date": "2026-11-02",
+          "date_precision": "day",
+          "source_rank": "AGGREGATOR"
+        }
+      ],
+      "record": {
+        "id": "0220cf38-d013-5600-9616-31da01caa416",
+        "name": "Trust Exchange",
+        "entity_type": "Company",
+        "description": "Trust Exchange builds a European standard for \"backability\": it assesses early-stage ventures on evidence with its published VALUATE methodology and shows founders, investors and boards where a ven...",
+        "properties": {
+          "id": {
+            "value": "0220cf38-d013-5600-9616-31da01caa416",
+            "sources": []
+          },
+          "website": {
+            "value": "trustexchange.world",
+            "sources": [
+              {
+                "name": "trustexchange.world",
+                "document": "https://trustexchange.world/",
+                "date": "2026-11-02",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              },
+              {
+                "name": "dns.google",
+                "document": "https://dns.google/query?name=trustexchange.world&type=A",
+                "date": "2026-11-02",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              },
+              {
+                "name": "trustexchange.world",
+                "document": "https://www.trustexchange.world/our-updates/",
+                "date": "2026-11-12",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              }
+            ]
+          },
+          "description": {
+            "value": "Trust Exchange builds a European standard for \"backability\": it assesses early-stage ventures on evidence with its published VALUATE methodology and shows founders, investors and boards where a ven...",
+            "sources": [
+              {
+                "name": "trustexchange.world",
+                "document": "https://www.trustexchange.world/about/",
+                "date": "2026-11-12",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              },
+              {
+                "name": "trustexchange.world",
+                "document": "https://www.trustexchange.world/",
+                "date": "2026-11-12",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              }
+            ]
+          },
+          "operational_status": {
+            "value": "ACTIVE",
+            "sources": [
+              {
+                "name": "trustexchange.world",
+                "document": "https://trustexchange.world/",
+                "date": "2026-11-02",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              },
+              {
+                "name": "shab.ch",
+                "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              },
+              {
+                "name": "zefix.admin.ch",
+                "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              }
+            ]
+          },
+          "headquarters_address": {
+            "value": "Talweid 10, 8852 Altendorf, Switzerland",
+            "sources": [
+              {
+                "name": "trustexchange.world",
+                "document": "https://www.trustexchange.world/legal-notice/",
+                "date": "2026-11-12",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              },
+              {
+                "name": "zefix.admin.ch",
+                "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              }
+            ]
+          },
+          "legal_name": {
+            "value": "Trust Exchange AG",
+            "sources": [
+              {
+                "name": "shab.ch",
+                "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              },
+              {
+                "name": "zefix.admin.ch",
+                "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              },
+              {
+                "name": "trustexchange.world",
+                "document": "https://www.trustexchange.world/legal-notice/",
+                "date": "2026-11-12",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              }
+            ]
+          },
+          "name": {
+            "value": "Trust Exchange",
+            "sources": [
+              {
+                "name": "trustexchange.world",
+                "document": "https://trustexchange.world/",
+                "date": "2026-11-02",
+                "date_precision": "day",
+                "source_rank": "PRIMARY"
+              },
+              {
+                "name": "linkedin.com",
+                "document": "https://www.linkedin.com/company/trust-exchange-world/",
+                "date": "2026-11-02",
+                "date_precision": "day",
+                "source_rank": "AGGREGATOR"
+              }
+            ]
+          },
+          "founding_date": {
+            "value": "2026-10-12",
+            "sources": [
+              {
+                "name": "shab.ch",
+                "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              },
+              {
+                "name": "zefix.admin.ch",
+                "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+                "date": "2026-10-22",
+                "date_precision": "day",
+                "source_rank": "FILING"
+              }
+            ]
+          }
+        },
+        "numerical_observations": []
+      }
+    },
+    {
+      "id": "ev:d55667b212ef3120ceda58b5",
+      "dataset": "cala",
+      "record_pointer": "/edges/32",
+      "source_documents": [
+        {
+          "name": "Slush",
+          "document": "https://slush.org/",
+          "date": "2026-11-14"
+        }
+      ],
+      "record": {
+        "source": "0220cf38-d013-5600-9616-31da01caa416",
+        "type": "PARTICIPATES_IN_EVENT",
+        "target": "bc844d56-6ab4-452b-96bf-2661e86e592b",
+        "records": [
+          {
+            "id": "0220cf38-d013-5600-9616-31da01caa416",
+            "name": "Trust Exchange",
+            "entity_type": "Company",
+            "properties": {
+              "role": "ATTENDEE",
+              "sources": [
+                {
+                  "name": "Slush",
+                  "document": "https://slush.org/",
+                  "date": "2026-11-14"
+                }
+              ],
+              "id": "223d05f1-5afc-5598-8052-1e6f55ebb8e1"
+            }
+          },
+          {
+            "id": "bc844d56-6ab4-452b-96bf-2661e86e592b",
+            "name": "Slush 2026",
+            "entity_type": "Event",
+            "properties": {
+              "role": "ATTENDEE",
+              "sources": [
+                {
+                  "name": "Slush",
+                  "document": "https://slush.org/",
+                  "date": "2026-11-14"
+                }
+              ],
+              "id": "223d05f1-5afc-5598-8052-1e6f55ebb8e1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:679d212a401e51d30dcbcf54",
+      "dataset": "cala",
+      "record_pointer": "/edges/3323",
+      "source_documents": [
+        {
+          "name": "trustexchange.world",
+          "document": "https://trustexchange.world/",
+          "date": "2026-11-02",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "dns.google",
+          "document": "https://dns.google/query?name=trustexchange.world&type=A",
+          "date": "2026-11-02",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        },
+        {
+          "name": "trustexchange.world",
+          "document": "https://www.trustexchange.world/our-updates/",
+          "date": "2026-11-12",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        }
+      ],
+      "record": {
+        "source": "0220cf38-d013-5600-9616-31da01caa416",
+        "type": "HAS_DOMAIN_NAME",
+        "target": "6e472ee7-d29b-59bb-b807-0b609726b520",
+        "records": [
+          {
+            "id": "6e472ee7-d29b-59bb-b807-0b609726b520",
+            "name": "trustexchange.world",
+            "entity_type": "DomainName",
+            "properties": {
+              "sources": [
+                {
+                  "name": "trustexchange.world",
+                  "document": "https://trustexchange.world/",
+                  "date": "2026-11-02",
+                  "date_precision": "day",
+                  "source_rank": "PRIMARY"
+                },
+                {
+                  "name": "dns.google",
+                  "document": "https://dns.google/query?name=trustexchange.world&type=A",
+                  "date": "2026-11-02",
+                  "date_precision": "day",
+                  "source_rank": "PRIMARY"
+                },
+                {
+                  "name": "trustexchange.world",
+                  "document": "https://www.trustexchange.world/our-updates/",
+                  "date": "2026-11-12",
+                  "date_precision": "day",
+                  "source_rank": "PRIMARY"
+                }
+              ],
+              "id": "98a02197-ef7f-53a2-9329-d6a3af02e94b",
+              "valid_since": "2026-10-20",
+              "status": "ACTIVE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:b5ef120c440a56560113860c",
+      "dataset": "cala",
+      "record_pointer": "/edges/3324",
+      "source_documents": [
+        {
+          "name": "linkedin.com",
+          "document": "https://www.linkedin.com/company/trust-exchange-world/",
+          "date": "2026-11-02",
+          "date_precision": "day",
+          "source_rank": "AGGREGATOR"
+        }
+      ],
+      "record": {
+        "source": "0220cf38-d013-5600-9616-31da01caa416",
+        "type": "OPERATES_IN_INDUSTRY",
+        "target": "8190c30d-2703-40ab-94d0-6c193cb53908",
+        "records": [
+          {
+            "id": "8190c30d-2703-40ab-94d0-6c193cb53908",
+            "name": "FINTECH",
+            "entity_type": "Industry",
+            "properties": {
+              "sources": [
+                {
+                  "name": "linkedin.com",
+                  "document": "https://www.linkedin.com/company/trust-exchange-world/",
+                  "date": "2026-11-02",
+                  "date_precision": "day",
+                  "source_rank": "AGGREGATOR"
+                }
+              ],
+              "id": "ad5730c3-49fe-5ba5-8eef-ea594934bf46",
+              "original_label": "fintech"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:a8c29ea6afb5e53d1bc57b82",
+      "dataset": "cala",
+      "record_pointer": "/edges/3325",
+      "source_documents": [
+        {
+          "name": "trustexchange.world",
+          "document": "https://trustexchange.world/about/",
+          "date": "2026-11-03",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        }
+      ],
+      "record": {
+        "source": "b203b964-3cea-5444-809f-aeb5ddc99620",
+        "type": "FOUNDED",
+        "target": "0220cf38-d013-5600-9616-31da01caa416",
+        "records": [
+          {
+            "id": "b203b964-3cea-5444-809f-aeb5ddc99620",
+            "name": "Martin Studer",
+            "entity_type": "Person",
+            "properties": {
+              "sources": [
+                {
+                  "name": "trustexchange.world",
+                  "document": "https://trustexchange.world/about/",
+                  "date": "2026-11-03",
+                  "date_precision": "day",
+                  "source_rank": "PRIMARY"
+                }
+              ],
+              "id": "c9c941a5-8faf-5520-b07c-870a3cff3cbb"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:20e2530641e051ed4c5c056d",
+      "dataset": "cala",
+      "record_pointer": "/edges/3326",
+      "source_documents": [
+        {
+          "name": "trustexchange.world",
+          "document": "https://trustexchange.world/about/",
+          "date": "2026-11-03",
+          "date_precision": "day",
+          "source_rank": "PRIMARY"
+        }
+      ],
+      "record": {
+        "source": "f2539cca-dfe2-524c-bd78-7780a2d75505",
+        "type": "FOUNDED",
+        "target": "0220cf38-d013-5600-9616-31da01caa416",
+        "records": [
+          {
+            "id": "f2539cca-dfe2-524c-bd78-7780a2d75505",
+            "name": "Camille Accolas",
+            "entity_type": "Person",
+            "properties": {
+              "sources": [
+                {
+                  "name": "trustexchange.world",
+                  "document": "https://trustexchange.world/about/",
+                  "date": "2026-11-03",
+                  "date_precision": "day",
+                  "source_rank": "PRIMARY"
+                }
+              ],
+              "id": "e34223e4-44fe-5927-ac1c-8f93b44c2d50"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:7bbf2df2ea9b4783829488af",
+      "dataset": "cala",
+      "record_pointer": "/edges/3327",
+      "source_documents": [
+        {
+          "name": "shab.ch",
+          "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+          "date": "2026-10-22",
+          "date_precision": "day",
+          "source_rank": "FILING"
+        },
+        {
+          "name": "zefix.admin.ch",
+          "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+          "date": "2026-10-22",
+          "date_precision": "day",
+          "source_rank": "FILING"
+        }
+      ],
+      "record": {
+        "source": "b203b964-3cea-5444-809f-aeb5ddc99620",
+        "type": "IS_BOARD_MEMBER_OF",
+        "target": "0220cf38-d013-5600-9616-31da01caa416",
+        "records": [
+          {
+            "id": "b203b964-3cea-5444-809f-aeb5ddc99620",
+            "name": "Martin Studer",
+            "entity_type": "Person",
+            "properties": {
+              "sources": [
+                {
+                  "name": "shab.ch",
+                  "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+                  "date": "2026-10-22",
+                  "date_precision": "day",
+                  "source_rank": "FILING"
+                },
+                {
+                  "name": "zefix.admin.ch",
+                  "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+                  "date": "2026-10-22",
+                  "date_precision": "day",
+                  "source_rank": "FILING"
+                }
+              ],
+              "id": "332dc5eb-ec6c-5c70-b26f-6b85e1e9e0e5",
+              "valid_since": "2026-10-22"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:f682ef8649906af9968fb02d",
+      "dataset": "cala",
+      "record_pointer": "/edges/3328",
+      "source_documents": [
+        {
+          "name": "shab.ch",
+          "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+          "date": "2026-10-22",
+          "date_precision": "day",
+          "source_rank": "FILING"
+        },
+        {
+          "name": "zefix.admin.ch",
+          "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+          "date": "2026-10-22",
+          "date_precision": "day",
+          "source_rank": "FILING"
+        }
+      ],
+      "record": {
+        "source": "f2539cca-dfe2-524c-bd78-7780a2d75505",
+        "type": "IS_BOARD_MEMBER_OF",
+        "target": "0220cf38-d013-5600-9616-31da01caa416",
+        "records": [
+          {
+            "id": "f2539cca-dfe2-524c-bd78-7780a2d75505",
+            "name": "Camille Accolas",
+            "entity_type": "Person",
+            "properties": {
+              "sources": [
+                {
+                  "name": "shab.ch",
+                  "document": "https://www.shab.ch/#!/search/publications/detail/1006789794",
+                  "date": "2026-10-22",
+                  "date_precision": "day",
+                  "source_rank": "FILING"
+                },
+                {
+                  "name": "zefix.admin.ch",
+                  "document": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1773204.json",
+                  "date": "2026-10-22",
+                  "date_precision": "day",
+                  "source_rank": "FILING"
+                }
+              ],
+              "id": "be5a2fb1-7d1b-55e5-828c-462cb7f57ce1",
+              "valid_since": "2026-10-22"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:77e50c5a7cb324cf6ca4eda4",
+      "dataset": "slush_people",
+      "record_pointer": "/people/148/affiliations/0",
+      "source_documents": [
+        {
+          "url": "https://ie.linkedin.com/showcase/discover-swisstech"
+        },
+        {
+          "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+          "source_type": "official_2026_delegation_person_announcement",
+          "source_access": "opened_public_page",
+          "checked_at": "2026-11-14",
+          "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+          "evidence_kind": "paraphrase",
+          "supports": [
+            "attendance",
+            "identity",
+            "company_affiliation"
+          ],
+          "retrieval_reference": "turn43view1",
+          "affiliation_as_listed": "Trust Exchange",
+          "role_as_listed": "Co-Founder",
+          "event_role": "startup_representative"
+        }
+      ],
+      "record": {
+        "company_name": "Trust Exchange",
+        "slush_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "company_profile_url": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "role_as_supplied": "Co-Founder",
+        "department": null,
+        "source_affiliations": [
+          "Trust Exchange"
+        ],
+        "company_match": {
+          "original_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "original_company_index": 2015,
+          "match_methods": [
+            "exact_or_reviewed_company_name_with_export_metadata"
+          ],
+          "source_affiliations": [
+            "Trust Exchange"
+          ],
+          "source_role_labels": [
+            "Co-Founder"
+          ],
+          "limitations": []
+        },
+        "provenance": {
+          "source_kind": "supplied_company_dataset",
+          "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+          "source_filename": "meeting_tool_companies_export_all (1).json",
+          "input_company_index": 2015,
+          "input_attendee_index": 0,
+          "research_index": 72,
+          "checked_at": "2026-11-14"
+        },
+        "source_urls": [
+          "https://ie.linkedin.com/showcase/discover-swisstech"
+        ]
+      }
+    },
+    {
+      "id": "ev:cb541847e912bd0879c59544",
+      "dataset": "slush_companies",
+      "record_pointer": "/2015/slush_2026_attendees/0",
+      "source_documents": [
+        {
+          "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+          "source_type": "official_2026_delegation_person_announcement",
+          "source_access": "opened_public_page",
+          "checked_at": "2026-11-14",
+          "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+          "evidence_kind": "paraphrase",
+          "supports": [
+            "attendance",
+            "identity",
+            "company_affiliation"
+          ],
+          "retrieval_reference": "turn43view1",
+          "affiliation_as_listed": "Trust Exchange",
+          "role_as_listed": "Co-Founder",
+          "event_role": "startup_representative"
+        }
+      ],
+      "record": {
+        "name": "Camille Accolas",
+        "role": "Co-Founder",
+        "slush_person_profile_url": null,
+        "linkedin_url": null,
+        "attendance_status": "announced_attendee",
+        "event_roles": [
+          "startup_representative"
+        ],
+        "aliases": [],
+        "sources": [
+          {
+            "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+            "source_type": "official_2026_delegation_person_announcement",
+            "source_access": "opened_public_page",
+            "checked_at": "2026-11-14",
+            "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+            "evidence_kind": "paraphrase",
+            "supports": [
+              "attendance",
+              "identity",
+              "company_affiliation"
+            ],
+            "retrieval_reference": "turn43view1",
+            "affiliation_as_listed": "Trust Exchange",
+            "role_as_listed": "Co-Founder",
+            "event_role": "startup_representative"
+          }
+        ],
+        "company_match": {
+          "original_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "original_company_index": 2015,
+          "match_methods": [
+            "exact_or_reviewed_company_name_with_export_metadata"
+          ],
+          "source_affiliations": [
+            "Trust Exchange"
+          ],
+          "source_role_labels": [
+            "Co-Founder"
+          ],
+          "limitations": []
+        },
+        "identity_limitations": []
+      }
+    },
+    {
+      "id": "ev:d0cc7c796bae9386e77c1f35",
+      "dataset": "slush_people",
+      "record_pointer": "/people/148",
+      "source_documents": [
+        {
+          "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+          "source_type": "official_2026_delegation_person_announcement",
+          "source_access": "opened_public_page",
+          "checked_at": "2026-11-14",
+          "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+          "evidence_kind": "paraphrase",
+          "supports": [
+            "attendance",
+            "identity",
+            "company_affiliation"
+          ],
+          "retrieval_reference": "turn43view1",
+          "affiliation_as_listed": "Trust Exchange",
+          "role_as_listed": "Co-Founder",
+          "event_role": "startup_representative"
+        },
+        {
+          "url": "https://thedecisionroom.net/about",
+          "title": "The Decision Room — About",
+          "checked_at": "2026-11-14",
+          "access_status": "opened_primary",
+          "supports_fields": [
+            "job_title",
+            "biography",
+            "work_experience",
+            "topics"
+          ],
+          "access_status_as_recorded": "opened_primary_page"
+        }
+      ],
+      "record": {
+        "record_key": "imported_person:20b90a5b99f9e01d4073",
+        "source_type": "company_dataset_attendee",
+        "slush_person_id": null,
+        "profile_url": null,
+        "name": "Camille Accolas",
+        "attendee_categories": [],
+        "headline": "Co-Founder",
+        "job_title": "Co-Founder",
+        "location_raw": null,
+        "country_code_raw": null,
+        "directory_subtitle_suffix_raw": null,
+        "tags": [],
+        "tag_overflow_count": null,
+        "tags_raw": null,
+        "avatar_url": null,
+        "company": {
+          "displayed_name": "Trust Exchange",
+          "slush_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "company_profile_url": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890",
+          "matching_method": "attendee_nested_in_supplied_company_record",
+          "displayed_name_source": "supplied_company_dataset",
+          "platform_identity_verified_on_person_profile": false,
+          "company_card_text": []
+        },
+        "biography": "Camille Accolas co-founded Trust Exchange and is a co-founder and adviser of The Decision Room. Her work spans climate ventures, impact finance and institutional relationships; previously she led Brainforest's accelerator programme.",
+        "work_experience": {
+          "section_present": false,
+          "reported_count": null,
+          "entries": [
+            {
+              "organization": "Brainforest",
+              "role": "Led accelerator programme",
+              "source_url": "https://thedecisionroom.net/about",
+              "start_date": null,
+              "end_date": null,
+              "title": "Led accelerator programme",
+              "location_raw": null,
+              "provenance": [
+                {
+                  "source_kind": "public_source_research",
+                  "research_index": 72,
+                  "url": "https://thedecisionroom.net/about",
+                  "title": "The Decision Room — About",
+                  "checked_at": "2026-11-14",
+                  "access_status": "opened_primary",
+                  "provenance_specificity": "field_level_sources"
+                }
+              ]
+            },
+            {
+              "organization": "The Decision Room",
+              "role": "Co-founder & Advisor",
+              "source_url": "https://thedecisionroom.net/about",
+              "start_date": null,
+              "end_date": null,
+              "title": "Co-founder & Advisor",
+              "location_raw": null,
+              "provenance": [
+                {
+                  "source_kind": "public_source_research",
+                  "research_index": 72,
+                  "url": "https://thedecisionroom.net/about",
+                  "title": "The Decision Room — About",
+                  "checked_at": "2026-11-14",
+                  "access_status": "opened_primary",
+                  "provenance_specificity": "field_level_sources"
+                }
+              ]
+            }
+          ],
+          "raw_text": null,
+          "parsing_status": "sourced_external_enrichment",
+          "external_entries_added": 2,
+          "coverage": "selected_source_supported_entries_not_complete_history"
+        },
+        "education": {
+          "section_present": false,
+          "entries": [],
+          "raw_text": null,
+          "parsing_status": "not_found"
+        },
+        "social_media": {
+          "section_present": false,
+          "links": [],
+          "destinations_complete": null
+        },
+        "links": [],
+        "images": [],
+        "profile_text": null,
+        "directory_text": null,
+        "collection": {
+          "capture_level": "supplied_attendee_evidence",
+          "full_profile_page_collected": false,
+          "all_available_fields_captured": false,
+          "gaps": [
+            "person_platform_profile_not_read",
+            "platform_person_id_not_verified"
+          ],
+          "source_filename": "meeting_tool_companies_export_all (1).json",
+          "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+          "directory_scope": null,
+          "observations": []
+        },
+        "captured_fields": {},
+        "profile_button_labels": [],
+        "directory_memberships": [],
+        "aliases": [],
+        "event_roles": [
+          "startup_representative"
+        ],
+        "attendance_status": "announced_attendee",
+        "attendance_statuses": [
+          "announced_attendee"
+        ],
+        "attendance_evidence": [
+          {
+            "attendance_status": "announced_attendee",
+            "event_roles": [
+              "startup_representative"
+            ],
+            "source_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "sources": [
+              {
+                "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+                "source_type": "official_2026_delegation_person_announcement",
+                "source_access": "opened_public_page",
+                "checked_at": "2026-11-14",
+                "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+                "evidence_kind": "paraphrase",
+                "supports": [
+                  "attendance",
+                  "identity",
+                  "company_affiliation"
+                ],
+                "retrieval_reference": "turn43view1",
+                "affiliation_as_listed": "Trust Exchange",
+                "role_as_listed": "Co-Founder",
+                "event_role": "startup_representative"
+              }
+            ],
+            "input_reference": {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14"
+            }
+          }
+        ],
+        "affiliations": [
+          {
+            "company_name": "Trust Exchange",
+            "slush_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "company_profile_url": "https://platform.slush.org/slush26/meeting-tool/browse/companies/ad355578-0a33-40e0-bb20-cc7e3e56d890",
+            "role_as_supplied": "Co-Founder",
+            "department": null,
+            "source_affiliations": [
+              "Trust Exchange"
+            ],
+            "company_match": {
+              "original_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+              "original_company_index": 2015,
+              "match_methods": [
+                "exact_or_reviewed_company_name_with_export_metadata"
+              ],
+              "source_affiliations": [
+                "Trust Exchange"
+              ],
+              "source_role_labels": [
+                "Co-Founder"
+              ],
+              "limitations": []
+            },
+            "provenance": {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14"
+            },
+            "source_urls": [
+              "https://ie.linkedin.com/showcase/discover-swisstech"
+            ]
+          }
+        ],
+        "identity_limitations": [
+          "Imported evidence does not establish a Slush platform person UUID or physical event check-in."
+        ],
+        "field_provenance": {
+          "name": [
+            {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14",
+              "source_field": "slush_2026_attendees.name"
+            }
+          ],
+          "affiliations": [
+            {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14"
+            }
+          ],
+          "attendance_status": [
+            {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14",
+              "source_field": "slush_2026_attendees.attendance_status"
+            }
+          ],
+          "event_roles": [
+            {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14",
+              "source_field": "slush_2026_attendees.event_roles"
+            }
+          ],
+          "company": [
+            {
+              "source_kind": "supplied_company_dataset",
+              "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+              "source_filename": "meeting_tool_companies_export_all (1).json",
+              "input_company_index": 2015,
+              "input_attendee_index": 0,
+              "research_index": 72,
+              "checked_at": "2026-11-14"
+            }
+          ],
+          "job_title": [
+            {
+              "source_kind": "public_source_research",
+              "research_index": 72,
+              "url": "https://thedecisionroom.net/about",
+              "title": "The Decision Room — About",
+              "checked_at": "2026-11-14",
+              "access_status": "opened_primary",
+              "provenance_specificity": "field_level_sources"
+            }
+          ],
+          "public_source_job_title": [
+            {
+              "source_kind": "public_source_research",
+              "research_index": 72,
+              "url": "https://thedecisionroom.net/about",
+              "title": "The Decision Room — About",
+              "checked_at": "2026-11-14",
+              "access_status": "opened_primary",
+              "provenance_specificity": "field_level_sources"
+            }
+          ],
+          "biography": [
+            {
+              "source_kind": "public_source_research",
+              "research_index": 72,
+              "url": "https://thedecisionroom.net/about",
+              "title": "The Decision Room — About",
+              "checked_at": "2026-11-14",
+              "access_status": "opened_primary",
+              "provenance_specificity": "field_level_sources"
+            }
+          ],
+          "work_experience": [
+            {
+              "source_kind": "public_source_research",
+              "research_index": 72,
+              "url": "https://thedecisionroom.net/about",
+              "title": "The Decision Room — About",
+              "checked_at": "2026-11-14",
+              "access_status": "opened_primary",
+              "provenance_specificity": "field_level_sources"
+            }
+          ],
+          "professional_topics": [
+            {
+              "source_kind": "public_source_research",
+              "research_index": 72,
+              "url": "https://thedecisionroom.net/about",
+              "title": "The Decision Room — About",
+              "checked_at": "2026-11-14",
+              "access_status": "opened_primary",
+              "provenance_specificity": "field_level_sources"
+            }
+          ]
+        },
+        "source_references": [
+          {
+            "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+            "source_type": "official_2026_delegation_person_announcement",
+            "source_access": "opened_public_page",
+            "checked_at": "2026-11-14",
+            "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+            "evidence_kind": "paraphrase",
+            "supports": [
+              "attendance",
+              "identity",
+              "company_affiliation"
+            ],
+            "retrieval_reference": "turn43view1",
+            "affiliation_as_listed": "Trust Exchange",
+            "role_as_listed": "Co-Founder",
+            "event_role": "startup_representative"
+          },
+          {
+            "url": "https://thedecisionroom.net/about",
+            "title": "The Decision Room — About",
+            "checked_at": "2026-11-14",
+            "access_status": "opened_primary",
+            "supports_fields": [
+              "job_title",
+              "biography",
+              "work_experience",
+              "topics"
+            ],
+            "access_status_as_recorded": "opened_primary_page"
+          }
+        ],
+        "external_enrichment": {
+          "checked_at": "2026-11-14",
+          "research_complete_for_supplied_rows": true,
+          "observations": [
+            {
+              "research_index": 72,
+              "name": "Camille Accolas",
+              "status": "enriched",
+              "findings": {
+                "job_title": "Co-Founder",
+                "biography": "Camille Accolas co-founded Trust Exchange and is a co-founder and adviser of The Decision Room. Her work spans climate ventures, impact finance and institutional relationships; previously she led Brainforest's accelerator programme.",
+                "location_raw": null,
+                "linkedin_url": null,
+                "personal_website": null,
+                "work_experience": [
+                  {
+                    "organization": "Brainforest",
+                    "role": "Led accelerator programme",
+                    "source_url": "https://thedecisionroom.net/about",
+                    "start_date": null,
+                    "end_date": null
+                  },
+                  {
+                    "organization": "The Decision Room",
+                    "role": "Co-founder & Advisor",
+                    "source_url": "https://thedecisionroom.net/about",
+                    "start_date": null,
+                    "end_date": null
+                  }
+                ],
+                "education": [],
+                "topics": [
+                  "Impact finance",
+                  "Climate ventures",
+                  "Institutional capital"
+                ]
+              },
+              "sources": [
+                {
+                  "url": "https://thedecisionroom.net/about",
+                  "title": "The Decision Room — About",
+                  "checked_at": "2026-11-14",
+                  "access_status": "opened_primary",
+                  "supports_fields": [
+                    "job_title",
+                    "biography",
+                    "work_experience",
+                    "topics"
+                  ],
+                  "access_status_as_recorded": "opened_primary_page"
+                }
+              ],
+              "notes": []
+            }
+          ],
+          "does_not_verify_attendance": true
+        },
+        "research_status": "enriched",
+        "research_statuses": [
+          "enriched"
+        ],
+        "research_notes": [],
+        "additional_research_findings_present": true,
+        "public_source_job_title": "Co-Founder",
+        "professional_topics": [
+          "Impact finance",
+          "Climate ventures",
+          "Institutional capital"
+        ],
+        "linkedin_url": null,
+        "personal_website": null
+      }
+    },
+    {
+      "id": "ev:9c532ecadb9e30bd731dc880",
+      "dataset": "slush_people",
+      "record_pointer": "/people/148/work_experience/entries/0",
+      "source_documents": [
+        {
+          "source_kind": "public_source_research",
+          "research_index": 72,
+          "url": "https://thedecisionroom.net/about",
+          "title": "The Decision Room — About",
+          "checked_at": "2026-11-14",
+          "access_status": "opened_primary",
+          "provenance_specificity": "field_level_sources"
+        },
+        {
+          "url": "https://thedecisionroom.net/about"
+        }
+      ],
+      "record": {
+        "organization": "Brainforest",
+        "role": "Led accelerator programme",
+        "source_url": "https://thedecisionroom.net/about",
+        "start_date": null,
+        "end_date": null,
+        "title": "Led accelerator programme",
+        "location_raw": null,
+        "provenance": [
+          {
+            "source_kind": "public_source_research",
+            "research_index": 72,
+            "url": "https://thedecisionroom.net/about",
+            "title": "The Decision Room — About",
+            "checked_at": "2026-11-14",
+            "access_status": "opened_primary",
+            "provenance_specificity": "field_level_sources"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:cfc434c12b3875140bc5ae9a",
+      "dataset": "slush_people",
+      "record_pointer": "/people/148/work_experience/entries/1",
+      "source_documents": [
+        {
+          "source_kind": "public_source_research",
+          "research_index": 72,
+          "url": "https://thedecisionroom.net/about",
+          "title": "The Decision Room — About",
+          "checked_at": "2026-11-14",
+          "access_status": "opened_primary",
+          "provenance_specificity": "field_level_sources"
+        },
+        {
+          "url": "https://thedecisionroom.net/about"
+        }
+      ],
+      "record": {
+        "organization": "The Decision Room",
+        "role": "Co-founder & Advisor",
+        "source_url": "https://thedecisionroom.net/about",
+        "start_date": null,
+        "end_date": null,
+        "title": "Co-founder & Advisor",
+        "location_raw": null,
+        "provenance": [
+          {
+            "source_kind": "public_source_research",
+            "research_index": 72,
+            "url": "https://thedecisionroom.net/about",
+            "title": "The Decision Room — About",
+            "checked_at": "2026-11-14",
+            "access_status": "opened_primary",
+            "provenance_specificity": "field_level_sources"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ev:c978302e3e133606c2d3ac70",
+      "dataset": "slush_people",
+      "record_pointer": "/people/148/attendance_evidence/0",
+      "source_documents": [
+        {
+          "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+          "source_type": "official_2026_delegation_person_announcement",
+          "source_access": "opened_public_page",
+          "checked_at": "2026-11-14",
+          "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+          "evidence_kind": "paraphrase",
+          "supports": [
+            "attendance",
+            "identity",
+            "company_affiliation"
+          ],
+          "retrieval_reference": "turn43view1",
+          "affiliation_as_listed": "Trust Exchange",
+          "role_as_listed": "Co-Founder",
+          "event_role": "startup_representative"
+        }
+      ],
+      "record": {
+        "attendance_status": "announced_attendee",
+        "event_roles": [
+          "startup_representative"
+        ],
+        "source_company_id": "ad355578-0a33-40e0-bb20-cc7e3e56d890",
+        "sources": [
+          {
+            "url": "https://ie.linkedin.com/showcase/discover-swisstech",
+            "source_type": "official_2026_delegation_person_announcement",
+            "source_access": "opened_public_page",
+            "checked_at": "2026-11-14",
+            "evidence": "Camille Accolas: named Slush 2026 startup representative.",
+            "evidence_kind": "paraphrase",
+            "supports": [
+              "attendance",
+              "identity",
+              "company_affiliation"
+            ],
+            "retrieval_reference": "turn43view1",
+            "affiliation_as_listed": "Trust Exchange",
+            "role_as_listed": "Co-Founder",
+            "event_role": "startup_representative"
+          }
+        ],
+        "input_reference": {
+          "source_kind": "supplied_company_dataset",
+          "source_library_file_id": "libfile_f3990214e6108191b8ba9eccb3fc099f",
+          "source_filename": "meeting_tool_companies_export_all (1).json",
+          "input_company_index": 2015,
+          "input_attendee_index": 0,
+          "research_index": 72,
+          "checked_at": "2026-11-14"
+        }
+      }
+    }
+  ],
+  "coverage": {
+    "snapshot_complete": false,
+    "snapshot_limitations": [
+      "Cala export completeness is False; 41 full entity records (40 companies) were captured. Other edge endpoints can be stubs.",
+      "The people file is partial; directory evidence and announcements do not independently establish physical event attendance.",
+      "Missing fields, paths, attendees or relationships mean not established in these snapshots, not absence in the real world.",
+      "Cross-source name-only matches remain unresolved candidates; this intentionally reduces recall to avoid invented identity joins.",
+      "Organization names in work history without corroborating identifiers remain scoped references and do not create shared-employer bridges by name alone.",
+      "Employment and role records with null end dates are not automatically current.",
+      "Possible duplicate people flagged in the source dataset are preserved separately.",
+      "Source-provided entity types, unusual dates and conflicting profile wording are retained rather than silently corrected.",
+      "Cala relationships without a nonempty source document remain audit assertions and are excluded from traversable networking paths."
+    ],
+    "truncated": false,
+    "data_quality_exclusions": {},
+    "max_displayed_results": 10,
+    "max_paths_per_endpoint": 3,
+    "hop_selection": {
+      "hop_mode": "suggested",
+      "mode": "suggested",
+      "selected_hops": 2,
+      "suggested_hops": 2,
+      "min_hops": 1,
+      "max_allowed_hops": 6,
+      "cala_snapshot_crawl_hops": 4,
+      "exceeds_cala_crawl_depth": false
+    },
+    "max_hops": 2,
+    "visited_nodes": 5,
+    "visited_states": 11,
+    "truncation_reasons": [],
+    "path_result_limit_applied": true,
+    "result_limit_applied": false,
+    "eligible_endpoints_found": 4,
+    "endpoints_by_hop": {
+      "1": 2,
+      "2": 2
+    }
+  },
+  "generation_mode": "evidence_template",
+  "versions": {
+    "graph": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+    "query": "2.0.0",
+    "ranking": "evidence_then_steps_v1"
+  },
+  "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "hop_selection": {
+    "hop_mode": "suggested",
+    "mode": "suggested",
+    "selected_hops": 2,
+    "suggested_hops": 2,
+    "min_hops": 1,
+    "max_allowed_hops": 6,
+    "cala_snapshot_crawl_hops": 4,
+    "exceeds_cala_crawl_depth": false
+  },
+  "prompt_version": "cala-slush-four-questions-v2",
+  "template_summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
+  "generated_claims": [
+    {
+      "text": "Martin Studer founded Trust Exchange.",
+      "evidence_ids": [
+        "ev:a8c29ea6afb5e53d1bc57b82"
+      ],
+      "gemma_audit": {
+        "verdict": "supported",
+        "model": "deterministic-entailment-guard-v2.1",
+        "note": "Verified against 1 evidence record(s) (cala); epistemic qualifiers preserved."
+      }
+    },
+    {
+      "text": "Martin Studer has a documented board role at Trust Exchange (relationship dates unverified).",
+      "evidence_ids": [
+        "ev:7bbf2df2ea9b4783829488af"
+      ],
+      "gemma_audit": {
+        "verdict": "supported",
+        "model": "deterministic-entailment-guard-v2.1",
+        "note": "Verified against 1 evidence record(s) (cala); epistemic qualifiers preserved."
+      }
+    },
+    {
+      "text": "Camille Accolas founded Trust Exchange.",
+      "evidence_ids": [
+        "ev:20e2530641e051ed4c5c056d",
+        "ev:77e50c5a7cb324cf6ca4eda4",
+        "ev:cb541847e912bd0879c59544"
+      ],
+      "gemma_audit": {
+        "verdict": "supported",
+        "model": "deterministic-entailment-guard-v2.1",
+        "note": "Verified against 3 evidence record(s) (cala, slush_companies, slush_people); epistemic qualifiers preserved."
+      }
+    },
+    {
+      "text": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified).",
+      "evidence_ids": [
+        "ev:f682ef8649906af9968fb02d"
+      ],
+      "gemma_audit": {
+        "verdict": "supported",
+        "model": "deterministic-entailment-guard-v2.1",
+        "note": "Verified against 1 evidence record(s) (cala); epistemic qualifiers preserved."
+      }
+    }
+  ],
+  "gemma_audit_summary": {
+    "enabled": true,
+    "provider": "deterministic_local_guard",
+    "model": "deterministic-entailment-guard-v2.1",
+    "live_gemma_configured": false,
+    "overall_verdict": "pass",
+    "audited_claims": 4,
+    "supported_claims": 4,
+    "flagged_claims": 0,
+    "elapsed_ms": 0.027
+  },
+  "meeting_brief": {
+    "composer": "evidence_template",
+    "model": "deterministic-graph-v2.1",
+    "executive_summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
+    "talking_points": [
+      {
+        "text": "Trust Exchange: Nobody in Europe agrees on what makes a young company backable.",
+        "evidence_ids": [
+          "ev:9f12cf630d86eae5a72258b5",
+          "ev:c2835f6f5c1d9ffd84760792"
+        ]
+      },
+      {
+        "text": "Camille Accolas: Camille Accolas co-founded Trust Exchange and is a co-founder and adviser of The Decision Room.",
+        "evidence_ids": [
+          "ev:d0cc7c796bae9386e77c1f35",
+          "ev:77e50c5a7cb324cf6ca4eda4"
+        ]
+      },
+      {
+        "text": "Documented focus areas for Camille Accolas: Impact finance, Climate ventures, Institutional capital.",
+        "evidence_ids": [
+          "ev:d0cc7c796bae9386e77c1f35",
+          "ev:77e50c5a7cb324cf6ca4eda4"
+        ]
+      }
+    ],
+    "smart_questions": [
+      {
+        "text": "What partnership, customer, or capital milestones is Trust Exchange prioritizing around Slush 2026?",
+        "evidence_ids": [
+          "ev:9f12cf630d86eae5a72258b5",
+          "ev:c2835f6f5c1d9ffd84760792"
+        ]
+      },
+      {
+        "text": "Which current priorities around Impact finance are most relevant for Camille Accolas at Slush 2026?",
+        "evidence_ids": [
+          "ev:d0cc7c796bae9386e77c1f35",
+          "ev:77e50c5a7cb324cf6ca4eda4"
+        ]
+      }
+    ],
+    "attendance_verification": {
+      "status": "announced_attendee",
+      "note": "Documented Slush participation status ('announced_attendee') for Camille Accolas; physical check-in and meeting availability remain unverified.",
+      "evidence_ids": [
+        "ev:c978302e3e133606c2d3ac70",
+        "ev:cb541847e912bd0879c59544"
+      ]
+    },
+    "warm_intro_paths": [
+      {
+        "path_id": "path:17a68478f4898c586f0f",
+        "hop_count": 1,
+        "summary": "Martin Studer founded Trust Exchange.",
+        "evidence_ids": [
+          "ev:a8c29ea6afb5e53d1bc57b82"
+        ]
+      },
+      {
+        "path_id": "path:9b5f40606bbbae8701d4",
+        "hop_count": 1,
+        "summary": "Martin Studer has a documented board role at Trust Exchange (relationship dates unverified).",
+        "evidence_ids": [
+          "ev:7bbf2df2ea9b4783829488af"
+        ]
+      },
+      {
+        "path_id": "path:1251aa6e8fafef4128d0",
+        "hop_count": 1,
+        "summary": "Camille Accolas founded Trust Exchange.",
+        "evidence_ids": [
+          "ev:20e2530641e051ed4c5c056d",
+          "ev:77e50c5a7cb324cf6ca4eda4",
+          "ev:cb541847e912bd0879c59544"
+        ]
+      },
+      {
+        "path_id": "path:23577bffc1667a2ba209",
+        "hop_count": 1,
+        "summary": "Camille Accolas has a documented board role at Trust Exchange (relationship dates unverified).",
+        "evidence_ids": [
+          "ev:f682ef8649906af9968fb02d"
+        ]
+      }
+    ]
+  },
+  "cala_live_enrichment": null,
+  "extended_network_representatives": null,
+  "run_id": "a567450f-3112-4638-b0a6-fa1291e09785",
+  "original_request": {
+    "question_id": "company_network",
+    "company": "Trust Exchange"
+  },
+  "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+  "pipeline_version": "2.2.0",
+  "query_policy_version": "four-task-ranking-2.0.0",
+  "generated_at": "2026-11-15T06:51:48.768748+00:00",
+  "cached": false,
+  "elapsed_ms": 18.485,
+  "storage_meta": {
+    "backend": "sqlite",
+    "cache_layer": "sqlite_cache",
+    "cached": false,
+    "elapsed_ms": 18.485
+  }
+}
