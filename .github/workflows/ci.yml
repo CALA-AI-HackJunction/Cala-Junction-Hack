@@ -112,6 +112,8 @@ jobs:
               p = Path(rel_file)
               if not p.is_file() or p.name.endswith((".png", ".jpg", ".ico", ".woff2")):
                   continue
+              if p.name.endswith(".env.example"):
+                  continue
               if p.parts[:2] == ("backend", "data") and p.suffix == ".json":
                   continue
               text = p.read_text(encoding="utf-8", errors="ignore")
