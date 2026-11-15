@@ -200,6 +200,18 @@ def create_app(
     async def questions_endpoint() -> JSONResponse:
         return _json_resp(QUESTION_SPECS)
 
+    @fastapi_app.get("/api/hop-policies")
+    @fastapi_app.get("/hop-policies", include_in_schema=False)
+    async def hop_policies_endpoint() -> JSONResponse:
+        return _json_resp(
+            {
+                "supported_modes": ["suggested", "custom", "max"],
+                "global_hard_max_hops": 8,
+                "cala_snapshot_crawl_hops": 4,
+                "questions": {qid: spec["hop_policy"] for qid, spec in QUESTION_SPECS.items()},
+            }
+        )
+
     @fastapi_app.get("/api/presets")
     async def presets_endpoint() -> JSONResponse:
         payload = await run_in_threadpool(load_presets_payload)

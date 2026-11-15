@@ -1,6 +1,6 @@
 {
   "basis": "Executed on the supplied data with deterministic evidence templates; original web sources not reverified.",
-  "load_seconds": 0.648,
+  "load_seconds": 0.618,
   "generation_mode": "evidence_template",
   "external_model_called": false,
   "cache_recovery_verified": true,
@@ -16,9 +16,9 @@
       "summary": "Found 2 supported professional paths from Camille Accolas to Trust Exchange within 4 steps.",
       "result_count": 2,
       "path_count": 2,
-      "run_id": "bda06a69-4714-4862-a16f-4991a5910a37",
+      "run_id": "e6b73745-9c27-4c94-87d8-4239d8863970",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 32.824,
+      "elapsed_ms_including_save": 33.036,
       "saved_result_recovered_exactly": true
     },
     {
@@ -32,9 +32,9 @@
       "summary": "Resolve the indicated entity before searching its professional connections.",
       "result_count": 0,
       "path_count": 0,
-      "run_id": "ba1fe5f0-4ea6-4e87-afd6-94defec33c28",
+      "run_id": "26ca2179-fdb3-4a24-a6ff-42f47b2f8c34",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 57.422,
+      "elapsed_ms_including_save": 57.219,
       "saved_result_recovered_exactly": true
     },
     {
@@ -48,9 +48,9 @@
       "summary": "Found 3 supported professional paths from Dani Penev to Y Combinator within 4 steps.",
       "result_count": 3,
       "path_count": 3,
-      "run_id": "ee87ab19-da7c-4a5b-b969-6b53c0db6297",
+      "run_id": "f6a32430-f796-4fe2-961f-15edfd595e75",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 14.946,
+      "elapsed_ms_including_save": 14.745,
       "saved_result_recovered_exactly": true
     },
     {
@@ -64,9 +64,9 @@
       "summary": "Found 1 supported professional path from Slicker to Y Combinator within 4 steps.",
       "result_count": 1,
       "path_count": 1,
-      "run_id": "aa00b0c5-4e23-4461-9d0b-4c4bbcaafe37",
+      "run_id": "ae0bb3c5-292f-4d4f-9a7a-e5b719e73a95",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 15.401,
+      "elapsed_ms_including_save": 16.026,
       "saved_result_recovered_exactly": true
     },
     {
@@ -79,9 +79,9 @@
       "summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
       "result_count": 4,
       "path_count": 9,
-      "run_id": "c4cd0809-e4d9-43e9-b673-e4edbff7cece",
+      "run_id": "a567450f-3112-4638-b0a6-fa1291e09785",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 21.638,
+      "elapsed_ms_including_save": 21.75,
       "saved_result_recovered_exactly": true
     },
     {
@@ -94,9 +94,9 @@
       "summary": "Found 1 person with documented affiliations to Trust Exchange and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
       "result_count": 1,
       "path_count": 4,
-      "run_id": "47f36fbf-5481-4776-847f-0046e34815be",
+      "run_id": "298bd5bb-cb84-406b-9927-9209a382807d",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 21.515,
+      "elapsed_ms_including_save": 20.47,
       "saved_result_recovered_exactly": true
     },
     {
@@ -110,9 +110,9 @@
       "summary": "No supported professional path was found from Trust Exchange to Slicker within 4 steps in the loaded snapshot.",
       "result_count": 0,
       "path_count": 0,
-      "run_id": "83762655-f573-4472-9366-3aaf79e51371",
+      "run_id": "d2ce7ec3-5139-47c9-8643-13e1ba7e9428",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 33.988,
+      "elapsed_ms_including_save": 32.624,
       "saved_result_recovered_exactly": true
     },
     {
@@ -126,9 +126,9 @@
       "summary": "Resolve the indicated entity before searching its professional connections.",
       "result_count": 0,
       "path_count": 0,
-      "run_id": "03188fb7-b420-4867-a4ee-5dd9c9860d0e",
+      "run_id": "194e2541-2e96-464d-99ae-1b3b5bf331a9",
       "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-      "elapsed_ms_including_save": 61.156,
+      "elapsed_ms_including_save": 58.53,
       "saved_result_recovered_exactly": true
     }
   ]

@@ -111,35 +111,35 @@ export function detectOriginKind(entityOrEdge) {
 export function renderOriginBadges(item) {
   const kind = detectOriginKind(item);
   if (kind === 'both') {
-    return `<span class="badge badge-dual" title="Corroborated across Cala Knowledge Graph &amp; Slush 2026">Dual · Cala + Slush</span>`;
+    return `<span class="badge badge-dual">Cala + Slush</span>`;
   }
   if (kind === 'slush') {
     const isRef = String(item?.id || '').startsWith('slush-organization:');
-    return `<span class="badge badge-slush">${isRef ? 'Slush Org Ref' : 'Slush 2026'}</span>`;
+    return `<span class="badge badge-slush">${isRef ? 'Slush org' : 'Slush 2026'}</span>`;
   }
-  return `<span class="badge badge-cala">Cala Verified</span>`;
+  return `<span class="badge badge-cala">Cala</span>`;
 }
 
 export function renderCompletenessBadge(completeness) {
   if (!completeness) return '';
   if (completeness === 'full') {
-    return `<span class="badge badge-dual" title="Full reconciled profile record">Full Record</span>`;
+    return `<span class="badge badge-neutral">Full profile</span>`;
   }
-  return `<span class="badge badge-neutral" title="Graph endpoint stub — missing fields are unestablished, not absent">Stub Endpoint</span>`;
+  return '';
 }
 
 export function renderParticipationBadges(participationList = []) {
   if (!Array.isArray(participationList) || participationList.length === 0) return '';
   const labels = {
-    announced_speaker: { text: '🎤 Announced Slush Speaker', cls: 'badge-slush' },
-    announced_attendee: { text: '🎟 Named Slush Representative', cls: 'badge-slush' },
-    platform_directory: { text: '📇 Slush Platform Directory', cls: 'badge-slush' },
-    company_listed: { text: '🏢 Listed Slush 2026 Company', cls: 'badge-slush' },
-    cala_event_link: { text: '⚡ Cala Slush Event Link', cls: 'badge-cala' },
+    announced_speaker: { text: 'Slush speaker', cls: 'badge-slush' },
+    announced_attendee: { text: 'Slush attendee', cls: 'badge-slush' },
+    platform_directory: { text: 'Slush directory', cls: 'badge-slush' },
+    company_listed: { text: 'Listed at Slush', cls: 'badge-slush' },
+    cala_event_link: { text: 'Slush participant', cls: 'badge-cala' },
   };
   return participationList
     .map((p) => {
-      const meta = labels[p.status] || { text: p.status || 'Event Record', cls: 'badge-neutral' };
+      const meta = labels[p.status] || { text: p.status || 'Slush', cls: 'badge-neutral' };
       return `<span class="badge ${meta.cls}">${escapeHtml(meta.text)}</span>`;
     })
     .join(' ');
@@ -241,12 +241,12 @@ export function formatQuestionLabel(qid) {
 
 export function renderStatusBadge(status) {
   const map = {
-    complete: { label: 'Verified Complete', cls: 'badge-dual' },
-    partial: { label: 'Verified Snapshot (Partial Coverage)', cls: 'badge-cala' },
-    needs_resolution: { label: 'Identity Disambiguation Required', cls: 'badge-slush' },
-    ambiguous: { label: 'Identity Disambiguation Required', cls: 'badge-slush' },
-    insufficient_data: { label: 'Honest No-Path · Zero Confabulation', cls: 'badge-warn' },
-    not_found: { label: 'Entity Not In Loaded Snapshot', cls: 'badge-warn' },
+    complete: { label: 'Verified via Cala', cls: 'badge-dual' },
+    partial: { label: 'Verified via Cala', cls: 'badge-cala' },
+    needs_resolution: { label: 'Select exact entity', cls: 'badge-slush' },
+    ambiguous: { label: 'Select exact entity', cls: 'badge-slush' },
+    insufficient_data: { label: 'No verified path', cls: 'badge-warn' },
+    not_found: { label: 'Entity not found', cls: 'badge-warn' },
   };
   const info = map[status] || { label: status || 'Ready', cls: 'badge-neutral' };
   return `<span class="badge ${info.cls}">${escapeHtml(info.label)}</span>`;

@@ -30,7 +30,8 @@ def build_generation_request(response):
         "prompt_version": PROMPT_VERSION,
         "system": SYSTEM_PROMPT,
         "input": {key: response.get(key) for key in (
-            "question_id", "status", "inputs", "resolved_entities", "summary", "results",
+            "question_id", "status", "inputs", "hop_selection", "resolved_entities",
+            "summary", "results", "extended_network_representatives",
             "graph", "evidence", "coverage", "limitations", "conflicts",
         )},
         "response_schema": {

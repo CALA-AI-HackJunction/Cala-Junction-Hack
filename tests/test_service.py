@@ -148,6 +148,45 @@ class PersistenceAndCacheTests(unittest.TestCase):
         self.assertIn("gemma_audit_summary", response)
         self.assertEqual(response["gemma_audit_summary"]["overall_verdict"], "pass")
 
+    def test_hop_mode_validation_and_cache_isolation(self):
+        # Out-of-bounds, boolean, missing custom value, or conflicting hop_mode + max_hops are rejected
+        invalid_hop_requests = [
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "max_hops": 0},
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "max_hops": -1},
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "max_hops": 9},
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "max_hops": True},
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "hop_mode": "turbo"},
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "hop_mode": "custom"},
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "hop_mode": "suggested", "max_hops": 2},
+            {"question_id": "company_representatives", "company": "Example Company", "max_hops": 5},
+        ]
+        for bad in invalid_hop_requests:
+            with self.subTest(bad=bad):
+                with self.assertRaises(ValueError):
+                    self.service.analyze(bad)
+
+        # Suggested (4 hops on Q1) and explicit custom 4 hops share canonical cache; custom 2 hops gets an isolated cache key
+        r_default = self.service.analyze(
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company"}
+        )
+        r_custom4 = self.service.analyze(
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "hop_mode": "custom", "max_hops": 4}
+        )
+        self.assertTrue(r_custom4["cached"])
+        self.assertEqual(r_default["run_id"], r_custom4["run_id"])
+
+        r_custom2 = self.service.analyze(
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "hop_mode": "custom", "max_hops": 2}
+        )
+        self.assertFalse(r_custom2["cached"])
+        self.assertNotEqual(r_default["run_id"], r_custom2["run_id"])
+
+        r_max = self.service.analyze(
+            {"question_id": "person_to_company", "source": "Ada Example", "target": "Example Company", "hop_mode": "max"}
+        )
+        self.assertFalse(r_max["cached"])
+        self.assertNotEqual(r_default["run_id"], r_max["run_id"])
+
 
 class ComposerValidationTests(unittest.TestCase):
     def response(self):

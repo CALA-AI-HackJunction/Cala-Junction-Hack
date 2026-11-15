@@ -52,6 +52,16 @@ def make_server(service, host: str = "127.0.0.1", port: int = 8080) -> Threading
                 return self.send_json(200, {"status": "ok", "graph_version": service.snapshot["graph_version"]})
             if path == "/questions":
                 return self.send_json(200, QUESTION_SPECS)
+            if path in {"/hop-policies", "/api/hop-policies"}:
+                return self.send_json(
+                    200,
+                    {
+                        "supported_modes": ["suggested", "custom", "max"],
+                        "global_hard_max_hops": 8,
+                        "cala_snapshot_crawl_hops": 4,
+                        "questions": {qid: spec["hop_policy"] for qid, spec in QUESTION_SPECS.items()},
+                    },
+                )
             if path == "/presets":
                 return self.send_json(200, load_presets_payload())
             if path == "/coverage":

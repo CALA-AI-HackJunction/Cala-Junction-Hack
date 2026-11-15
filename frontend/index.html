@@ -3,461 +3,307 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unicorn Radar — Cala × Slush 2026 Verified Connection Intelligence</title>
-  <meta name="description" content="Make Unicorns Real — separating the unicorns from the horses. Zero-confabulation Slush 2026 & Cala Knowledge Graph connection intelligence." />
-
-  <!-- Crisp Inline SVG Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2322D3EE'/%3E%3Cstop offset='100%25' stop-color='%23818CF8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='36' height='36' rx='9' fill='%2307090F'/%3E%3Ccircle cx='18' cy='18' r='12' fill='none' stroke='url(%23g)' stroke-width='2' stroke-dasharray='4 2'/%3E%3Cpath d='M18 7 L22 17 L18 15 L14 17 Z' fill='%2322D3EE'/%3E%3Ccircle cx='18' cy='21' r='4' fill='%2334D399'/%3E%3C/svg%3E" />
-
-  <!-- Google Fonts with instant system fallbacks if offline -->
+  <title>Comare di Slush — Cala AI</title>
+  <meta
+    name="description"
+    content="Comare di Slush maps verified professional relationships across founders, investors, and companies at Slush via the Cala AI Knowledge Graph."
+  />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
-
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
-  <!-- ====================================================================
-       TOP EXECUTIVE HEADER & PARTNER TECH CAPABILITY BAR
-       ==================================================================== -->
-  <header class="app-header">
-    <div class="header-inner">
-      <!-- Brand Crest & Mission -->
-      <div class="brand-group">
-        <div class="brand-crest" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
-            <circle cx="14" cy="14" r="10.5" stroke="#22D3EE" stroke-width="1.5" stroke-dasharray="3.5 2.5" opacity="0.85" />
-            <circle cx="14" cy="14" r="6" stroke="#818CF8" stroke-width="1.4" opacity="0.85" />
-            <path d="M14 2.5L17.2 11.5L14 9.8L10.8 11.5L14 2.5Z" fill="#22D3EE" />
-            <circle cx="14" cy="15.5" r="2.6" fill="#34D399" />
-          </svg>
-        </div>
-        <div class="brand-title-wrap">
-          <div class="brand-title-row">
-            <h1 class="brand-title">UNICORN RADAR</h1>
-            <span class="brand-tag">Slush 2026 × Cala</span>
-          </div>
-          <div class="brand-subtitle">
-            Verified Connection Intelligence · <em>“Separating the unicorns from the horses”</em>
-          </div>
-        </div>
+  <div class="page-shell">
+    <!-- Quiet Cala-style Top Bar (56px height, 4px grid) -->
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a href="/" class="brand-link" id="brandResetLink" title="Reset search">
+          <span class="cala-mark" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="12" r="3" />
+              <circle cx="18" cy="6" r="3" />
+              <circle cx="18" cy="18" r="3" />
+              <path d="M8.7 10.7L15.3 7.3M8.7 13.3L15.3 16.7" />
+            </svg>
+          </span>
+          <span class="brand-name">Comare di Slush</span>
+          <span class="brand-meta">by Cala AI</span>
+        </a>
+
+        <nav class="topbar-actions" aria-label="Workspace actions">
+          <button type="button" class="nav-link-btn" id="openSavedBtn">
+            Recent <span class="mono-count" id="savedCountBadge">0</span>
+          </button>
+          <button type="button" class="nav-login-btn" id="loginBtn">
+            <span class="live-dot" id="calaApiDot" aria-hidden="true"></span>
+            <span>Log in</span>
+          </button>
+        </nav>
       </div>
+    </header>
 
-      <!-- Primary 4-Tab View Switcher -->
-      <nav class="main-nav" role="tablist" aria-label="Primary Views">
-        <button class="nav-tab active" data-view="explorer" role="tab" aria-selected="true" id="tabBtnExplorer">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/>
-            <path d="M8.5 7.5L10.8 15.5M15.5 7.5L13.2 15.5M9 6h6"/>
-          </svg>
-          <span>Connection Explorer</span>
-        </button>
-
-        <button class="nav-tab" data-view="history" role="tab" aria-selected="false" id="tabBtnHistory">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/>
-          </svg>
-          <span>Saved Runs &amp; Aiven Cloud</span>
-          <span class="tab-count" id="savedRunsCountBadge">0</span>
-        </button>
-
-        <button class="nav-tab" data-view="craci" role="tab" aria-selected="false" id="tabBtnCraci">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
-          </svg>
-          <span>CRACI Build &amp; SBOM Defense</span>
-        </button>
-
-        <button class="nav-tab" data-view="coverage" role="tab" aria-selected="false" id="tabBtnCoverage">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 3v18h18"/><rect x="7" y="10" width="3" height="7"/><rect x="12" y="6" width="3" height="11"/><rect x="17" y="13" width="3" height="4"/>
-          </svg>
-          <span>Dataset Coverage &amp; Audit</span>
-        </button>
-      </nav>
-
-      <!-- Live Partner Capability Status Pills -->
-      <div class="capability-strip" id="capabilityStrip" aria-label="Live Partner Capabilities">
-        <button class="cap-pill cala online" data-goto-view="coverage" id="capCala" title="Cala Verified Knowledge Graph + /v1 Live Enrichment">
-          <span class="cap-dot"></span>
-          <span id="capCalaLabel">Cala Graph · 933 Bridges</span>
-        </button>
-        <button class="cap-pill ai" data-goto-view="explorer" id="capGemini" title="Google Gemini Grounded Brief Composer">
-          <span class="cap-dot"></span>
-          <span id="capGeminiLabel">Gemini API</span>
-        </button>
-        <button class="cap-pill ai" data-goto-view="explorer" id="capGemma" title="Google Gemma 3 Open-Weight Claim Entailment Shield">
-          <span class="cap-dot"></span>
-          <span id="capGemmaLabel">Gemma 3 Audit</span>
-        </button>
-        <button class="cap-pill" data-goto-view="history" id="capAiven" title="Aiven Managed PostgreSQL + Valkey Sub-2ms Cache">
-          <span class="cap-dot"></span>
-          <span id="capAivenLabel">Aiven PG + Valkey</span>
-        </button>
-        <button class="cap-pill" data-goto-view="craci" id="capCraci" title="CRACI Isolated Linux Runner + CycloneDX SBOM">
-          <span class="cap-dot"></span>
-          <span id="capCraciLabel">CRACI SBOM</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- ====================================================================
-       MAIN WORKSPACE CONTAINER
-       ==================================================================== -->
-  <main class="app-main">
-
-    <!-- ==================================================================
-         VIEW 1: CONNECTION EXPLORER (4 Fixed Questions + Graph + Brief)
-         ================================================================== -->
-    <section class="view-section active" id="view-explorer" role="tabpanel" aria-labelledby="tabBtnExplorer">
-
-      <!-- Curated Verified Demo Presets Strip / Expandable Drawer -->
-      <div class="presets-panel">
-        <div class="presets-header">
-          <div class="presets-title-group">
-            <span class="section-eyebrow">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-              </svg>
-              Verified Demo Scenarios
-            </span>
-            <div class="preset-filters" id="presetFilterBar">
-              <button type="button" class="filter-chip active" data-filter="all">All</button>
-              <button type="button" class="filter-chip" data-filter="1_2_hop">1–2 Hop</button>
-              <button type="button" class="filter-chip" data-filter="3_4_hop">3–4 Hop Deep Bridges</button>
-              <button type="button" class="filter-chip" data-filter="slush_speakers">Slush Speakers (Q4)</button>
-              <button type="button" class="filter-chip" data-filter="edge_cases">Ambiguity &amp; Edge Cases</button>
-            </div>
-          </div>
-          <button type="button" class="btn-ghost-sm" id="togglePresetsExpandBtn">
-            <span id="togglePresetsExpandLabel">Expand All Presets</span>
-          </button>
+    <main class="main-container">
+      <!-- Centered Hero: Title -> Mode Pills -> Relationship Sentence -> Depth & Search -->
+      <section class="hero-section" id="heroSection">
+        <div class="hero-header">
+          <h1 class="hero-title">Comare di Slush</h1>
+          <p class="hero-subtitle">
+            Trace verified founders, investors, board seats, and warm Slush paths through the Cala AI graph
+          </p>
         </div>
-        <div class="presets-rail" id="presetsRail">
-          <!-- Populated dynamically from GET /api/presets -->
-        </div>
-      </div>
 
-      <!-- 4 Fixed Questions + Smart Typeahead Composer Deck -->
-      <div class="query-deck">
-        <div class="question-cards-grid" id="questionCardsGrid">
-          <button type="button" class="question-card active" data-qid="person_to_company">
-            <div class="q-card-header">
-              <span class="q-code">Q1 · PERSON → COMPANY</span>
-              <span class="q-hops">≤ 4 Hops</span>
-            </div>
-            <div class="q-short-title">Person → Company</div>
-            <div class="q-prompt">How is this person connected to this company?</div>
+        <!-- Question Mode Selection directly below the title -->
+        <div class="mode-tabs" role="tablist" aria-label="Relationship query mode">
+          <button type="button" class="mode-tab active" data-qid="person_to_company">
+            Person &rarr; Company
           </button>
-
-          <button type="button" class="question-card" data-qid="company_to_company">
-            <div class="q-card-header">
-              <span class="q-code">Q2 · COMPANY ↔ COMPANY</span>
-              <span class="q-hops">≤ 4 Hops</span>
-            </div>
-            <div class="q-short-title">Company → Company</div>
-            <div class="q-prompt">How is this company connected to that company?</div>
+          <button type="button" class="mode-tab" data-qid="company_to_company">
+            Company &rarr; Company
           </button>
-
-          <button type="button" class="question-card" data-qid="company_network">
-            <div class="q-card-header">
-              <span class="q-code">Q3 · ECOSYSTEM MAP</span>
-              <span class="q-hops">≤ 2 Hops</span>
-            </div>
-            <div class="q-short-title">Company Network</div>
-            <div class="q-prompt">What professional network surrounds this company?</div>
+          <button type="button" class="mode-tab" data-qid="company_network">
+            Company network
           </button>
-
-          <button type="button" class="question-card" data-qid="company_representatives">
-            <div class="q-card-header">
-              <span class="q-code">Q4 · SLUSH BRIEF</span>
-              <span class="q-hops">1 Hop + Event</span>
-            </div>
-            <div class="q-short-title">Slush Approach &amp; Brief</div>
-            <div class="q-prompt">Who from this company can I approach at Slush, and what should I know?</div>
+          <button type="button" class="mode-tab" data-qid="company_representatives">
+            People at Slush
           </button>
         </div>
 
-        <form class="query-form" id="analysisForm" autocomplete="off">
-          <div class="inputs-row" id="dynamicInputsRow">
-            <!-- Slot A: Source (for Q1 & Q2) -->
-            <div class="field-group" id="fieldGroupSource">
-              <div class="field-label-row">
-                <label class="field-label" for="inputSource">
-                  <span id="labelSourceText">Person</span>
-                  <span class="entity-type-tag" id="tagSourceType">Person</span>
-                </label>
-                <div id="lockedBadgeSource"></div>
-              </div>
-              <div class="input-box-wrap">
+        <!-- Interactive Fill-in-the-Blank Sentence Card -->
+        <form id="analysisForm" class="query-card" autocomplete="off">
+          <div class="sentence-builder" id="sentenceBuilder">
+            <span class="sentence-text" id="sentencePrefix">How is</span>
+
+            <span class="inline-slot" id="fieldGroupSource">
+              <span class="slot-input-wrap">
                 <input
                   type="text"
                   id="inputSource"
-                  class="smart-input"
-                  placeholder="e.g. Camille Accolas, Dani Penev, Anton Osika..."
-                  value="Camille Accolas"
+                  class="sentence-input"
+                  placeholder="Camille Accolas"
+                  aria-label="Starting person or company"
                 />
-                <button type="button" class="input-clear-btn" data-clear-slot="source" title="Clear input">&times;</button>
-              </div>
-              <div class="typeahead-dropdown" id="dropdownSource"></div>
-            </div>
+                <span id="lockedBadgeSource" class="locked-slot-badge"></span>
+                <div class="typeahead-dropdown" id="dropdownSource" role="listbox"></div>
+              </span>
+            </span>
 
-            <!-- Swap Button (visible on Q2 Company <-> Company) -->
-            <button type="button" class="swap-entities-btn" id="swapEntitiesBtn" title="Swap starting and target companies" style="display:none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+            <button
+              type="button"
+              class="swap-inline-btn"
+              id="swapEntitiesBtn"
+              title="Swap companies"
+              style="display: none;"
+              aria-label="Swap companies"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4" />
               </svg>
             </button>
 
-            <!-- Slot B: Target (for Q1 & Q2) -->
-            <div class="field-group" id="fieldGroupTarget">
-              <div class="field-label-row">
-                <label class="field-label" for="inputTarget">
-                  <span id="labelTargetText">Target Company</span>
-                  <span class="entity-type-tag" id="tagTargetType">Company</span>
-                </label>
-                <div id="lockedBadgeTarget"></div>
-              </div>
-              <div class="input-box-wrap">
+            <span class="sentence-text" id="sentenceConnector">connected to</span>
+
+            <span class="inline-slot" id="fieldGroupTarget">
+              <span class="slot-input-wrap">
                 <input
                   type="text"
                   id="inputTarget"
-                  class="smart-input"
-                  placeholder="e.g. Trust Exchange, Y Combinator, Amplitude..."
-                  value="Trust Exchange"
+                  class="sentence-input"
+                  placeholder="Trust Exchange"
+                  aria-label="Target company"
                 />
-                <button type="button" class="input-clear-btn" data-clear-slot="target" title="Clear input">&times;</button>
-              </div>
-              <div class="typeahead-dropdown" id="dropdownTarget"></div>
-            </div>
+                <span id="lockedBadgeTarget" class="locked-slot-badge"></span>
+                <div class="typeahead-dropdown" id="dropdownTarget" role="listbox"></div>
+              </span>
+            </span>
 
-            <!-- Slot C: Focal Company (for Q3 & Q4) -->
-            <div class="field-group" id="fieldGroupCompany" style="display:none;">
-              <div class="field-label-row">
-                <label class="field-label" for="inputCompany">
-                  <span>Target Company</span>
-                  <span class="entity-type-tag">Company</span>
-                </label>
-                <div id="lockedBadgeCompany"></div>
-              </div>
-              <div class="input-box-wrap">
+            <span class="inline-slot" id="fieldGroupCompany" style="display: none;">
+              <span class="slot-input-wrap">
                 <input
                   type="text"
                   id="inputCompany"
-                  class="smart-input"
-                  placeholder="e.g. Trust Exchange, Planhat, General Catalyst, ICEYE..."
+                  class="sentence-input"
+                  placeholder="Trust Exchange"
+                  aria-label="Company"
                 />
-                <button type="button" class="input-clear-btn" data-clear-slot="company" title="Clear input">&times;</button>
-              </div>
-              <div class="typeahead-dropdown" id="dropdownCompany"></div>
-            </div>
+                <span id="lockedBadgeCompany" class="locked-slot-badge"></span>
+                <div class="typeahead-dropdown" id="dropdownCompany" role="listbox"></div>
+              </span>
+            </span>
+
+            <span class="sentence-text" id="sentenceSuffix">?</span>
           </div>
 
-          <!-- AI Composer, Cache Refresh & Run Controls -->
-          <div class="controls-bar">
-            <div class="composer-options">
-              <div class="select-group">
-                <label class="select-label" for="composerModeSelect">AI Composer &amp; Guardrail:</label>
-                <select id="composerModeSelect" class="styled-select">
-                  <option value="auto">Auto (Best Available)</option>
-                  <option value="gemini_gemma_audit">Gemini 2.5 + Gemma 3 Entailment Shield</option>
-                  <option value="gemini">Gemini 2.5 Grounded</option>
-                  <option value="gemma">Gemma 3 Open Model</option>
-                  <option value="template">Deterministic Offline Template</option>
-                </select>
+          <!-- Search Depth + Primary Action -->
+          <div class="search-controls-row">
+            <div class="depth-control" id="hopSelectorGroup">
+              <span class="depth-label">Search depth</span>
+              <div class="depth-stepper">
+                <button type="button" class="depth-step-btn" id="hopStepDec" title="Decrease hops" aria-label="Decrease hops">&minus;</button>
+                <input
+                  type="number"
+                  id="hopCustomInput"
+                  class="depth-number-input"
+                  min="1"
+                  max="8"
+                  value="4"
+                  aria-label="Number of relationship hops"
+                />
+                <button type="button" class="depth-step-btn" id="hopStepInc" title="Increase hops" aria-label="Increase hops">+</button>
               </div>
-
-              <label class="toggle-check" title="Bypass Aiven Valkey / versioned cache to run fresh compute and compare latency">
-                <input type="checkbox" id="forceRefreshCheck" />
-                <span>Force Refresh (Bypass Valkey Cache)</span>
-              </label>
-
-              <label class="toggle-check" title="Query live Cala /v1 API for focal entities into isolated cala_live_enrichment namespace">
-                <input type="checkbox" id="includeCalaLiveCheck" />
-                <span>Attach Live Cala <code>/v1</code> Enrich</span>
-              </label>
-            </div>
-
-            <div class="action-buttons">
-              <button type="submit" class="btn-primary" id="runAnalysisBtn">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
-                  <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
-                </svg>
-                <span id="runAnalysisBtnLabel">Run Verified Radar</span>
+              <button type="button" class="depth-chip active" data-hop-mode="suggested" id="hopBtnSuggested">
+                Suggested (<span id="hopSuggestedNum">4</span>)
+              </button>
+              <button type="button" class="depth-chip" data-hop-mode="max" id="hopBtnMax">
+                Max (<span id="hopMaxNum">8</span>)
               </button>
             </div>
+
+            <button type="submit" class="search-submit-btn" id="runAnalysisBtn">
+              <span id="runAnalysisBtnLabel">Find relationships</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14m-6-6l6 6-6 6" />
+              </svg>
+            </button>
           </div>
         </form>
-      </div>
 
-      <!-- Real-Time SSE Multi-Stage Reasoning & Cache Pipeline Bar -->
-      <div class="pipeline-bar" id="pipelineBar">
-        <div class="pipeline-top">
-          <div class="pipeline-status-msg">
-            <span class="badge badge-cala" id="pipelineStateBadge">READY</span>
-            <span id="pipelineMessageText">Waiting for query...</span>
-          </div>
-          <div class="pipeline-meta-right" id="pipelineMetaRight">
-            <!-- Elapsed ms, CACHED pill, run_id, Inspect Grounded Prompt button -->
-          </div>
+        <!-- Quiet Example Queries -->
+        <div class="examples-strip" id="examplesStrip">
+          <span class="examples-label">Examples</span>
+          <div class="examples-chips" id="presetsRail"></div>
         </div>
-        <div class="pipeline-stages" id="pipelineStagesGrid">
-          <div class="stage-pill" data-stage="resolving">
-            <span class="stage-dot"></span>
-            <span class="stage-label">1. Resolving</span>
+      </section>
+
+      <!-- Progressive Result Section: Hidden until search starts -->
+      <section class="result-section" id="resultSection" hidden>
+        <div class="search-status-bar" id="pipelineBar">
+          <div class="status-bar-left">
+            <span class="status-spinner" id="statusSpinner" aria-hidden="true"></span>
+            <span class="status-badge" id="pipelineStateBadge">Cala API</span>
+            <span class="status-message" id="pipelineMessageText">Tracing relationships</span>
           </div>
-          <div class="stage-pill" data-stage="cache_check">
-            <span class="stage-dot"></span>
-            <span class="stage-label">2. Aiven Valkey Cache</span>
-          </div>
-          <div class="stage-pill" data-stage="traversing">
-            <span class="stage-dot"></span>
-            <span class="stage-label">3. 4-Hop Graph Traversal</span>
-          </div>
-          <div class="stage-pill" data-stage="ranking">
-            <span class="stage-dot"></span>
-            <span class="stage-label">4. Evidence Ranking</span>
-          </div>
-          <div class="stage-pill" data-stage="composing_gemini">
-            <span class="stage-dot"></span>
-            <span class="stage-label">5. Gemini Synthesis</span>
-          </div>
-          <div class="stage-pill" data-stage="auditing_gemma">
-            <span class="stage-dot"></span>
-            <span class="stage-label">6. Gemma Entailment Audit</span>
-          </div>
-          <div class="stage-pill" data-stage="persisting_aiven">
-            <span class="stage-dot"></span>
-            <span class="stage-label">7. Aiven PG Save</span>
-          </div>
+          <div class="status-bar-right" id="pipelineMetaRight"></div>
         </div>
-      </div>
 
-      <!-- Interactive Identity Disambiguation Panel (shown on needs_resolution / not_found) -->
-      <div class="disambiguation-banner" id="disambiguationPanel"></div>
+        <div id="disambiguationPanel"></div>
 
-      <!-- Widescreen Split-Pane Workspace: Interactive Graph (Left) + Grounded Intelligence (Right) -->
-      <div class="explorer-workspace">
+        <!-- 1. Relationship Subgraph (The single rich visual centerpiece) -->
+        <div class="subgraph-card" id="subgraphCard">
+          <div class="section-bar">
+            <div class="section-bar-left">
+              <h2 class="section-heading">Relationship subgraph</h2>
+              <span class="subgraph-stats" id="graphStatsFooter">0 nodes · 0 edges</span>
+            </div>
 
-        <!-- LEFT PANE: Interactive SVG Knowledge Graph + Node/Edge Inspector -->
-        <div class="graph-panel">
-          <div class="graph-toolbar">
-            <div class="graph-toolbar-left">
-              <span class="section-eyebrow" style="margin-right:0.35rem;">Verified Subgraph</span>
-              <button type="button" class="graph-btn active" data-layout="auto" id="layoutBtnAuto" title="Automatic layout per question">Auto</button>
-              <button type="button" class="graph-btn" data-layout="layered" id="layoutBtnLayered" title="Left-to-right multi-hop layered path layout">Path-Layered</button>
-              <button type="button" class="graph-btn" data-layout="radial" id="layoutBtnRadial" title="Radial &amp; spring network layout">Radial / Force</button>
-              <button type="button" class="graph-btn" id="clearIsolationBtn" style="display:none; border-color:var(--cala-bright); color:var(--cala-bright);">
-                Show All Paths
+            <div class="graph-controls">
+              <div class="layout-switch" role="group" aria-label="Graph layout">
+                <button type="button" class="graph-btn active" data-layout="auto">Auto</button>
+                <button type="button" class="graph-btn" data-layout="layered">Paths</button>
+                <button type="button" class="graph-btn" data-layout="radial">Network</button>
+              </div>
+              <button type="button" class="graph-btn" id="graphZoomOutBtn" title="Zoom out" aria-label="Zoom out">&minus;</button>
+              <button type="button" class="graph-btn" id="graphZoomInBtn" title="Zoom in" aria-label="Zoom in">+</button>
+              <button type="button" class="graph-btn" id="graphResetBtn" title="Fit graph">Fit</button>
+              <button
+                type="button"
+                class="graph-btn highlight-btn"
+                id="clearIsolationBtn"
+                style="display: none;"
+              >
+                Show all paths
               </button>
             </div>
-            <div class="graph-toolbar-right">
-              <button type="button" class="graph-btn" id="graphZoomInBtn" title="Zoom in">+</button>
-              <button type="button" class="graph-btn" id="graphZoomOutBtn" title="Zoom out">&minus;</button>
-              <button type="button" class="graph-btn" id="graphFitBtn" title="Fit graph to viewport">Fit</button>
-              <button type="button" class="graph-btn" id="graphResetBtn" title="Re-compute layout">Reset</button>
-            </div>
           </div>
 
-          <div class="graph-stage-wrap" id="graphStageWrap">
-            <svg class="graph-svg" id="knowledgeGraphSvg" aria-label="Interactive Verified Knowledge Graph"></svg>
+          <div class="subgraph-canvas-wrap">
+            <svg
+              id="knowledgeGraphSvg"
+              aria-label="Interactive Cala relationship subgraph"
+            ></svg>
+
             <div class="graph-empty-overlay" id="graphEmptyOverlay">
-              <div style="max-width:380px;">
-                <div class="badge badge-warn" style="margin-bottom:0.5rem;">0 Traversable Professional Bridges</div>
-                <div style="font-family:var(--font-display); font-weight:700; font-size:1rem; margin-bottom:0.35rem;" id="graphEmptyTitle">
-                  No Supported Subgraph Edges
-                </div>
-                <div style="font-size:0.78rem; color:var(--text-muted);" id="graphEmptySubtitle">
-                  Select a candidate above or inspect resolved focal entities. Event co-attendance is never drawn as a false professional bridge.
-                </div>
+              <div class="graph-empty-box">
+                <div class="graph-empty-title" id="graphEmptyTitle">Tracing relationships</div>
+                <p class="graph-empty-sub" id="graphEmptySubtitle">
+                  Choose an entity above to inspect its verified connections
+                </p>
               </div>
             </div>
-          </div>
 
-          <div class="graph-legend">
-            <div class="legend-items">
-              <span class="legend-item">
-                <span class="legend-swatch" style="background:#22D3EE;"></span>
-                <span>Cala Verified</span>
-              </span>
-              <span class="legend-item">
-                <span class="legend-swatch" style="background:#FBBF24;"></span>
-                <span>Slush 2026</span>
-              </span>
-              <span class="legend-item">
-                <span class="legend-swatch" style="background:#34D399;"></span>
-                <span>Dual-Source Corroborated</span>
-              </span>
-              <span class="legend-item">
-                <span class="legend-node-dot" style="color:#A78BFA;"></span>
-                <span>Person (Circle)</span>
-              </span>
-              <span class="legend-item">
-                <span class="legend-node-dot" style="color:#22D3EE; border-radius:3px;"></span>
-                <span>Company / VC (Rounded Box)</span>
-              </span>
+            <div class="graph-legend">
+              <div class="legend-items">
+                <span class="legend-chip"><i class="dot dot-person"></i> Person</span>
+                <span class="legend-chip"><i class="dot dot-company"></i> Company</span>
+                <span class="legend-chip"><i class="dot dot-cala"></i> Cala</span>
+                <span class="legend-chip"><i class="dot dot-slush"></i> Slush</span>
+              </div>
+              <span class="legend-hint">Drag nodes · Scroll to zoom · Click any link</span>
             </div>
-            <span class="mono" style="font-size:0.68rem;" id="graphStatsFooter">0 nodes · 0 edges</span>
           </div>
 
-          <!-- Docked Node / Edge Inspector + Live Cala /v1 Enrich Trigger -->
           <div class="inspector-drawer" id="nodeEdgeInspector"></div>
         </div>
 
-        <!-- RIGHT PANE: Grounded Claims, Gemma Entailment, Slush Brief, Ranked Results & Evidence -->
-        <div class="intel-column" id="intelColumn">
-          <!-- Populated dynamically by ResultsView -->
+        <!-- 2. Infos & Verified Sources -->
+        <div class="infos-section" id="infosSection">
+          <div class="infos-header">
+            <h2 class="section-heading">Connection details</h2>
+          </div>
+          <div class="infos-stack" id="intelColumn"></div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
+  </div>
 
-    <!-- ==================================================================
-         VIEW 2: SAVED ANALYSES & AIVEN CLOUD TELEMETRY
-         ================================================================== -->
-    <section class="view-section" id="view-history" role="tabpanel" aria-labelledby="tabBtnHistory">
-      <div id="historyViewContainer"></div>
-    </section>
-
-    <!-- ==================================================================
-         VIEW 3: CRACI ISOLATED BUILD, CYCLONEDX SBOM & EGRESS DEFENSE
-         ================================================================== -->
-    <section class="view-section" id="view-craci" role="tabpanel" aria-labelledby="tabBtnCraci">
-      <div id="craciViewContainer"></div>
-    </section>
-
-    <!-- ==================================================================
-         VIEW 4: DATASET COVERAGE, ASSERTION FUNNEL & AUDIT MANIFEST
-         ================================================================== -->
-    <section class="view-section" id="view-coverage" role="tabpanel" aria-labelledby="tabBtnCoverage">
-      <div id="coverageViewContainer"></div>
-    </section>
-
-  </main>
-
-  <!-- ====================================================================
-       MODAL: GROUNDED LLM PROMPT & SCHEMA INSPECTOR
-       ==================================================================== -->
-  <div class="modal-backdrop" id="promptModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="promptModalTitle">
-    <div class="modal-dialog">
+  <!-- Recent Searches Modal -->
+  <div class="modal-backdrop" id="savedModalBackdrop">
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="savedModalTitle">
       <div class="modal-header">
         <div>
-          <span class="section-eyebrow">Zero-Confabulation Audit</span>
-          <h2 class="card-title" id="promptModalTitle" style="margin-top:2px;">Grounded LLM Prompt &amp; Schema Inspector</h2>
+          <h3 id="savedModalTitle" class="modal-title">Recent searches</h3>
+          <p class="modal-sub">Reopen a previous relationship query</p>
         </div>
-        <div style="display:flex; gap:0.5rem; align-items:center;">
-          <button type="button" class="btn-ghost-sm" id="copyPromptJsonBtn">Copy Payload JSON</button>
-          <button type="button" class="btn-ghost-sm" id="closePromptModalBtn">&times; Close</button>
-        </div>
+        <button type="button" class="modal-close-btn" id="closeSavedModalBtn" aria-label="Close">&times;</button>
       </div>
-      <div class="modal-body" id="promptModalBody"></div>
+      <div class="modal-body" id="savedModalBody"></div>
     </div>
   </div>
 
-  <!-- Toast Notification Stack -->
+  <!-- Cala Workspace Modal -->
+  <div class="modal-backdrop" id="loginModalBackdrop">
+    <div class="modal-panel modal-panel-sm" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+      <div class="modal-header">
+        <div>
+          <h3 id="loginModalTitle" class="modal-title">Cala AI session</h3>
+          <p class="modal-sub">Connected to Cala Knowledge Graph API</p>
+        </div>
+        <button type="button" class="modal-close-btn" id="closeLoginModalBtn" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="loginModalBody">
+        <div class="workspace-status-box">
+          <div class="ws-row">
+            <span>Status</span>
+            <span class="ws-ok">Connected</span>
+          </div>
+          <div class="ws-row">
+            <span>Data source</span>
+            <span>Cala entity &amp; relationship graph</span>
+          </div>
+          <div class="ws-row">
+            <span>Event scope</span>
+            <span>Slush 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <!-- Zero-Build Native ES2022 Entrypoint -->
   <script type="module" src="/js/app.js"></script>
 </body>
 </html>

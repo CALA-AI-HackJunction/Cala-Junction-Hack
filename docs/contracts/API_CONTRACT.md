@@ -612,7 +612,13 @@ Executes one of the 4 fixed graph queries, composes grounded explanations + meet
   - `company_to_company`: `source` (or `source_id`) AND `target` (or `target_id`)
   - `company_network`: `company` (or `company_id`)
   - `company_representatives`: `company` (or `company_id`)
-- **Optional Execution Options** (accepted on `/api/analyses` and `/analyses`; `null` values for unused `_id` fields are ignored cleanly, whereas ANY unknown/arbitrary field such as `prompt`, `objective`, `max_hops` MUST raise `HTTP 400 {"error": "Unexpected request fields: ..."}`):
+- **Optional Execution Options** (accepted on `/api/analyses` and `/analyses`; `null` values for unused `_id` fields are ignored cleanly, whereas ANY unknown/arbitrary field such as `prompt` or `objective`, or any out-of-range `max_hops` such as `99` or `0`, MUST raise `HTTP 400 {"error": "..."}`):
+  - `hop_mode` (`"suggested"` | `"custom"` | `"max"` | `"maximum"`, default `"suggested"`):
+    - `"suggested"`: Uses the question-optimal default depth (`4` hops for `person_to_company` & `company_to_company`, `2` hops for `company_network`, `1` hop for `company_representatives`).
+    - `"custom"`: Traverses up to an explicit user-selected integer `max_hops` (or alias `hops`) within the question's `[min_hops .. max_hops]` range (`1..8` for Q1/Q2, `1..6` for Q3, `1..4` for Q4). Note: supplying `max_hops`/`hops` while omitting `hop_mode` automatically infers `hop_mode="custom"`.
+    - `"max"` (or `"maximum"`): Traverses up to the question's bounded ceiling (`8`, `8`, `6`, `4` respectively). When `selected_hops > 4` (the supplied Cala crawl depth), `coverage.hop_depth_note` and `hop_selection.exceeds_cala_crawl_depth = true` transparently disclose snapshot crawl boundaries.
+    - On `company_representatives` (`Q4`), when `selected_hops > 1`, direct 1-hop affiliated Slush participants remain strictly isolated in `results[]` while 2..N-hop warm-bridge Slush participants are surfaced separately in `extended_network_representatives[]`.
+  - `max_hops` / `hops` (`int`, optional): Explicit hop ceiling when `hop_mode == "custom"` (or omitted). Out-of-bounds integers (`0`, `-1`, `99`), booleans, or conflicting `hop_mode` + `max_hops` combinations return `HTTP 400`. Also inspectable globally via `GET /api/hop-policies` (`/hop-policies`) and per question via `GET /api/questions`.
   - `refresh` (`bool`, default `false`): Bypass cache and persist a fresh `run_id`.
   - `composer_mode` (`"auto"` | `"template"` | `"gemini"` | `"gemma"` | `"gemini_gemma_audit"`, default `"auto"`):
     - `"template"`: Pure deterministic offline `evidence_template` (< 10ms).
@@ -622,7 +628,7 @@ Executes one of the 4 fixed graph queries, composes grounded explanations + meet
     - `"auto"`: Uses `"gemini_gemma_audit"` if both Gemini & Gemma are configured, `"gemini"` if Gemini is configured, `"gemma"` if Gemma is configured, or `"template"` if neither key is configured (note: on legacy `POST /analyses` when `composer_mode` is omitted, defaults to `"template"` unless `CALA_DEMO_COMPOSER_URL` or explicit `composer_mode` is requested, preserving sub-5ms deterministic behavior and exact `test_service.py` compatibility!).
   - `include_cala_live` (`bool`, default `false`): When `true`, attaches `cala_live_enrichment` for resolved focal entities that have a `source_ids.cala` UUID (or live lookup match) if `CALA_API_KEY` is configured.
 - **Canonical Cache Key Rule**:
-  - `cache_key` hashes `{ canonical_entity_ids, question_id, graph_version, pipeline_version, query_policy_version, prompt_version, effective_composer_mode, include_cala_live }`.
+  - `cache_key` hashes `{ canonical_entity_ids, question_id, max_hops (resolved effective hop count), graph_version, pipeline_version, query_policy_version, prompt_version, effective_composer_mode, include_cala_live }`.
   - On `GET /analyses/{run_id}`, the exact originally saved JSON is recovered (`cached: false` as originally stored). When a subsequent `POST` hits cache, the returned copy sets `cached: true`, `storage_meta.cached: true`, `submitted_inputs`, and `request_elapsed_ms`.
 
 **Response `200 OK` (Complete / Partial / Ambiguous / Insufficient Data)**:

@@ -304,6 +304,112 @@ class QueryTests(unittest.TestCase):
             if raw_edge.get("origins") == ["cala"]:
                 self.assertTrue(has_doc, f"Cala traversable edge {raw_edge['id']} lacks source_documents provenance")
 
+    def test_selectable_hop_modes_suggested_custom_and_max_up_to_8_hops(self):
+        snap = fixture()
+        for idx in range(7):
+            node(snap, f"c{idx}", f"Chain {idx}", "Company")
+        for idx in range(6):
+            edge(snap, f"e{idx}", f"c{idx}", f"c{idx + 1}", "INVESTED_IN")
+
+        engine = QueryEngine(snap)
+        # Suggested mode (default = 4 hops on company_to_company) cannot reach 6-hop target
+        res_suggested = engine.run("company_to_company", source="Chain 0", target="Chain 6")
+        self.assertEqual(res_suggested["status"], "insufficient_data")
+        self.assertEqual(res_suggested["hop_selection"]["hop_mode"], "suggested")
+        self.assertEqual(res_suggested["hop_selection"]["selected_hops"], 4)
+
+        # Custom 5 hops still insufficient
+        res_custom5 = engine.run(
+            "company_to_company",
+            source="Chain 0",
+            target="Chain 6",
+            hop_mode="custom",
+            max_hops=5,
+        )
+        self.assertEqual(res_custom5["status"], "insufficient_data")
+        self.assertEqual(res_custom5["hop_selection"]["hop_mode"], "custom")
+        self.assertEqual(res_custom5["hop_selection"]["selected_hops"], 5)
+        self.assertTrue(res_custom5["hop_selection"]["exceeds_cala_crawl_depth"])
+        self.assertIn("hop_depth_note", res_custom5["coverage"])
+
+        # Custom 6 hops finds the 6-hop chain
+        res_custom6 = engine.run(
+            "company_to_company",
+            source="Chain 0",
+            target="Chain 6",
+            hop_mode="custom",
+            max_hops=6,
+        )
+        self.assertEqual(len(res_custom6["results"]), 1)
+        self.assertEqual(res_custom6["graph"]["paths"][0]["hop_count"], 6)
+        self.assertEqual(res_custom6["coverage"]["paths_by_hop"], {"6": 1})
+
+        # Max mode (8 hops on company_to_company) also finds the 6-hop chain
+        res_max = engine.run(
+            "company_to_company",
+            source="Chain 0",
+            target="Chain 6",
+            hop_mode="max",
+        )
+        self.assertEqual(res_max["hop_selection"]["hop_mode"], "max")
+        self.assertEqual(res_max["hop_selection"]["selected_hops"], 8)
+        self.assertEqual(len(res_max["results"]), 1)
+
+    def test_company_representatives_custom_multi_hop_separates_direct_and_extended(self):
+        snap = fixture()
+        node(snap, "target_co", "TargetCo", "Company")
+        node(snap, "vc_firm", "BridgeVC", "Investor")
+        node(
+            snap,
+            "direct_rep",
+            "Direct Rep",
+            "Person",
+            statuses=("announced_speaker",),
+        )
+        node(
+            snap,
+            "warm_partner",
+            "Warm Bridge Partner",
+            "Person",
+            statuses=("announced_attendee",),
+        )
+        edge(snap, "e_direct", "direct_rep", "target_co", "FOUNDED")
+        edge(snap, "e_inv", "vc_firm", "target_co", "INVESTED_IN")
+        edge(snap, "e_partner", "warm_partner", "vc_firm", "WORKS_AT")
+
+        engine = QueryEngine(snap)
+        # Suggested (1 hop) returns only direct affiliate
+        q4_default = engine.run("company_representatives", company="TargetCo")
+        self.assertEqual(q4_default["hop_selection"]["selected_hops"], 1)
+        self.assertEqual([r["person"]["id"] for r in q4_default["results"]], ["direct_rep"])
+        self.assertEqual(q4_default["extended_network_representatives"], [])
+
+        # Custom 2 hops preserves direct in results[] and adds 2-hop participant in extended_network_representatives[]
+        q4_2hop = engine.run("company_representatives", company="TargetCo", hop_mode="custom", max_hops=2)
+        self.assertEqual(q4_2hop["hop_selection"]["selected_hops"], 2)
+        self.assertEqual([r["person"]["id"] for r in q4_2hop["results"]], ["direct_rep"])
+        self.assertEqual(len(q4_2hop["extended_network_representatives"]), 1)
+        ext = q4_2hop["extended_network_representatives"][0]
+        self.assertEqual(ext["person"]["id"], "warm_partner")
+        self.assertEqual(ext["hop_distance"], 2)
+        self.assertEqual(ext["relationship_scope"], "extended_warm_bridge")
+
+    def test_real_snapshot_hop_scaling_on_sana_labs(self):
+        snap = ensure_snapshot()
+        engine = QueryEngine(snap)
+
+        counts = [
+            len(engine.run("company_network", company="Sana Labs", max_hops=h)["results"])
+            for h in (1, 2, 3, 4)
+        ]
+        self.assertEqual(counts, [1, 4, 5, 9])
+
+        # Sana Labs -> Amplitude requires >2 hops in the real snapshot
+        short_q2 = engine.run("company_to_company", source="Sana Labs", target="Amplitude", max_hops=2)
+        self.assertEqual(short_q2["status"], "insufficient_data")
+        full_q2 = engine.run("company_to_company", source="Sana Labs", target="Amplitude", max_hops=4)
+        self.assertGreaterEqual(len(full_q2["results"]), 1)
+
 
 if __name__ == "__main__":
     unittest.main()

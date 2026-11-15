@@ -71,7 +71,7 @@ flowchart LR
 
     subgraph Engine["Deterministic Graph & Provenance Engine"]
         ING["Reconciler (ingest.py)\n10,785 nodes · 4,023 assertions\n933 traversable · 32 company + 1 person join"]
-        QE["Bounded Path Search (queries.py)\n<=4 hops · Primary-doc ranking\nExcludes 2,990 event links"]
+        QE["Bounded Path Search (queries.py)\nSuggested / Custom / Max hops (1..8)\nPrimary-doc ranking · Excludes 2,990 event links"]
     end
 
     subgraph Reasoning["Dual-Model Grounded AI Pipeline"]
@@ -98,6 +98,7 @@ flowchart LR
 | **Normalized Graph Nodes** | `10,785` | Reconciled across `952` Slush people, `6,275` Slush companies, and `3,279` Cala endpoint IDs (`41` full records + `3,238` stubs). |
 | **Qualified Relationship Assertions** | `4,023` | Every assertion preserves `ev:...` provenance pointers to exact dataset indices and `source_documents`. |
 | **Traversable Professional Bridges** | `933` | Restricted strictly to documented employment, founding, executive, board, advisory, ownership, and investment edges. |
+| **Selectable Hop Search Depth** | `Suggested` / `Custom` / `Max` | Users can choose `hop_mode: "suggested"` (`4`/`4`/`2`/`1`), `"custom"` (`1..8` on Q1/Q2, `1..6` on Q3, `1..4` on Q4), or `"max"` (`8`/`8`/`6`/`4`) via API (`GET /api/hop-policies`), CLI (`--hop-mode`, `--hops`), or UI stepper, with canonical cache isolation per hop depth. |
 | **Excluded Event Co-Attendance Links** | `2,990` | `PARTICIPATES_IN_EVENT` links (`cala_graph.json`) and `95` generic industry/location links are **never** traversed as social bridges — preventing false "both at Slush" paths (e.g., `Trust Exchange` ↔ `Slicker` honestly returns `insufficient_data`). |
 | **Corroborated Cross-Source Merges** | `32` companies, `1` person | Joined **only** on shared source IDs, official website domain corroboration, or exact person name + resolved shared company affiliation. `2,371` name-only candidates (e.g., `Y Combinator`, `Ben Fletcher`) are retained unmerged and surfaced in the UI Disambiguation Picker. |
 | **Snapshot Completeness Disclosure** | `complete: false` | `cala_graph.json` hit an upstream retrieval time budget (`maximum_hops: 4` requested, not exhausted). Valid paths are transparently marked `status: "partial"` rather than overclaiming complete world coverage. |

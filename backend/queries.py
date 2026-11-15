@@ -33,6 +33,152 @@ QUESTION_TEMPLATES = {
     ),
 }
 
+CALA_SNAPSHOT_CRAWL_HOPS = 4
+GLOBAL_HARD_MAX_HOPS = 8
+
+QUESTION_HOP_POLICIES: dict[str, dict[str, Any]] = {
+    "person_to_company": {
+        "min_hops": 1,
+        "suggested_hops": 4,
+        "max_hops": 8,
+        "default_mode": "suggested",
+        "description": (
+            "Suggested 4 hops aligns with Cala's crawl depth; custom 1–8 hops narrows to direct/warm "
+            "ties or explores deeper multi-cluster bridges up to the 8-hop maximum."
+        ),
+    },
+    "company_to_company": {
+        "min_hops": 1,
+        "suggested_hops": 4,
+        "max_hops": 8,
+        "default_mode": "suggested",
+        "description": (
+            "Suggested 4 hops captures VC syndicates and shared leadership; custom 1–8 hops tunes "
+            "search depth from direct links up to the 8-hop maximum."
+        ),
+    },
+    "company_network": {
+        "min_hops": 1,
+        "suggested_hops": 2,
+        "max_hops": 6,
+        "default_mode": "suggested",
+        "description": (
+            "Suggested 2 hops maps direct people, investors, and 1st-ring co-affiliates; custom 1–6 "
+            "hops focuses on 1-hop core links or expands up to a 6-hop ecosystem neighbourhood."
+        ),
+    },
+    "company_representatives": {
+        "min_hops": 1,
+        "suggested_hops": 1,
+        "max_hops": 4,
+        "default_mode": "suggested",
+        "description": (
+            "Suggested 1 hop returns strictly direct company representatives attending Slush; custom "
+            "2–4 hops additionally surfaces warm-bridge Slush participants reachable via intermediate ties."
+        ),
+    },
+}
+
+
+def get_hop_policy(question_id: str) -> dict[str, Any]:
+    if question_id not in QUESTION_HOP_POLICIES:
+        raise ValueError("question_id must be one of: " + ", ".join(QUESTION_HOP_POLICIES))
+    base = copy.deepcopy(QUESTION_HOP_POLICIES[question_id])
+    base["presets"] = [
+        {
+            "mode": "suggested",
+            "hops": base["suggested_hops"],
+            "label": f"Suggested ({base['suggested_hops']} hop{'s' if base['suggested_hops'] != 1 else ''})",
+        },
+        {
+            "mode": "custom",
+            "min_hops": base["min_hops"],
+            "max_hops": base["max_hops"],
+            "label": f"Custom ({base['min_hops']}–{base['max_hops']} hops)",
+        },
+        {
+            "mode": "max",
+            "hops": base["max_hops"],
+            "label": f"Maximum ({base['max_hops']} hops)",
+        },
+    ]
+    return base
+
+
+def resolve_hop_selection(
+    question_id: str,
+    *,
+    hop_mode: Any = None,
+    hops: Any = None,
+    max_hops: Any = None,
+    suggested_override: int | None = None,
+    max_override: int | None = None,
+) -> dict[str, Any]:
+    """Validate and resolve `(hop_mode, hops/max_hops)` into a canonical `hop_selection` dict."""
+    if question_id not in QUESTION_HOP_POLICIES:
+        raise ValueError("question_id must be one of: " + ", ".join(QUESTION_HOP_POLICIES))
+
+    policy = QUESTION_HOP_POLICIES[question_id]
+    min_h = int(policy["min_hops"])
+    max_h = int(max_override) if max_override is not None else int(policy["max_hops"])
+    sug_h = int(suggested_override) if suggested_override is not None else int(policy["suggested_hops"])
+    sug_h = min(max_h, max(min_h, sug_h))
+
+    if hops is not None and max_hops is not None and hops != max_hops:
+        raise ValueError("Conflicting hops and max_hops values supplied")
+
+    explicit_hops = max_hops if max_hops is not None else hops
+    if explicit_hops is not None:
+        if isinstance(explicit_hops, bool) or not isinstance(explicit_hops, int):
+            raise ValueError(f"max_hops for {question_id} must be an integer between {min_h} and {max_h}")
+        if not (min_h <= explicit_hops <= max_h):
+            raise ValueError(f"max_hops for {question_id} must be between {min_h} and {max_h}")
+
+    if hop_mode is None or (isinstance(hop_mode, str) and not hop_mode.strip()):
+        mode = "custom" if explicit_hops is not None else "suggested"
+    elif isinstance(hop_mode, str):
+        raw_mode = hop_mode.strip().casefold()
+        if raw_mode in {"suggested", "default"}:
+            mode = "suggested"
+        elif raw_mode == "custom":
+            mode = "custom"
+        elif raw_mode in {"max", "maximum"}:
+            mode = "max"
+        else:
+            raise ValueError("hop_mode must be one of: suggested, custom, max")
+    else:
+        raise ValueError("hop_mode must be a string ('suggested', 'custom', or 'max')")
+
+    if mode == "suggested":
+        if explicit_hops is not None and explicit_hops != sug_h:
+            raise ValueError(
+                f"hop_mode='suggested' for {question_id} uses {sug_h} hops; "
+                f"use hop_mode='custom' to search {explicit_hops} hops"
+            )
+        selected = sug_h
+    elif mode == "max":
+        if explicit_hops is not None and explicit_hops != max_h:
+            raise ValueError(
+                f"hop_mode='max' for {question_id} uses {max_h} hops; "
+                f"use hop_mode='custom' to search {explicit_hops} hops"
+            )
+        selected = max_h
+    else:
+        if explicit_hops is None:
+            raise ValueError("Supply hops or max_hops when hop_mode is 'custom'")
+        selected = explicit_hops
+
+    return {
+        "hop_mode": mode,
+        "mode": mode,
+        "selected_hops": selected,
+        "suggested_hops": sug_h,
+        "min_hops": min_h,
+        "max_allowed_hops": max_h,
+        "cala_snapshot_crawl_hops": CALA_SNAPSHOT_CRAWL_HOPS,
+        "exceeds_cala_crawl_depth": selected > CALA_SNAPSHOT_CRAWL_HOPS,
+    }
+
 COMPANY_TYPES = {"company", "organization", "organisation", "investor", "fund"}
 PROFESSIONAL_NODE_TYPES = COMPANY_TYPES | {"person", "fundinground"}
 AFFILIATION_TYPES = {
@@ -94,7 +240,7 @@ class QueryEngine:
         self.manifest = snapshot.get("manifest", {})
         self.max_results = max(1, int(max_results))
         self.max_paths = max(1, int(max_paths))
-        self.max_hops = min(4, max(1, int(max_hops)))
+        self.max_hops = min(GLOBAL_HARD_MAX_HOPS, max(1, int(max_hops)))
         self.network_hops = min(self.max_hops, max(1, int(network_hops)))
         self.max_neighbours = max(1, int(max_neighbours))
         self.max_visited_nodes = max(1, int(max_visited_nodes))
@@ -671,14 +817,45 @@ class QueryEngine:
                                 for x in _unique(evidence_ids) if x in self.evidence]
 
     def run(self, question_id, source=None, target=None, company=None,
-            source_id=None, target_id=None, company_id=None):
+            source_id=None, target_id=None, company_id=None, *,
+            max_hops=None, hops=None, hop_mode=None):
         if question_id not in QUESTION_TEMPLATES:
             raise ValueError("question_id must be one of: " + ", ".join(QUESTION_TEMPLATES))
+
+        if question_id in {"person_to_company", "company_to_company"}:
+            default_suggested = self.max_hops
+        elif question_id == "company_network":
+            default_suggested = self.network_hops
+        else:
+            default_suggested = 1
+
+        hop_sel = resolve_hop_selection(
+            question_id,
+            hop_mode=hop_mode,
+            hops=hops,
+            max_hops=max_hops,
+            suggested_override=default_suggested,
+        )
+        effective_hops = hop_sel["selected_hops"]
+
         inputs = {key: value for key, value in {
             "source": source, "target": target, "company": company,
             "source_id": source_id, "target_id": target_id, "company_id": company_id,
         }.items() if value is not None}
+        if hop_mode is not None or max_hops is not None or hops is not None:
+            inputs["hop_mode"] = hop_sel["mode"]
+            inputs["max_hops"] = effective_hops
+
         response = self._base_response(question_id, inputs)
+        response["hop_selection"] = copy.deepcopy(hop_sel)
+        response["coverage"]["hop_selection"] = copy.deepcopy(hop_sel)
+        if hop_sel["exceeds_cala_crawl_depth"]:
+            response["coverage"]["hop_depth_note"] = (
+                f"Search traversed up to {effective_hops} professional steps; note that the supplied "
+                f"Cala export stopped at a {CALA_SNAPSHOT_CRAWL_HOPS}-hop crawl window (complete: false), "
+                "so >4-hop chains reflect cross-dataset or multi-cluster links present in the snapshot."
+            )
+
         if question_id in {"person_to_company", "company_to_company"}:
             source_type = "Person" if question_id == "person_to_company" else "Company"
             slots = {"source": (source_id or source, source_type), "target": (target_id or target, "Company")}
@@ -695,6 +872,8 @@ class QueryEngine:
             response["resolution"] = resolutions
             response["summary"] = "Resolve the indicated entity before searching its professional connections."
             return response
+
+        step_word = "step" if effective_hops == 1 else "steps"
         if question_id in {"person_to_company", "company_to_company"}:
             a = resolutions["source"]["entity"]["id"]
             b = resolutions["target"]["entity"]["id"]
@@ -704,10 +883,15 @@ class QueryEngine:
                 response["summary"] = "Both inputs resolve to the same entity; choose a distinct target company."
                 self._attach_graph(response, [], [a])
                 return response
-            found, search_coverage = self._search(a, b)
+            found, search_coverage = self._search(a, b, max_hops=effective_hops)
             paths = [self._path(*raw) for raw in found.get(b, [])]
+            hop_hist = defaultdict(int)
+            for p in paths:
+                hop_hist[str(p["hop_count"])] += 1
             response["coverage"].update(search_coverage)
+            response["coverage"]["paths_by_hop"] = dict(sorted(hop_hist.items(), key=lambda kv: int(kv[0])))
             response["results"] = [{"rank": index + 1, "path_id": path["id"],
+                                    "hop_count": path["hop_count"],
                                     "target": self._node_view(b),
                                     "rank_reasons": path["rank_reasons"],
                                     "explanation": path["explanation"]}
@@ -715,38 +899,45 @@ class QueryEngine:
             if paths:
                 response["summary"] = (
                     f"Found {len(paths)} supported professional path{'s' if len(paths) != 1 else ''} "
-                    f"from {self.nodes[a]['name']} to {self.nodes[b]['name']} within {self.max_hops} steps."
+                    f"from {self.nodes[a]['name']} to {self.nodes[b]['name']} within {effective_hops} {step_word}."
                 )
             else:
                 response["status"] = "insufficient_data"
                 response["summary"] = (
                     f"No supported professional path was found from {self.nodes[a]['name']} to "
-                    f"{self.nodes[b]['name']} within {self.max_hops} steps in the loaded snapshot."
+                    f"{self.nodes[b]['name']} within {effective_hops} {step_word} in the loaded snapshot."
                 )
             self._attach_graph(response, paths, [a, b])
         elif question_id == "company_network":
             a = resolutions["company"]["entity"]["id"]
-            found, search_coverage = self._search(a, max_hops=self.network_hops)
+            found, search_coverage = self._search(a, max_hops=effective_hops)
             endpoint_ids = sorted(found, key=lambda endpoint: self._path_key(*found[endpoint][0]))
             response["coverage"].update(search_coverage)
             response["coverage"]["result_limit_applied"] = len(endpoint_ids) > self.max_results
             response["coverage"]["eligible_endpoints_found"] = len(endpoint_ids)
             all_paths = []
             groups = defaultdict(list)
+            hop_hist = defaultdict(int)
             for index, endpoint in enumerate(endpoint_ids[:self.max_results]):
                 paths = [self._path(*raw) for raw in found[endpoint]]
                 all_paths.extend(paths)
+                min_hop = paths[0]["hop_count"]
+                hop_hist[str(min_hop)] += 1
                 group = self._group(a, endpoint, found[endpoint][0][1])
                 row = {"rank": index + 1, "entity": self._node_view(endpoint), "group": group,
+                       "min_hop_distance": min_hop,
                        "path_ids": [x["id"] for x in paths],
                        "rank_reasons": paths[0]["rank_reasons"],
                        "explanation": paths[0]["explanation"]}
                 response["results"].append(row)
                 groups[group].append(endpoint)
             response["groups"] = dict(groups)
+            response["coverage"]["endpoints_by_hop"] = dict(sorted(hop_hist.items(), key=lambda kv: int(kv[0])))
             if response["results"]:
-                response["summary"] = (f"Showing {len(response['results'])} people or organizations "
-                    f"within {self.network_hops} supported professional steps of {self.nodes[a]['name']}.")
+                response["summary"] = (
+                    f"Showing {len(response['results'])} people or organizations "
+                    f"within {effective_hops} supported professional {step_word} of {self.nodes[a]['name']}."
+                )
             else:
                 response["status"] = "insufficient_data"
                 response["summary"] = f"No supported professional neighbours were found for {self.nodes[a]['name']} in this snapshot."
@@ -766,20 +957,30 @@ class QueryEngine:
             for person_id in candidates:
                 candidates[person_id].sort(key=lambda raw: self._path_key(*raw))
             candidate_ids = sorted(candidates, key=lambda person_id: self._path_key(*candidates[person_id][0]))
-            response["coverage"].update({"max_hops": 1, "truncated": False,
+            response["coverage"].update({
+                "max_hops": effective_hops,
+                "truncated": False,
                 "result_limit_applied": len(candidate_ids) > self.max_results,
                 "eligible_people_found": len(candidate_ids),
-                "affiliated_people_without_named_participation": len(unknown_attendance)})
+                "affiliated_people_without_named_participation": len(unknown_attendance),
+            })
             paths = []
             for index, person_id in enumerate(candidate_ids[:self.max_results]):
                 person_paths = [self._path(*raw) for raw in candidates[person_id][:self.max_paths]]
                 paths.extend(person_paths)
                 attendance = self._participation(person_id)
                 reasons = ["Direct documented affiliation", "Named Slush participation evidence"] + person_paths[0]["rank_reasons"]
-                response["results"].append({"rank": index + 1, "person": self._node_view(person_id, profile=True),
-                    "attendance": attendance, "path_ids": [x["id"] for x in person_paths],
-                    "rank_reasons": reasons, "explanation": person_paths[0]["explanation"],
-                    "contact_interpretation": "A person to investigate or approach; availability and introduction are not established."})
+                response["results"].append({
+                    "rank": index + 1,
+                    "person": self._node_view(person_id, profile=True),
+                    "hop_distance": 1,
+                    "relationship_scope": "direct_affiliation",
+                    "attendance": attendance,
+                    "path_ids": [x["id"] for x in person_paths],
+                    "rank_reasons": reasons,
+                    "explanation": person_paths[0]["explanation"],
+                    "contact_interpretation": "A person to investigate or approach; availability and introduction are not established.",
+                })
             response["attendance_unverified"] = []
             for person_id in sorted(unknown_attendance)[:self.max_results]:
                 edge_ids = sorted(unknown_attendance[person_id], key=lambda edge_id:
@@ -788,16 +989,90 @@ class QueryEngine:
                 for path in unverified_paths:
                     path["endpoint_attendance"] = "unverified"
                 paths.extend(unverified_paths)
-                response["attendance_unverified"].append({**self._node_view(person_id),
-                    "path_ids": [path["id"] for path in unverified_paths]})
+                response["attendance_unverified"].append({
+                    **self._node_view(person_id),
+                    "path_ids": [path["id"] for path in unverified_paths],
+                })
+
+            # When the user explicitly requests >1 hop on Q4, discover warm-bridge Slush participants
+            # at distance 2..effective_hops without ever conflating them with direct company employees.
+            extended_rows = []
+            if effective_hops > 1:
+                found_ext, ext_cov = self._search(a, max_hops=effective_hops)
+                response["coverage"]["truncated"] = bool(ext_cov.get("truncated"))
+                response["coverage"]["visited_nodes"] = ext_cov.get("visited_nodes", 0)
+                response["coverage"]["visited_states"] = ext_cov.get("visited_states", 0)
+                direct_people_set = set(candidates) | set(unknown_attendance)
+                ext_person_ids = [
+                    pid for pid in found_ext
+                    if pid not in direct_people_set
+                    and _norm(self.nodes[pid].get("entity_type")) == "person"
+                    and self._participation(pid)
+                ]
+                ext_person_ids.sort(key=lambda pid: self._path_key(*found_ext[pid][0]))
+                response["coverage"]["extended_slush_bridges_found"] = len(ext_person_ids)
+                for index, person_id in enumerate(ext_person_ids[:self.max_results]):
+                    ext_paths = [self._path(*raw) for raw in found_ext[person_id][:self.max_paths]]
+                    min_dist = ext_paths[0]["hop_count"]
+                    if min_dist < 2:
+                        continue
+                    paths.extend(ext_paths)
+                    attendance = self._participation(person_id)
+                    reasons = [
+                        f"Warm-bridge contact at {min_dist} professional steps (not a direct company representative)",
+                        "Named Slush participation evidence",
+                    ] + ext_paths[0]["rank_reasons"]
+                    extended_rows.append({
+                        "rank": index + 1,
+                        "person": self._node_view(person_id, profile=True),
+                        "hop_distance": min_dist,
+                        "relationship_scope": "extended_warm_bridge",
+                        "attendance": attendance,
+                        "path_ids": [x["id"] for x in ext_paths],
+                        "rank_reasons": reasons,
+                        "explanation": ext_paths[0]["explanation"],
+                        "contact_interpretation": (
+                            f"Connected within {min_dist} professional steps with named Slush participation evidence; "
+                            f"not a direct employee or representative of {self.nodes[a]['name']}."
+                        ),
+                    })
+            response["extended_network_representatives"] = extended_rows
+
             if response["results"]:
                 people_label = "person" if len(response["results"]) == 1 else "people"
-                response["summary"] = (f"Found {len(response['results'])} {people_label} with documented affiliations to "
-                    f"{self.nodes[a]['name']} and named Slush participation evidence. Physical attendance and meeting availability are unverified.")
+                if extended_rows:
+                    ext_label = "contact" if len(extended_rows) == 1 else "contacts"
+                    response["summary"] = (
+                        f"Found {len(response['results'])} {people_label} with documented affiliations to "
+                        f"{self.nodes[a]['name']} and named Slush participation evidence, plus {len(extended_rows)} "
+                        f"warm-bridge Slush {ext_label} within {effective_hops} steps. "
+                        "Physical attendance and meeting availability are unverified."
+                    )
+                else:
+                    response["summary"] = (
+                        f"Found {len(response['results'])} {people_label} with documented affiliations to "
+                        f"{self.nodes[a]['name']} and named Slush participation evidence. "
+                        "Physical attendance and meeting availability are unverified."
+                    )
+            elif extended_rows:
+                ext_label = "participant" if len(extended_rows) == 1 else "participants"
+                response["summary"] = (
+                    f"No direct Slush representatives were established for {self.nodes[a]['name']}, "
+                    f"but {len(extended_rows)} warm-bridge Slush {ext_label} connected within {effective_hops} "
+                    "professional steps were found. Physical attendance and meeting availability are unverified."
+                )
             else:
                 response["status"] = "insufficient_data"
-                response["summary"] = (f"No named Slush participants with supported direct affiliations to {self.nodes[a]['name']} "
-                    "were established in this snapshot. A company listing does not establish its employees' attendance.")
+                if effective_hops > 1:
+                    response["summary"] = (
+                        f"No named Slush participants were established within {effective_hops} professional steps "
+                        f"of {self.nodes[a]['name']} in this snapshot. A company listing does not establish its employees' attendance."
+                    )
+                else:
+                    response["summary"] = (
+                        f"No named Slush participants with supported direct affiliations to {self.nodes[a]['name']} "
+                        "were established in this snapshot. A company listing does not establish its employees' attendance."
+                    )
             self._attach_graph(response, paths, [a] + [x["id"] for x in response["attendance_unverified"]])
         if response["status"] == "complete" and (
                 response["coverage"]["truncated"] or not response["coverage"]["snapshot_complete"]):

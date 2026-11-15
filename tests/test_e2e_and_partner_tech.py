@@ -89,7 +89,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
             body["graph_version"],
             "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
         )
-        self.assertEqual(body["pipeline_version"], "2.1.0")
+        self.assertEqual(body["pipeline_version"], "2.2.0")
         self.assertIn("capabilities", body)
         for cap_key in ("gemini", "gemma", "aiven_pg", "aiven_valkey", "craci", "cala_live"):
             self.assertIn(cap_key, body["capabilities"])
@@ -98,7 +98,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
         r_html = self.client.get("/", headers={"Accept": "text/html,application/xhtml+xml"})
         self.assertEqual(r_html.status_code, 200)
         self.assertIn("text/html", r_html.headers["content-type"])
-        self.assertIn("UNICORN RADAR", r_html.text)
+        self.assertIn("Comare di Slush", r_html.text)
 
         r_json = self.client.get("/", headers={"Accept": "application/json"})
         self.assertEqual(r_json.status_code, 200)
@@ -132,7 +132,58 @@ class FastApiContractAndCorsTests(unittest.TestCase):
         for qid, spec in q_api.items():
             self.assertIn("label", spec)
             self.assertIn("fields", spec)
+            self.assertIn("min_hops", spec)
+            self.assertIn("suggested_hops", spec)
+            self.assertIn("max_hops", spec)
+            self.assertIn("hop_policy", spec)
             self.assertEqual(spec["id"], qid)
+
+        hp_api = self.client.get("/api/hop-policies").json()
+        hp_leg = self.client.get("/hop-policies").json()
+        self.assertEqual(hp_api, hp_leg)
+        self.assertEqual(hp_api["global_hard_max_hops"], 8)
+        self.assertEqual(hp_api["supported_modes"], ["suggested", "custom", "max"])
+
+        # End-to-end hop selection via FastAPI (/api/analyses): custom 2 hops vs custom 4 hops vs max
+        r_hop2 = self.client.post(
+            "/api/analyses",
+            json={
+                "question_id": "company_to_company",
+                "source": "Sana Labs",
+                "target": "Amplitude",
+                "hop_mode": "custom",
+                "max_hops": 2,
+                "composer_mode": "template",
+            },
+        )
+        self.assertEqual(r_hop2.status_code, 200)
+        b_hop2 = r_hop2.json()
+        self.assertEqual(b_hop2["status"], "insufficient_data")
+        self.assertEqual(b_hop2["hop_selection"]["hop_mode"], "custom")
+        self.assertEqual(b_hop2["hop_selection"]["selected_hops"], 2)
+
+        r_hop4 = self.client.post(
+            "/api/analyses",
+            json={
+                "question_id": "company_to_company",
+                "source": "Sana Labs",
+                "target": "Amplitude",
+                "hop_mode": "suggested",
+                "composer_mode": "template",
+            },
+        )
+        self.assertEqual(r_hop4.status_code, 200)
+        b_hop4 = r_hop4.json()
+        self.assertGreaterEqual(len(b_hop4["results"]), 1)
+        self.assertEqual(b_hop4["hop_selection"]["hop_mode"], "suggested")
+        self.assertEqual(b_hop4["hop_selection"]["selected_hops"], 4)
+
+        r_bad_hop = self.client.post(
+            "/api/analyses",
+            json={"question_id": "company_network", "company": "Trust Exchange", "max_hops": 99},
+        )
+        self.assertEqual(r_bad_hop.status_code, 400)
+        self.assertIn("error", r_bad_hop.json())
 
         c_api = self.client.get("/api/coverage").json()
         c_leg = self.client.get("/coverage").json()
@@ -983,7 +1034,7 @@ class FrontendAndHeadlessBrowserE2ETests(unittest.TestCase):
                         f"--user-data-dir={profile_dir}",
                         "--virtual-time-budget=15000",
                         "--dump-dom",
-                        f"{base_url}/",
+                        f"{base_url}/?autorun=1",
                     ],
                     capture_output=True,
                     text=True,
@@ -994,7 +1045,7 @@ class FrontendAndHeadlessBrowserE2ETests(unittest.TestCase):
                 )
 
             dom = proc.stdout
-            self.assertIn("UNICORN RADAR", dom)
+            self.assertIn("Comare di Slush", dom)
             # Verify all 17 presets hydrated from live `GET /api/presets` into `#presetsRail`
             self.assertIn("bench_01_camille_trust_exchange", dom)
             self.assertIn("showcase_10_sana_labs_amplitude_4hop", dom)

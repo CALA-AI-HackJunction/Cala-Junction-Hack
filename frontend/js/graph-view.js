@@ -10,11 +10,11 @@ import { detectOriginKind, humanizePredicate } from './utils.js';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 const COLORS = {
-  cala: '#22D3EE',
-  slush: '#FBBF24',
-  both: '#34D399',
-  personStroke: '#A78BFA',
-  companyStroke: '#22D3EE',
+  cala: '#2563EB',
+  slush: '#D97706',
+  both: '#0D9488',
+  personStroke: '#6D28D9',
+  companyStroke: '#2563EB',
 };
 
 function createSvgEl(tag, attrs = {}) {
@@ -517,22 +517,22 @@ export class KnowledgeGraphView {
             width: 264,
             height: 32,
             rx: 16,
-            fill: 'rgba(251, 113, 133, 0.14)',
-            stroke: 'rgba(251, 113, 133, 0.5)',
+            fill: 'rgba(220, 38, 38, 0.08)',
+            stroke: 'rgba(220, 38, 38, 0.45)',
             'stroke-dasharray': '4 3',
           })
         );
         const txt = createSvgEl('text', {
           x: mx,
           y: my,
-          fill: '#FDA4AF',
+          fill: '#B91C1C',
           'font-family': 'JetBrains Mono, monospace',
           'font-size': '10.5',
           'font-weight': '600',
           'text-anchor': 'middle',
           'dominant-baseline': 'central',
         });
-        txt.textContent = '∅ NO SUPPORTED BRIDGE WITHIN 4 HOPS';
+        txt.textContent = '∅ NO VERIFIED RELATIONSHIP PATH';
         badgeGroup.appendChild(txt);
         this.edgesLayer.appendChild(badgeGroup);
       }
@@ -687,10 +687,9 @@ export class KnowledgeGraphView {
           createSvgEl('circle', {
             class: 'g-node-shape',
             r: 22,
-            fill: '#0D121D',
+            fill: '#FFFFFF',
             stroke: borderColor,
             'stroke-width': isFocal ? '2.8' : '2.1',
-            filter: isFocal ? 'url(#focal-glow)' : undefined,
           })
         );
         // Crisp person silhouette glyph
@@ -713,13 +712,12 @@ export class KnowledgeGraphView {
             width: 48,
             height: 42,
             rx: 10,
-            fill: '#0D121D',
+            fill: '#FFFFFF',
             stroke: borderColor,
             'stroke-width': isFocal ? '2.8' : '2.1',
-            filter: isFocal ? 'url(#focal-glow)' : undefined,
           })
         );
-        // Crisp company/VC hexagonal/building glyph
+        // Crisp company/VC building glyph
         ng.appendChild(
           createSvgEl('rect', {
             x: -8,
@@ -744,8 +742,8 @@ export class KnowledgeGraphView {
             cy: -16,
             r: 5.5,
             fill: COLORS.slush,
-            stroke: '#07090F',
-            'stroke-width': '1.5',
+            stroke: '#FFFFFF',
+            'stroke-width': '1.8',
           })
         );
       }

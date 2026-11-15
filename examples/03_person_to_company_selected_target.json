@@ -52,6 +52,7 @@
     {
       "rank": 1,
       "path_id": "path:cb1e42db57c811aef953",
+      "hop_count": 2,
       "target": {
         "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
         "name": "Y Combinator",
@@ -73,6 +74,7 @@
     {
       "rank": 2,
       "path_id": "path:4a558d5494dc56548322",
+      "hop_count": 2,
       "target": {
         "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
         "name": "Y Combinator",
@@ -94,6 +96,7 @@
     {
       "rank": 3,
       "path_id": "path:862daf18adb11146e719",
+      "hop_count": 2,
       "target": {
         "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
         "name": "Y Combinator",
@@ -1683,11 +1686,24 @@
     "data_quality_exclusions": {},
     "max_displayed_results": 10,
     "max_paths_per_endpoint": 3,
+    "hop_selection": {
+      "hop_mode": "suggested",
+      "mode": "suggested",
+      "selected_hops": 4,
+      "suggested_hops": 4,
+      "min_hops": 1,
+      "max_allowed_hops": 8,
+      "cala_snapshot_crawl_hops": 4,
+      "exceeds_cala_crawl_depth": false
+    },
     "max_hops": 4,
     "visited_nodes": 6,
     "visited_states": 33,
     "truncation_reasons": [],
-    "path_result_limit_applied": true
+    "path_result_limit_applied": true,
+    "paths_by_hop": {
+      "2": 3
+    }
   },
   "generation_mode": "evidence_template",
   "versions": {
@@ -1696,6 +1712,16 @@
     "ranking": "evidence_then_steps_v1"
   },
   "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "hop_selection": {
+    "hop_mode": "suggested",
+    "mode": "suggested",
+    "selected_hops": 4,
+    "suggested_hops": 4,
+    "min_hops": 1,
+    "max_allowed_hops": 8,
+    "cala_snapshot_crawl_hops": 4,
+    "exceeds_cala_crawl_depth": false
+  },
   "prompt_version": "cala-slush-four-questions-v2",
   "template_summary": "Found 3 supported professional paths from Dani Penev to Y Combinator within 4 steps.",
   "generated_claims": [
@@ -1807,22 +1833,23 @@
     ]
   },
   "cala_live_enrichment": null,
-  "run_id": "ee87ab19-da7c-4a5b-b969-6b53c0db6297",
+  "extended_network_representatives": null,
+  "run_id": "f6a32430-f796-4fe2-961f-15edfd595e75",
   "original_request": {
     "question_id": "person_to_company",
     "source": "Dani Penev",
     "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
   },
   "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-  "pipeline_version": "2.1.0",
+  "pipeline_version": "2.2.0",
   "query_policy_version": "four-task-ranking-2.0.0",
-  "generated_at": "2026-11-14T21:11:22.486407+00:00",
+  "generated_at": "2026-11-15T06:51:48.726439+00:00",
   "cached": false,
-  "elapsed_ms": 11.357,
+  "elapsed_ms": 11.843,
   "storage_meta": {
     "backend": "sqlite",
     "cache_layer": "sqlite_cache",
     "cached": false,
-    "elapsed_ms": 11.357
+    "elapsed_ms": 11.843
   }
 }

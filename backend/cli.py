@@ -45,6 +45,13 @@ def main() -> None:
     )
     for field in ("source", "target", "company", "source-id", "target-id", "company-id"):
         query.add_argument("--" + field)
+    query.add_argument(
+        "--hop-mode",
+        choices=["suggested", "custom", "max"],
+        help="Search depth mode: 'suggested' (task default), 'custom' (requires --hops/--max-hops), or 'max'",
+    )
+    query.add_argument("--hops", type=int, help="Custom hop budget (alias for --max-hops)")
+    query.add_argument("--max-hops", type=int, help="Custom maximum hop depth within question bounds")
     query.add_argument("--composer-mode", choices=["auto", "template", "gemini", "gemma", "gemini_gemma_audit"])
     query.add_argument("--include-cala-live", action="store_true")
     query.add_argument("--output")
@@ -116,6 +123,12 @@ def main() -> None:
         for field in ("source", "target", "company", "source_id", "target_id", "company_id"):
             if getattr(args, field):
                 request_obj[field] = getattr(args, field)
+        if args.hop_mode:
+            request_obj["hop_mode"] = args.hop_mode
+        if args.hops is not None:
+            request_obj["hops"] = args.hops
+        if args.max_hops is not None:
+            request_obj["max_hops"] = args.max_hops
         if args.composer_mode:
             request_obj["composer_mode"] = args.composer_mode
         if args.include_cala_live:

@@ -157,6 +157,8 @@
           ]
         }
       },
+      "hop_distance": 1,
+      "relationship_scope": "direct_affiliation",
       "attendance": [
         {
           "status": "announced_attendee",
@@ -1955,6 +1957,16 @@
     "data_quality_exclusions": {},
     "max_displayed_results": 10,
     "max_paths_per_endpoint": 3,
+    "hop_selection": {
+      "hop_mode": "suggested",
+      "mode": "suggested",
+      "selected_hops": 1,
+      "suggested_hops": 1,
+      "min_hops": 1,
+      "max_allowed_hops": 4,
+      "cala_snapshot_crawl_hops": 4,
+      "exceeds_cala_crawl_depth": false
+    },
     "max_hops": 1,
     "result_limit_applied": false,
     "eligible_people_found": 1,
@@ -1967,6 +1979,17 @@
     "ranking": "evidence_then_steps_v1"
   },
   "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "hop_selection": {
+    "hop_mode": "suggested",
+    "mode": "suggested",
+    "selected_hops": 1,
+    "suggested_hops": 1,
+    "min_hops": 1,
+    "max_allowed_hops": 4,
+    "cala_snapshot_crawl_hops": 4,
+    "exceeds_cala_crawl_depth": false
+  },
+  "extended_network_representatives": [],
   "prompt_version": "cala-slush-four-questions-v2",
   "template_summary": "Found 1 person with documented affiliations to Trust Exchange and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
   "generated_claims": [
@@ -2026,7 +2049,7 @@
     "audited_claims": 4,
     "supported_claims": 4,
     "flagged_claims": 0,
-    "elapsed_ms": 0.03
+    "elapsed_ms": 0.026
   },
   "meeting_brief": {
     "composer": "evidence_template",
@@ -2117,21 +2140,21 @@
     ]
   },
   "cala_live_enrichment": null,
-  "run_id": "47f36fbf-5481-4776-847f-0046e34815be",
+  "run_id": "298bd5bb-cb84-406b-9927-9209a382807d",
   "original_request": {
     "question_id": "company_representatives",
     "company": "Trust Exchange"
   },
   "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-  "pipeline_version": "2.1.0",
+  "pipeline_version": "2.2.0",
   "query_policy_version": "four-task-ranking-2.0.0",
-  "generated_at": "2026-11-14T21:11:22.554303+00:00",
+  "generated_at": "2026-11-15T06:51:48.793761+00:00",
   "cached": false,
-  "elapsed_ms": 18.79,
+  "elapsed_ms": 17.751,
   "storage_meta": {
     "backend": "sqlite",
     "cache_layer": "sqlite_cache",
     "cached": false,
-    "elapsed_ms": 18.79
+    "elapsed_ms": 17.751
   }
 }

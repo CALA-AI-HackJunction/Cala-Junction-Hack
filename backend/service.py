@@ -28,7 +28,7 @@ try:
     from .env_loader import DATA_DIR, DOCS_DIR, load_dotenv_once
     from .generation import PROMPT_VERSION, compose
     from .ingest import ensure_snapshot
-    from .queries import QueryEngine
+    from .queries import QueryEngine, get_hop_policy, resolve_hop_selection
     from .store import AnalysisStore
 except ImportError:
     from ai_engine import (
@@ -45,11 +45,11 @@ except ImportError:
     from env_loader import DATA_DIR, DOCS_DIR, load_dotenv_once
     from generation import PROMPT_VERSION, compose
     from ingest import ensure_snapshot
-    from queries import QueryEngine
+    from queries import QueryEngine, get_hop_policy, resolve_hop_selection
     from store import AnalysisStore
 
 
-PIPELINE_VERSION = "2.1.0"
+PIPELINE_VERSION = "2.2.0"
 QUERY_POLICY_VERSION = "four-task-ranking-2.0.0"
 
 QUESTION_SPECS: dict[str, dict[str, Any]] = {
@@ -57,8 +57,11 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         "id": "person_to_company",
         "label": "How is this person connected to this company?",
         "short_label": "Person → Company",
-        "subtitle": "Bounded 4-hop warm-path discovery across Slush & Cala assertions",
-        "max_hops": 4,
+        "subtitle": "Configurable 1–8 hop warm-path discovery (suggested: 4 hops) across Slush & Cala assertions",
+        "min_hops": 1,
+        "suggested_hops": 4,
+        "max_hops": 8,
+        "hop_policy": get_hop_policy("person_to_company"),
         "fields": {"source": "Person", "target": "Company"},
         "placeholders": {
             "source": "e.g. Camille Accolas or Dani Penev",
@@ -69,8 +72,11 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         "id": "company_to_company",
         "label": "How is this company connected to that company?",
         "short_label": "Company ↔ Company",
-        "subtitle": "Shared founders, executives, investors, funding rounds & board bridges",
-        "max_hops": 4,
+        "subtitle": "Configurable 1–8 hop corporate/investor bridges (suggested: 4 hops)",
+        "min_hops": 1,
+        "suggested_hops": 4,
+        "max_hops": 8,
+        "hop_policy": get_hop_policy("company_to_company"),
         "fields": {"source": "Company", "target": "Company"},
         "placeholders": {
             "source": "e.g. Slicker",
@@ -81,8 +87,11 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         "id": "company_network",
         "label": "What professional network surrounds this company?",
         "short_label": "Company Network",
-        "subtitle": "2-hop ecosystem map grouped into Direct People, Investors, Direct Companies & Indirect Connections",
-        "max_hops": 2,
+        "subtitle": "Configurable 1–6 hop ecosystem map (suggested: 2 hops) grouped by relationship role",
+        "min_hops": 1,
+        "suggested_hops": 2,
+        "max_hops": 6,
+        "hop_policy": get_hop_policy("company_network"),
         "fields": {"company": "Company"},
         "placeholders": {
             "company": "e.g. Trust Exchange",
@@ -92,8 +101,11 @@ QUESTION_SPECS: dict[str, dict[str, Any]] = {
         "id": "company_representatives",
         "label": "Who from this company can I approach at Slush, and what should I know about them?",
         "short_label": "Slush Representatives",
-        "subtitle": "Affiliated people with named Slush participation evidence vs. unverified-attendance affiliates",
-        "max_hops": 1,
+        "subtitle": "Suggested 1 hop for direct Slush reps; 2–4 hops adds warm-bridge Slush contacts",
+        "min_hops": 1,
+        "suggested_hops": 1,
+        "max_hops": 4,
+        "hop_policy": get_hop_policy("company_representatives"),
         "fields": {"company": "Company"},
         "placeholders": {
             "company": "e.g. Trust Exchange",
@@ -221,7 +233,7 @@ class AnalysisService:
         entity_fields = set(spec["fields"])
         id_fields = {f + "_id" for f in entity_fields}
         optional_null_id_fields = {"source_id", "target_id", "company_id"}
-        option_fields = {"refresh", "composer_mode", "include_cala_live"}
+        option_fields = {"refresh", "composer_mode", "include_cala_live", "hop_mode", "hops", "max_hops"}
 
         permitted = {"question_id"} | entity_fields | id_fields | option_fields
         # Allow explicit null values on unused *_id slots sent by generic UI forms
@@ -251,7 +263,19 @@ class AnalysisService:
             default_template=(default_template and raw_composer_mode is None),
         )
 
-        canonical: dict[str, Any] = {"question_id": question_id}
+        hop_selection = resolve_hop_selection(
+            question_id,
+            hop_mode=request.get("hop_mode"),
+            hops=request.get("hops"),
+            max_hops=request.get("max_hops"),
+        )
+        effective_hops = hop_selection["selected_hops"]
+        explicit_hop_requested = any(request.get(k) is not None for k in ("hop_mode", "hops", "max_hops"))
+
+        canonical: dict[str, Any] = {
+            "question_id": question_id,
+            "max_hops": effective_hops,
+        }
         all_resolved = True
         for field, entity_type in spec["fields"].items():
             raw_id_val = request.get(field + "_id")
@@ -281,13 +305,18 @@ class AnalysisService:
                 json.dumps(cache_description, sort_keys=True).encode()
             ).hexdigest()
 
-        engine_args = {
+        engine_args: dict[str, Any] = {
             k: v
             for k, v in request.items()
             if k in (entity_fields | id_fields) and v is not None
         }
         if all_resolved:
-            engine_args.update({k: v for k, v in canonical.items() if k != "question_id"})
+            engine_args.update(
+                {k: v for k, v in canonical.items() if k not in {"question_id", "max_hops"}}
+            )
+        if explicit_hop_requested:
+            engine_args["hop_mode"] = hop_selection["mode"]
+            engine_args["max_hops"] = effective_hops
 
         return {
             "question_id": question_id,
@@ -297,6 +326,8 @@ class AnalysisService:
             "refresh": effective_refresh,
             "composer_mode": effective_composer_mode,
             "include_cala_live": effective_cala_live,
+            "hop_selection": hop_selection,
+            "effective_hops": effective_hops,
             "engine_args": engine_args,
         }
 
@@ -324,6 +355,7 @@ class AnalysisService:
         response.setdefault("resolution", None)
         response.setdefault("groups", None)
         response.setdefault("attendance_unverified", None)
+        response.setdefault("extended_network_representatives", None)
         response.setdefault("cala_live_enrichment", None)
         response.update(
             {
@@ -373,6 +405,7 @@ class AnalysisService:
                 return cached
 
         response = self.engine.run(prep["question_id"], **prep["engine_args"])
+        response.setdefault("hop_selection", copy.deepcopy(prep["hop_selection"]))
         if self.composer_endpoint:
             response = compose(response, self.composer_endpoint)
         response = enrich_analysis_with_ai(response, composer_mode=prep["composer_mode"])
@@ -449,17 +482,24 @@ class AnalysisService:
         traversable_cnt = (
             (self.snapshot.get("manifest") or {}).get("counts", {}).get("traversable_edges", 933)
         )
+        eff_hops = prep["effective_hops"]
+        hop_mode_lbl = prep["hop_selection"]["mode"]
         yield (
             "stage",
             {
                 "stage": "traversing",
                 "status": "running",
-                "message": f"Traversing {traversable_cnt} verified assertions (excluding event/industry hubs)...",
+                "hop_selection": prep["hop_selection"],
+                "message": (
+                    f"Traversing {traversable_cnt} verified assertions up to {eff_hops} "
+                    f"hop{'s' if eff_hops != 1 else ''} ({hop_mode_lbl} depth)..."
+                ),
                 "elapsed_ms": _ms(),
             },
         )
 
         response = self.engine.run(prep["question_id"], **prep["engine_args"])
+        response.setdefault("hop_selection", copy.deepcopy(prep["hop_selection"]))
         visited = (response.get("coverage") or {}).get("visited_nodes", len((response.get("graph") or {}).get("nodes") or []))
         path_count = len((response.get("graph") or {}).get("paths") or [])
 

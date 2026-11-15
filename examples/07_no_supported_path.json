@@ -2214,11 +2214,22 @@
     "data_quality_exclusions": {},
     "max_displayed_results": 10,
     "max_paths_per_endpoint": 3,
+    "hop_selection": {
+      "hop_mode": "suggested",
+      "mode": "suggested",
+      "selected_hops": 4,
+      "suggested_hops": 4,
+      "min_hops": 1,
+      "max_allowed_hops": 8,
+      "cala_snapshot_crawl_hops": 4,
+      "exceeds_cala_crawl_depth": false
+    },
     "max_hops": 4,
     "visited_nodes": 5,
     "visited_states": 11,
     "truncation_reasons": [],
-    "path_result_limit_applied": false
+    "path_result_limit_applied": false,
+    "paths_by_hop": {}
   },
   "generation_mode": "evidence_template",
   "versions": {
@@ -2227,6 +2238,16 @@
     "ranking": "evidence_then_steps_v1"
   },
   "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "hop_selection": {
+    "hop_mode": "suggested",
+    "mode": "suggested",
+    "selected_hops": 4,
+    "suggested_hops": 4,
+    "min_hops": 1,
+    "max_allowed_hops": 8,
+    "cala_snapshot_crawl_hops": 4,
+    "exceeds_cala_crawl_depth": false
+  },
   "prompt_version": "cala-slush-four-questions-v2",
   "template_summary": "No supported professional path was found from Trust Exchange to Slicker within 4 steps in the loaded snapshot.",
   "generated_claims": [
@@ -2251,7 +2272,7 @@
     "audited_claims": 1,
     "supported_claims": 1,
     "flagged_claims": 0,
-    "elapsed_ms": 0.015
+    "elapsed_ms": 0.014
   },
   "meeting_brief": {
     "composer": "evidence_template",
@@ -2299,22 +2320,23 @@
     "warm_intro_paths": []
   },
   "cala_live_enrichment": null,
-  "run_id": "83762655-f573-4472-9366-3aaf79e51371",
+  "extended_network_representatives": null,
+  "run_id": "d2ce7ec3-5139-47c9-8643-13e1ba7e9428",
   "original_request": {
     "question_id": "company_to_company",
     "source": "Trust Exchange",
     "target": "Slicker"
   },
   "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-  "pipeline_version": "2.1.0",
+  "pipeline_version": "2.2.0",
   "query_policy_version": "four-task-ranking-2.0.0",
-  "generated_at": "2026-11-14T21:11:22.589489+00:00",
+  "generated_at": "2026-11-15T06:51:48.828276+00:00",
   "cached": false,
-  "elapsed_ms": 30.395,
+  "elapsed_ms": 29.735,
   "storage_meta": {
     "backend": "sqlite",
     "cache_layer": "sqlite_cache",
     "cached": false,
-    "elapsed_ms": 30.395
+    "elapsed_ms": 29.735
   }
 }

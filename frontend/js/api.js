@@ -23,6 +23,9 @@ const ALLOWED_REQUEST_KEYS = new Set([
   'refresh',
   'composer_mode',
   'include_cala_live',
+  'hop_mode',
+  'hops',
+  'max_hops',
 ]);
 
 /**
@@ -36,6 +39,16 @@ export function buildCleanAnalysisPayload(raw) {
     composer_mode: raw.composer_mode || 'auto',
     include_cala_live: Boolean(raw.include_cala_live),
   };
+
+  if (raw.hop_mode && ['suggested', 'custom', 'max'].includes(String(raw.hop_mode))) {
+    payload.hop_mode = String(raw.hop_mode);
+    if (payload.hop_mode === 'custom' && raw.max_hops !== undefined && raw.max_hops !== null) {
+      payload.max_hops = Number(raw.max_hops);
+    }
+  } else if (raw.max_hops !== undefined && raw.max_hops !== null) {
+    payload.hop_mode = 'custom';
+    payload.max_hops = Number(raw.max_hops);
+  }
 
   if (qid === 'person_to_company' || qid === 'company_to_company') {
     if (raw.source && String(raw.source).trim()) {

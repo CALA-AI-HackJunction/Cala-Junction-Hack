@@ -92,6 +92,7 @@
     {
       "rank": 1,
       "path_id": "path:72e0752554657a6a979d",
+      "hop_count": 1,
       "target": {
         "id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
         "name": "Y Combinator",
@@ -1476,11 +1477,24 @@
     "data_quality_exclusions": {},
     "max_displayed_results": 10,
     "max_paths_per_endpoint": 3,
+    "hop_selection": {
+      "hop_mode": "suggested",
+      "mode": "suggested",
+      "selected_hops": 4,
+      "suggested_hops": 4,
+      "min_hops": 1,
+      "max_allowed_hops": 8,
+      "cala_snapshot_crawl_hops": 4,
+      "exceeds_cala_crawl_depth": false
+    },
     "max_hops": 4,
     "visited_nodes": 6,
     "visited_states": 12,
     "truncation_reasons": [],
-    "path_result_limit_applied": false
+    "path_result_limit_applied": false,
+    "paths_by_hop": {
+      "1": 1
+    }
   },
   "generation_mode": "evidence_template",
   "versions": {
@@ -1489,6 +1503,16 @@
     "ranking": "evidence_then_steps_v1"
   },
   "interpretation": "Paths describe sourced professional relationships, not personal acquaintance, a guaranteed introduction, meeting availability, or physical event attendance.",
+  "hop_selection": {
+    "hop_mode": "suggested",
+    "mode": "suggested",
+    "selected_hops": 4,
+    "suggested_hops": 4,
+    "min_hops": 1,
+    "max_allowed_hops": 8,
+    "cala_snapshot_crawl_hops": 4,
+    "exceeds_cala_crawl_depth": false
+  },
   "prompt_version": "cala-slush-four-questions-v2",
   "template_summary": "Found 1 supported professional path from Slicker to Y Combinator within 4 steps.",
   "generated_claims": [
@@ -1513,7 +1537,7 @@
     "audited_claims": 1,
     "supported_claims": 1,
     "flagged_claims": 0,
-    "elapsed_ms": 0.013
+    "elapsed_ms": 0.014
   },
   "meeting_brief": {
     "composer": "evidence_template",
@@ -1562,22 +1586,23 @@
     ]
   },
   "cala_live_enrichment": null,
-  "run_id": "aa00b0c5-4e23-4461-9d0b-4c4bbcaafe37",
+  "extended_network_representatives": null,
+  "run_id": "ae0bb3c5-292f-4d4f-9a7a-e5b719e73a95",
   "original_request": {
     "question_id": "company_to_company",
     "source": "Slicker",
     "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
   },
   "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-  "pipeline_version": "2.1.0",
+  "pipeline_version": "2.2.0",
   "query_policy_version": "four-task-ranking-2.0.0",
-  "generated_at": "2026-11-14T21:11:22.505432+00:00",
+  "generated_at": "2026-11-15T06:51:48.744523+00:00",
   "cached": false,
-  "elapsed_ms": 12.745,
+  "elapsed_ms": 12.786,
   "storage_meta": {
     "backend": "sqlite",
     "cache_layer": "sqlite_cache",
     "cached": false,
-    "elapsed_ms": 12.745
+    "elapsed_ms": 12.786
   }
 }

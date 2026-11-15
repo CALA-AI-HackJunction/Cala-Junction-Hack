@@ -266,12 +266,9 @@ export function renderNodeInspector({
         <div class="mono" style="font-size:0.68rem;color:var(--text-dim);margin-top:2px;">${escapeHtml(node.id)}</div>
       </div>
       <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
-        <button type="button" class="btn-ghost-sm" id="btnLiveCalaEnrichNode" style="border-color:var(--cala-border);color:var(--cala-bright);">
-          ⚡ Live Cala /v1 Enrich
-        </button>
         ${
           node.entity_type !== 'Person'
-            ? `<button type="button" class="btn-ghost-sm" id="btnPivotQ4Node" title="Check Slush 2026 Representatives">Slush Brief (Q4)</button>`
+            ? `<button type="button" class="btn-ghost-sm" id="btnPivotQ4Node">People at Slush</button>`
             : ''
         }
         <button type="button" class="btn-ghost-sm" id="btnCloseInspector">&times;</button>
@@ -284,13 +281,13 @@ export function renderNodeInspector({
         : ''
     }
 
-    ${p.job_title ? `<div style="font-size:0.82rem;color:var(--text-primary);font-weight:600;margin-bottom:0.35rem;">${escapeHtml(p.job_title)}</div>` : ''}
-    ${p.biography || p.description ? `<p style="font-size:0.8rem;color:var(--text-secondary);margin:0 0 0.6rem;line-height:1.5;">${escapeHtml(p.biography || p.description)}</p>` : ''}
+    ${p.job_title ? `<div style="font-size:0.84rem;color:var(--text-primary);font-weight:500;margin-bottom:0.35rem;">${escapeHtml(p.job_title)}</div>` : ''}
+    ${p.biography || p.description ? `<p style="font-size:0.82rem;color:var(--text-secondary);margin:0 0 0.6rem;line-height:1.55;">${escapeHtml(p.biography || p.description)}</p>` : ''}
 
-    <div style="display:flex;gap:0.65rem;flex-wrap:wrap;font-size:0.76rem;margin-bottom:0.55rem;">
-      ${websiteUrl ? `<a href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">🌐 Official Website ↗</a>` : ''}
-      ${linkedinUrl ? `<a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer">🔗 LinkedIn Profile ↗</a>` : ''}
-      ${p.location_raw ? `<span style="color:var(--text-muted);">📍 ${escapeHtml(p.location_raw)}</span>` : ''}
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;font-size:0.78rem;margin-bottom:0.55rem;">
+      ${websiteUrl ? `<a href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Website ↗</a>` : ''}
+      ${linkedinUrl ? `<a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>` : ''}
+      ${p.location_raw ? `<span style="color:var(--text-muted);">${escapeHtml(p.location_raw)}</span>` : ''}
     </div>
 
     ${
@@ -304,14 +301,14 @@ export function renderNodeInspector({
     ${
       workEntries.length > 0
         ? `<div style="margin-bottom:0.65rem;">
-            <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.3rem;">Sourced Work History</div>
+            <div style="font-size:0.75rem;font-weight:500;color:var(--text-muted);margin-bottom:0.35rem;">Work history</div>
             ${workEntries
               .map((w) => {
                 const provBadges = (w.provenance || []).map((pr) => renderSourceDocumentBadge(pr)).join(' ');
                 return `
-                  <div style="padding:0.38rem 0.55rem;background:rgba(7,9,15,0.55);border-radius:6px;margin-bottom:0.3rem;font-size:0.76rem;">
+                  <div style="padding:0.45rem 0.65rem;background:var(--bg-surface);border:1px solid var(--hairline);border-radius:6px;margin-bottom:0.35rem;font-size:0.78rem;">
                     <div><strong>${escapeHtml(w.role || w.title || 'Role')}</strong> · ${escapeHtml(w.organization || 'Organization')}</div>
-                    ${provBadges ? `<div style="margin-top:0.22rem;">${provBadges}</div>` : ''}
+                    ${provBadges ? `<div style="margin-top:0.25rem;">${provBadges}</div>` : ''}
                   </div>
                 `;
               })
@@ -425,6 +422,12 @@ export function renderIntelColumn({
 
   // 1) Summary & Epistemic Status Card
   const cov = analysis.coverage || {};
+  const hopSel = analysis.hop_selection || cov.hop_selection || null;
+  const hopModeLabel = hopSel?.hop_mode
+    ? `${hopSel.hop_mode.charAt(0).toUpperCase()}${hopSel.hop_mode.slice(1)} · ${hopSel.selected_hops ?? cov.max_hops ?? ''} Hops`
+    : cov.max_hops
+      ? `Max ${cov.max_hops} Hops`
+      : '';
   const liveEnrichInline = analysis.cala_live_enrichment;
   let inlineEnrichHtml = '';
   if (liveEnrichInline) {
@@ -441,20 +444,23 @@ export function renderIntelColumn({
   const summaryCardHtml = `
     <div class="intel-card">
       <div class="card-header-row">
-        <span class="section-eyebrow">Verified Snapshot Synthesis</span>
-        <div style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+        <span class="section-eyebrow">Relationship summary</span>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
           ${renderStatusBadge(analysis.status)}
-          ${cov.max_hops ? `<span class="badge badge-neutral">Max ${escapeHtml(cov.max_hops)} Hops</span>` : ''}
-          ${cov.visited_nodes !== undefined ? `<span class="badge badge-neutral">${escapeHtml(cov.visited_nodes)} Visited Nodes</span>` : ''}
+          ${hopModeLabel ? `<span class="badge badge-cala">${escapeHtml(hopModeLabel)}</span>` : ''}
         </div>
       </div>
-      <h2 class="summary-headline">${escapeHtml(analysis.summary || 'Analysis ready.')}</h2>
+      <h3 class="summary-headline">${escapeHtml(analysis.summary || 'Analysis ready')}</h3>
       ${
         analysis.interpretation
           ? `<div class="epistemic-note">${escapeHtml(analysis.interpretation)}</div>`
           : ''
       }
-      ${inlineEnrichHtml}
+      ${
+        cov.hop_depth_note
+          ? `<div class="epistemic-note" style="margin-top:8px;">${escapeHtml(cov.hop_depth_note)}</div>`
+          : ''
+      }
     </div>
   `;
 
@@ -558,13 +564,10 @@ export function renderIntelColumn({
     const att = brief.attendance_verification;
 
     briefCardHtml = `
-      <div class="intel-card slush-brief-accent">
+      <div class="intel-card">
         <div class="card-header-row">
-          <h3 class="card-title">
-            <span style="color:var(--slush-bright);">⚡</span>
-            <span>Slush 2026 Executive Meeting Brief</span>
-          </h3>
-          <span class="badge badge-slush">Composer: ${escapeHtml(brief.model || brief.composer || 'Grounded')}</span>
+          <h3 class="card-title">Slush 2026 Executive Meeting Brief</h3>
+          <span class="badge badge-slush">Slush 2026</span>
         </div>
 
         ${brief.executive_summary ? `<div class="brief-exec-summary">${escapeHtml(brief.executive_summary)}</div>` : ''}
@@ -573,7 +576,7 @@ export function renderIntelColumn({
           ${
             tpHtml
               ? `<div>
-                  <h4 class="brief-subhead">Verified Talking Points</h4>
+                  <h4 class="brief-subhead">Talking points</h4>
                   <ul class="brief-list">${tpHtml}</ul>
                 </div>`
               : ''
@@ -581,7 +584,7 @@ export function renderIntelColumn({
           ${
             sqHtml
               ? `<div>
-                  <h4 class="brief-subhead">Smart Questions to Ask at Slush</h4>
+                  <h4 class="brief-subhead">Questions to ask</h4>
                   <ul class="brief-list">${sqHtml}</ul>
                 </div>`
               : ''
@@ -589,29 +592,17 @@ export function renderIntelColumn({
           ${
             warmHtml
               ? `<div>
-                  <h4 class="brief-subhead">Warm Intro Routes (Click to Highlight on Graph)</h4>
+                  <h4 class="brief-subhead">Warm introduction routes</h4>
                   <div class="path-steps-list">${warmHtml}</div>
                 </div>`
               : ''
           }
         </div>
-
-        ${
-          att
-            ? `<div class="attendance-callout">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.2rem;">
-                  <strong style="color:var(--slush-bright);">Attendance Epistemic Check (${escapeHtml(att.status || 'partial_snapshot')})</strong>
-                  ${renderEvidenceChips(att.evidence_ids, evidenceMap, 4)}
-                </div>
-                <div>${escapeHtml(att.note || 'Physical event check-in and meeting availability are never assumed from directory listings.')}</div>
-              </div>`
-            : ''
-        }
       </div>
     `;
   }
 
-  // 4) Question-Specific Results Card
+  // 4) Question-Specific Results Card (Placed first right under summary so relationships lead)
   const resultsCardHtml = renderQuestionResultsCard({
     analysis,
     qid,
@@ -626,9 +617,8 @@ export function renderIntelColumn({
 
   containerEl.innerHTML = `
     ${summaryCardHtml}
-    ${claimsCardHtml}
-    ${briefCardHtml}
     ${resultsCardHtml}
+    ${briefCardHtml}
     ${evidenceCardHtml}
   `;
 
@@ -705,6 +695,10 @@ export function renderIntelColumn({
 
 function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidenceMap, isolatedPathId }) {
   const results = Array.isArray(analysis.results) ? analysis.results : [];
+  const cov = analysis.coverage || {};
+  const hopSel = analysis.hop_selection || cov.hop_selection || {};
+  const selectedHops = hopSel.selected_hops ?? cov.max_hops ?? 4;
+  const maxAllowedHops = hopSel.max_allowed_hops ?? 8;
 
   if (analysis.status === 'needs_resolution' || analysis.status === 'not_found') {
     return '';
@@ -713,19 +707,25 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
   // Q1 & Q2: Multi-Hop Ranked Path Cards
   if (qid === 'person_to_company' || qid === 'company_to_company') {
     if (results.length === 0 || analysis.status === 'insufficient_data') {
+      const canExpandHops = Number(selectedHops) < Number(maxAllowedHops);
       return `
         <div class="intel-card">
           <div class="card-header-row">
-            <h3 class="card-title">Ranked Professional Paths</h3>
-            <span class="badge badge-warn">0 Supported Bridges</span>
+            <h3 class="card-title">Relationship paths</h3>
+            <span class="badge badge-warn">0 paths</span>
           </div>
           <div class="honest-empty-banner">
-            <div class="honest-empty-title">🛡️ Zero-Confabulation Result — No Supported Path Within 4 Hops</div>
-            <p style="font-size:0.82rem;color:var(--text-secondary);margin:0 0 0.5rem;">
-              ${escapeHtml(analysis.summary || 'No supported professional path was found in the loaded snapshot within 4 steps.')}
+            <div class="honest-empty-title">No verified relationship path within ${escapeHtml(selectedHops)} hop${Number(selectedHops) === 1 ? '' : 's'}</div>
+            <p style="font-size:0.84rem;color:var(--text-secondary);margin:0 0 0.45rem;">
+              ${escapeHtml(analysis.summary || `No verified professional path was found within ${selectedHops} steps.`)}
             </p>
-            <div style="font-size:0.75rem;color:var(--text-muted);">
-              <strong>Why wasn’t a path invented?</strong> Unicorn Radar excludes 2,990 generic Slush event co-attendance links (<code>PARTICIPATES_IN_EVENT</code>), shared industry tags (<code>OPERATES_IN_INDUSTRY</code>), and unattributed edges so two companies merely attending Slush 2026 are never falsely linked.
+            ${
+              canExpandHops
+                ? `<div style="font-size:0.8rem;color:var(--accent);margin-bottom:0.4rem;">Search depth is set to ${escapeHtml(selectedHops)} hop${Number(selectedHops) === 1 ? '' : 's'}. Increase Search depth to Suggested or Max (${escapeHtml(maxAllowedHops)}) above to check deeper connections.</div>`
+                : ''
+            }
+            <div style="font-size:0.78rem;color:var(--text-muted);">
+              Generic event co-attendance and shared industry categories are excluded so two companies merely attending Slush are never falsely linked
             </div>
           </div>
         </div>
@@ -809,7 +809,7 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
       direct_people: 'Direct People',
       investors: 'Investors',
       direct_companies: 'Direct Companies',
-      indirect_connections: 'Indirect 2-Hop',
+      indirect_connections: 'Indirect ≥2-Hop',
     };
 
     const itemsHtml = results
@@ -818,6 +818,7 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
         const fullNode = nodesMap.get(ent.id) || ent;
         const firstPathId = res.path_ids?.[0] || '';
         const isIsolated = firstPathId && isolatedPathId === firstPathId;
+        const hopDist = res.min_hop_distance;
         return `
           <div class="result-card ${isIsolated ? 'isolated' : ''}" data-q3-group-item="${escapeHtml(res.group || 'other')}" data-isolate-path="${escapeHtml(firstPathId)}">
             <div class="result-top-row">
@@ -825,6 +826,7 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
                 <span class="rank-pill">#${escapeHtml(res.rank)}</span>
                 <strong style="font-family:var(--font-display);font-size:0.92rem;">${escapeHtml(ent.name || ent.id)}</strong>
                 <span class="badge badge-ai">${escapeHtml(groupLabels[res.group] || res.group || 'Network')}</span>
+                ${hopDist ? `<span class="badge badge-dual">${escapeHtml(hopDist)} Hop${Number(hopDist) === 1 ? '' : 's'}</span>` : ''}
                 ${renderOriginBadges(fullNode)}
               </div>
               <div style="display:flex;gap:0.35rem;">
@@ -851,13 +853,13 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
     return `
       <div class="intel-card">
         <div class="card-header-row">
-          <h3 class="card-title">2-Hop Professional Ecosystem (${results.length})</h3>
+          <h3 class="card-title">${escapeHtml(selectedHops)}-Hop Professional Ecosystem (${results.length})</h3>
           <div class="preset-filters">
             <button type="button" class="filter-chip active" data-q3-group-tab="all">All (${groupCounts.all})</button>
             <button type="button" class="filter-chip" data-q3-group-tab="direct_people">People (${groupCounts.direct_people})</button>
             <button type="button" class="filter-chip" data-q3-group-tab="investors">Investors (${groupCounts.investors})</button>
             <button type="button" class="filter-chip" data-q3-group-tab="direct_companies">Companies (${groupCounts.direct_companies})</button>
-            <button type="button" class="filter-chip" data-q3-group-tab="indirect_connections">2-Hop Indirect (${groupCounts.indirect_connections})</button>
+            <button type="button" class="filter-chip" data-q3-group-tab="indirect_connections">Indirect ≥2-Hop (${groupCounts.indirect_connections})</button>
           </div>
         </div>
         <div class="results-stack">
@@ -923,7 +925,7 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
 
           ${
             res.contact_interpretation
-              ? `<div style="font-size:0.73rem;color:var(--slush-bright);margin-bottom:0.45rem;">ℹ️ ${escapeHtml(res.contact_interpretation)}</div>`
+              ? `<div style="font-size:0.76rem;color:var(--text-secondary);margin-bottom:0.45rem;">${escapeHtml(res.contact_interpretation)}</div>`
               : ''
           }
 
@@ -955,7 +957,7 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
             ${unverifiedList
               .map(
                 (u) => `
-              <div class="path-step-row" style="background:rgba(7,9,15,0.65);">
+              <div class="path-step-row">
                 <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;">
                   <strong>${escapeHtml(u.name || u.id)}</strong>
                   ${renderOriginBadges(u)}
@@ -984,11 +986,62 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
         ${
           verifiedCardsHtml ||
           `<div class="honest-empty-banner">
-            <div class="honest-empty-title">No Named Individual Slush 2026 Representatives in Snapshot</div>
-            <div style="font-size:0.79rem;color:var(--text-secondary);">Even if the company is listed in the Slush directory, Unicorn Radar never guesses which employees are physically attending without named participation evidence.</div>
+            <div class="honest-empty-title">No named Slush 2026 representatives found</div>
+            <div style="font-size:0.82rem;color:var(--text-secondary);">Even when a company is listed at Slush, Comare di Slush only surfaces people with individual participation evidence.</div>
           </div>`
         }
       </div>
+      ${
+        Array.isArray(analysis.extended_network_representatives) && analysis.extended_network_representatives.length > 0
+          ? `
+            <div class="unverified-affiliates-box" style="border-color:var(--cala-border);background:rgba(6,182,212,0.05);">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+                <strong style="font-family:var(--font-display);font-size:0.86rem;color:var(--cala-bright);">
+                  Extended Multi-Hop Slush 2026 Bridges (${analysis.extended_network_representatives.length}) — Up to ${escapeHtml(selectedHops)} Hops
+                </strong>
+                <span class="badge badge-cala">Indirect Warm-Bridge Participants</span>
+              </div>
+              <p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.55rem;">
+                These Slush 2026 participants are connected via 2–${escapeHtml(selectedHops)} documented professional steps (not direct employees/affiliates of the target company).
+              </p>
+              <div style="display:flex;flex-direction:column;gap:0.45rem;">
+                ${analysis.extended_network_representatives
+                  .map((ext) => {
+                    const ep = ext.person || {};
+                    const ePathId = ext.path_ids?.[0] || '';
+                    const eIsolated = ePathId && isolatedPathId === ePathId;
+                    return `
+                      <div class="result-card ${eIsolated ? 'isolated' : ''}" style="padding:0.65rem 0.8rem;" data-isolate-path="${escapeHtml(ePathId)}">
+                        <div class="result-top-row">
+                          <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
+                            <span class="badge badge-dual">${escapeHtml(ext.hop_distance || 2)} Hops</span>
+                            <strong>${escapeHtml(ep.name || ep.id)}</strong>
+                            ${renderParticipationBadges(ext.attendance || ep.participation)}
+                            ${renderOriginBadges(ep)}
+                          </div>
+                          <button type="button" class="btn-ghost-sm" data-inspect-node="${escapeHtml(ep.id)}">Profile &amp; Live Cala</button>
+                        </div>
+                        <div style="font-size:0.8rem;color:var(--text-primary);margin-bottom:0.25rem;">${escapeHtml(ext.explanation || '')}</div>
+                        ${
+                          ext.contact_interpretation
+                            ? `<div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.25rem;">${escapeHtml(ext.contact_interpretation)}</div>`
+                            : ''
+                        }
+                        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;flex-wrap:wrap;">
+                          <div class="rank-reasons-row" style="margin-top:0;">
+                            ${(ext.rank_reasons || []).map((r) => `<span class="reason-tag">${escapeHtml(r)}</span>`).join('')}
+                          </div>
+                          ${renderEvidenceChips(ep.evidence_ids, evidenceMap, 4)}
+                        </div>
+                      </div>
+                    `;
+                  })
+                  .join('')}
+              </div>
+            </div>
+          `
+          : ''
+      }
       ${unverifiedHtml}
     </div>
   `;
