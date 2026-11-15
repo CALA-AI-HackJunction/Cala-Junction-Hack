@@ -625,14 +625,10 @@ export function renderIntelColumn({
     isolatedPathId,
   });
 
-  // 5) Evidence & Provenance Explorer Card
-  const evidenceCardHtml = renderEvidenceExplorerCard(evidenceMap);
-
   containerEl.innerHTML = `
     ${summaryCardHtml}
     ${resultsCardHtml}
     ${briefCardHtml}
-    ${evidenceCardHtml}
   `;
 
   // Wire interactive events inside Intel Column
