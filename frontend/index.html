@@ -14,7 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   />
-  <link rel="stylesheet" href="/css/styles.css?v=20261115c" />
+  <link rel="stylesheet" href="/css/styles.css?v=20261115e" />
 </head>
 <body>
   <div class="page-shell">
@@ -253,6 +253,22 @@
         <div class="infos-section" id="infosSection">
           <div class="infos-header">
             <h2 class="section-heading">Connection details</h2>
+            <button
+              type="button"
+              class="evidence-menu-trigger"
+              id="headerEvidenceToggleBtn"
+              aria-expanded="false"
+              aria-controls="evidenceCollapsibleBody"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              </svg>
+              <span id="headerEvidenceToggleLabel">Show Source &amp; Evidence</span>
+              <svg class="evidence-toggle-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
           </div>
           <div class="infos-stack" id="intelColumn"></div>
         </div>
@@ -305,6 +321,6 @@
 
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  <script type="module" src="/js/app.js?v=20261115c"></script>
+  <script type="module" src="/js/app.js?v=20261115e"></script>
 </body>
 </html>

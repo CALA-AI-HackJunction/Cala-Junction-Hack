@@ -1495,6 +1495,122 @@ select:focus-visible {
   background-color: var(--bg-raised);
 }
 
+.evidence-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--hairline-strong);
+  background-color: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease), color 150ms var(--ease), border-color 150ms var(--ease);
+}
+
+.evidence-menu-trigger:hover {
+  background-color: var(--bg-raised);
+  color: var(--text-primary);
+}
+
+.evidence-menu-trigger.active {
+  border-color: var(--accent-border);
+  background-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.evidence-menu-trigger.active .evidence-toggle-chevron {
+  transform: rotate(180deg);
+}
+
+.evidence-toggle-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.evidence-toggle-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms var(--ease);
+}
+
+.evidence-toggle-header:hover {
+  background-color: var(--bg-raised);
+}
+
+.evidence-toggle-title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.evidence-toggle-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.evidence-toggle-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: var(--radius-tag);
+  border: 1px solid var(--hairline-strong);
+  background-color: var(--bg-page);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.evidence-toggle-chevron {
+  transition: transform 180ms var(--ease);
+}
+
+.evidence-toggle-card[data-expanded="true"] .evidence-toggle-header {
+  border-bottom: 1px solid var(--hairline);
+}
+
+.evidence-toggle-card[data-expanded="true"] .evidence-toggle-chevron {
+  transform: rotate(180deg);
+}
+
+.evidence-toggle-card[data-expanded="true"] .evidence-toggle-pill {
+  border-color: var(--accent-border);
+  background-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.evidence-collapsible-body {
+  padding: 16px 24px 20px;
+}
+
+.evidence-collapsible-body[hidden] {
+  display: none !important;
+}
+
+.evidence-load-more-btn {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 4px;
+}
+
 .evidence-toolbar {
   display: flex;
   gap: 8px;

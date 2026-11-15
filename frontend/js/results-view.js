@@ -15,7 +15,10 @@ import {
   humanizePredicate,
   humanizeDatasetLabel,
   stripInternalIds,
-} from './utils.js?v=20261115c';
+} from './utils.js?v=20261115e';
+
+let isEvidenceSectionExpanded = false;
+let activeRevealEvidenceCard = null;
 
 /* ==========================================================================
    1. Interactive Identity Disambiguation Panel
@@ -620,10 +623,15 @@ export function renderIntelColumn({
     isolatedPathId,
   });
 
+  // 5) Collapsible Source & Evidence Toggle Section
+  const evidenceItems = [...(evidenceMap?.values() || [])];
+  const evidenceCardHtml = renderEvidenceExplorerCard(evidenceItems.length, isEvidenceSectionExpanded);
+
   containerEl.innerHTML = `
     ${summaryCardHtml}
     ${resultsCardHtml}
     ${briefCardHtml}
+    ${evidenceCardHtml}
   `;
 
   // Wire interactive events inside Intel Column
@@ -679,22 +687,11 @@ export function renderIntelColumn({
     });
   }
 
-  // Evidence search & dataset filter
-  const evSearchInput = containerEl.querySelector('#evidenceSearchInput');
-  const evDatasetFilter = containerEl.querySelector('#evidenceDatasetFilter');
-  const applyEvFilter = () => {
-    const q = (evSearchInput?.value || '').trim().toLowerCase();
-    const ds = evDatasetFilter?.value || 'all';
-    for (const card of containerEl.querySelectorAll('.evidence-card')) {
-      const cardDs = card.getAttribute('data-ev-dataset') || '';
-      const text = card.textContent.toLowerCase();
-      const matchDs = ds === 'all' || cardDs === ds;
-      const matchText = !q || text.includes(q);
-      card.style.display = matchDs && matchText ? '' : 'none';
-    }
-  };
-  evSearchInput?.addEventListener('input', applyEvFilter);
-  evDatasetFilter?.addEventListener('change', applyEvFilter);
+  // Collapsible Source & Evidence toggle menu + search & dataset filter
+  bindEvidenceExplorerEvents({
+    containerEl,
+    evidenceItems,
+  });
 }
 
 function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidenceMap, isolatedPathId }) {
@@ -1054,83 +1051,251 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
    5. Evidence & Provenance Explorer Card + Scroll Highlighter
    ========================================================================== */
 
-function renderEvidenceExplorerCard(evidenceMap) {
-  const items = [...evidenceMap.values()];
-
-  const itemsHtml = items
-    .map((ev) => {
-      const ds = ev.dataset || 'snapshot';
-      const isSlush = ds.startsWith('slush');
-      const docs = Array.isArray(ev.source_documents) ? ev.source_documents : [];
-
-      const docsHtml = docs
-        .map(
-          (doc) => `
-          <div style="margin-top:0.35rem;">
-            ${renderSourceDocumentBadge(doc)}
-            ${doc.evidence ? `<div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.22rem;padding-left:0.5rem;border-left:2px solid rgba(34,211,238,0.35);">“${escapeHtml(doc.evidence)}”</div>` : ''}
-          </div>
-        `
-        )
-        .join('');
-
-      return `
-        <div class="evidence-card" data-ev-dataset="${escapeHtml(ds)}">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;">
-            <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
-              <span class="badge ${isSlush ? 'badge-slush' : 'badge-cala'}">${escapeHtml(humanizeDatasetLabel(ds))}</span>
-            </div>
-          </div>
-          ${docsHtml || `<div style="font-size:0.73rem;color:var(--text-muted);margin-top:0.25rem;">Primary dataset record assertion preserved in snapshot.</div>`}
-          ${
-            ev.record
-              ? `<details style="margin-top:0.4rem;font-size:0.72rem;color:var(--text-muted);">
-                  <summary style="cursor:pointer;">Raw Record Snapshot</summary>
-                  <pre class="code-block" style="margin-top:0.35rem;max-height:180px;">${escapeHtml(JSON.stringify(ev.record, null, 2))}</pre>
-                </details>`
-              : ''
-          }
-        </div>
-      `;
-    })
-    .join('');
-
+function renderEvidenceExplorerCard(totalCount, expanded = false) {
+  const expStr = expanded ? 'true' : 'false';
   return `
-    <div class="intel-card" id="evidenceExplorerSection">
-      <div class="card-header-row">
-        <h3 class="card-title">
-          <span>📚 Verified Provenance &amp; Evidence Ledger (${items.length})</span>
-        </h3>
-        <span class="badge badge-cala">100% Referential Integrity</span>
-      </div>
-      <div class="evidence-search-row">
-        <input
-          type="text"
-          id="evidenceSearchInput"
-          class="smart-input"
-          style="flex:1 1 200px;padding:0.42rem 0.7rem;font-size:0.78rem;"
-          placeholder="Filter by publisher, domain, URL, or quote..."
-        />
-        <select id="evidenceDatasetFilter" class="styled-select">
-          <option value="all">All Datasets (${items.length})</option>
-          <option value="cala">Cala Edges</option>
-          <option value="cala_company_dossier">Cala Company Dossier</option>
-          <option value="cala_people_connectors">Cala Speakers &amp; Connectors</option>
-          <option value="cala_roster">Cala Slush Roster</option>
-          <option value="cala_shared_bridges">Cala Shared Bridges</option>
-          <option value="slush_people">Slush People</option>
-          <option value="slush_companies">Slush Companies</option>
-        </select>
-      </div>
-      <div class="evidence-list">
-        ${itemsHtml || `<div style="font-size:0.78rem;color:var(--text-muted);">No evidence records attached to this state.</div>`}
+    <div class="intel-card evidence-toggle-card" id="evidenceExplorerSection" data-expanded="${expStr}">
+      <button
+        type="button"
+        class="evidence-toggle-header"
+        id="evidenceToggleBtn"
+        aria-expanded="${expStr}"
+        aria-controls="evidenceCollapsibleBody"
+      >
+        <div class="evidence-toggle-title-group">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+          </svg>
+          <span class="card-title">Source &amp; Evidence</span>
+          <span class="badge badge-neutral">${totalCount}</span>
+        </div>
+        <div class="evidence-toggle-actions">
+          <span class="badge badge-cala">100% Referential Integrity</span>
+          <span class="evidence-toggle-pill">
+            <span id="evidenceToggleLabel">${expanded ? 'Hide' : 'Show'}</span>
+            <svg class="evidence-toggle-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </span>
+        </div>
+      </button>
+
+      <div class="evidence-collapsible-body" id="evidenceCollapsibleBody" ${expanded ? '' : 'hidden'}>
+        <div class="evidence-toolbar">
+          <input
+            type="text"
+            id="evidenceSearchInput"
+            class="evidence-search"
+            placeholder="Filter by publisher, domain, URL, or quote..."
+          />
+          <select id="evidenceDatasetFilter" class="styled-select">
+            <option value="all">All Datasets (${totalCount})</option>
+            <option value="cala">Cala Edges</option>
+            <option value="cala_company_dossier">Cala Company Dossier</option>
+            <option value="cala_people_connectors">Cala Speakers &amp; Connectors</option>
+            <option value="cala_roster">Cala Slush Roster</option>
+            <option value="cala_shared_bridges">Cala Shared Bridges</option>
+            <option value="slush_people">Slush People</option>
+            <option value="slush_companies">Slush Companies</option>
+          </select>
+        </div>
+        <div class="evidence-list" id="evidenceListContainer"></div>
       </div>
     </div>
   `;
 }
 
+function renderSingleEvidenceCardHtml(ev) {
+  const ds = ev.dataset || 'snapshot';
+  const isSlush = ds.startsWith('slush');
+  const docs = Array.isArray(ev.source_documents) ? ev.source_documents : [];
+
+  const docsHtml = docs
+    .map(
+      (doc) => `
+      <div style="margin-top:0.35rem;">
+        ${renderSourceDocumentBadge(doc)}
+        ${doc.evidence ? `<div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.22rem;padding-left:0.5rem;border-left:2px solid var(--accent-border);">“${escapeHtml(doc.evidence)}”</div>` : ''}
+      </div>
+    `
+    )
+    .join('');
+
+  return `
+    <div class="evidence-card" id="evidence-card-${escapeHtml(ev.id || '')}" data-ev-dataset="${escapeHtml(ds)}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
+          <span class="badge ${isSlush ? 'badge-slush' : 'badge-cala'}">${escapeHtml(humanizeDatasetLabel(ds))}</span>
+        </div>
+      </div>
+      ${docsHtml || `<div style="font-size:0.73rem;color:var(--text-muted);margin-top:0.25rem;">Primary dataset record assertion preserved in snapshot.</div>`}
+      ${
+        ev.record
+          ? `<details data-ev-raw-id="${escapeHtml(ev.id || '')}" style="margin-top:0.4rem;font-size:0.72rem;color:var(--text-muted);">
+              <summary style="cursor:pointer;">Raw Record Snapshot</summary>
+              <pre class="code-block" style="margin-top:0.35rem;max-height:180px;"></pre>
+            </details>`
+          : ''
+      }
+    </div>
+  `;
+}
+
+function bindEvidenceExplorerEvents({ containerEl, evidenceItems }) {
+  const sectionEl = containerEl.querySelector('#evidenceExplorerSection');
+  const toggleBtn = containerEl.querySelector('#evidenceToggleBtn');
+  const toggleLabelEl = containerEl.querySelector('#evidenceToggleLabel');
+  const bodyEl = containerEl.querySelector('#evidenceCollapsibleBody');
+  const listEl = containerEl.querySelector('#evidenceListContainer');
+  const evSearchInput = containerEl.querySelector('#evidenceSearchInput');
+  const evDatasetFilter = containerEl.querySelector('#evidenceDatasetFilter');
+
+  const headerBtn = document.getElementById('headerEvidenceToggleBtn');
+  const headerLabelEl = document.getElementById('headerEvidenceToggleLabel');
+
+  const recordById = new Map(evidenceItems.map((ev) => [ev.id, ev]));
+  const INITIAL_LIMIT = 120;
+  let showAllRecords = false;
+
+  const matchesFilter = (ev, q, ds) => {
+    if (ds !== 'all' && (ev.dataset || '') !== ds) return false;
+    if (!q) return true;
+    const docs = Array.isArray(ev.source_documents) ? ev.source_documents : [];
+    const haystack = [
+      ev.id || '',
+      ev.dataset || '',
+      humanizeDatasetLabel(ev.dataset || ''),
+      ...docs.map((d) => `${d.publisher || ''} ${d.title || ''} ${d.url || ''} ${d.evidence || ''}`),
+    ]
+      .join(' ')
+      .toLowerCase();
+    return haystack.includes(q);
+  };
+
+  const renderFilteredList = () => {
+    if (!listEl) return;
+    const q = (evSearchInput?.value || '').trim().toLowerCase();
+    const ds = evDatasetFilter?.value || 'all';
+    const filtered = evidenceItems.filter((ev) => matchesFilter(ev, q, ds));
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `<div style="font-size:0.78rem;color:var(--text-muted);">No matching source or evidence records.</div>`;
+      return;
+    }
+
+    const visible = showAllRecords ? filtered : filtered.slice(0, INITIAL_LIMIT);
+    const remaining = filtered.length - visible.length;
+    const cardsHtml = visible.map((ev) => renderSingleEvidenceCardHtml(ev)).join('');
+    const moreBtnHtml =
+      remaining > 0
+        ? `<button type="button" class="btn-ghost-sm evidence-load-more-btn" id="btnLoadAllEvidence">Show remaining ${remaining} source records</button>`
+        : '';
+
+    listEl.innerHTML = `${cardsHtml}${moreBtnHtml}`;
+
+    listEl.querySelector('#btnLoadAllEvidence')?.addEventListener('click', () => {
+      showAllRecords = true;
+      renderFilteredList();
+    });
+
+    for (const det of listEl.querySelectorAll('details[data-ev-raw-id]')) {
+      det.addEventListener('toggle', () => {
+        if (!det.open) return;
+        const pre = det.querySelector('pre');
+        if (pre && !pre.dataset.loaded) {
+          const rec = recordById.get(det.getAttribute('data-ev-raw-id'))?.record;
+          pre.textContent = rec ? JSON.stringify(rec, null, 2) : '';
+          pre.dataset.loaded = 'true';
+        }
+      });
+    }
+  };
+
+  const syncHeaderUi = (expanded) => {
+    const expStr = expanded ? 'true' : 'false';
+    sectionEl?.setAttribute('data-expanded', expStr);
+    toggleBtn?.setAttribute('aria-expanded', expStr);
+    if (toggleLabelEl) toggleLabelEl.textContent = expanded ? 'Hide' : 'Show';
+    if (bodyEl) bodyEl.hidden = !expanded;
+
+    if (headerBtn) {
+      headerBtn.setAttribute('aria-expanded', expStr);
+      headerBtn.classList.toggle('active', expanded);
+    }
+    if (headerLabelEl) {
+      headerLabelEl.textContent = expanded
+        ? `Hide Source & Evidence (${evidenceItems.length})`
+        : `Show Source & Evidence (${evidenceItems.length})`;
+    }
+  };
+
+  const setExpanded = (nextExpanded, { scrollToSection = false } = {}) => {
+    isEvidenceSectionExpanded = Boolean(nextExpanded);
+    syncHeaderUi(isEvidenceSectionExpanded);
+    if (isEvidenceSectionExpanded && listEl && !listEl.dataset.initialized) {
+      listEl.dataset.initialized = 'true';
+      renderFilteredList();
+    }
+    if (isEvidenceSectionExpanded && scrollToSection) {
+      sectionEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  };
+
+  // Initialize UI state
+  syncHeaderUi(isEvidenceSectionExpanded);
+  if (isEvidenceSectionExpanded && listEl) {
+    listEl.dataset.initialized = 'true';
+    renderFilteredList();
+  }
+
+  toggleBtn?.addEventListener('click', () => {
+    setExpanded(!isEvidenceSectionExpanded);
+  });
+
+  if (headerBtn) {
+    headerBtn.onclick = () => {
+      const opening = !isEvidenceSectionExpanded;
+      setExpanded(opening, { scrollToSection: opening });
+    };
+  }
+
+  evSearchInput?.addEventListener('input', () => {
+    showAllRecords = false;
+    renderFilteredList();
+  });
+
+  evDatasetFilter?.addEventListener('change', () => {
+    showAllRecords = false;
+    renderFilteredList();
+  });
+
+  activeRevealEvidenceCard = (evId) => {
+    if (!evId) return;
+    if (evSearchInput && evSearchInput.value) evSearchInput.value = '';
+    if (evDatasetFilter && evDatasetFilter.value !== 'all') evDatasetFilter.value = 'all';
+    const idx = evidenceItems.findIndex((item) => item.id === evId);
+    if (idx >= INITIAL_LIMIT) {
+      showAllRecords = true;
+    }
+    setExpanded(true);
+    renderFilteredList();
+    const el = document.getElementById(`evidence-card-${evId}`);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.remove('flash-highlight');
+    void el.offsetWidth;
+    el.classList.add('flash-highlight');
+    setTimeout(() => el.classList.remove('flash-highlight'), 2400);
+  };
+}
+
 export function scrollToAndFlashEvidence(evId) {
   if (!evId) return;
+  if (activeRevealEvidenceCard) {
+    activeRevealEvidenceCard(evId);
+    return;
+  }
   const el = document.getElementById(`evidence-card-${evId}`);
   if (!el) return;
   el.style.display = '';

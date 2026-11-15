@@ -5,7 +5,7 @@
  * and path isolation.
  */
 
-import { detectOriginKind, humanizePredicate } from './utils.js?v=20261115c';
+import { detectOriginKind, humanizePredicate } from './utils.js?v=20261115e';
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
