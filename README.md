@@ -22,7 +22,7 @@ The website has four search modes. Choose a question and enter the relevant pers
 ### Using the website
 
 1. **Choose a search mode.** Fill in the sentence using the name fields, or start with an example search.
-2. **Select the right identity.** Autocomplete and the disambiguation picker help distinguish records with similar names.
+2. **Select the right identity.** Autocomplete and the disambiguation picker help distinguish records with similar names. a good example is Lovable.
 3. **Set the search depth.** Use **Suggested**, adjust the number of relationship steps, or select **Max**. The allowed depth depends on the question.
 4. **Explore the relationship graph.** Switch between **Auto**, **Paths**, and **Network** layouts; drag nodes, pan, zoom, or fit the graph to the view. Click a person, company, or relationship to inspect it, or select a connection result to focus on its path.
 5. **Read the connection details.** Inspect relationship types, available profile information, source records, and meeting context. Reopen previous analyses from **Recent**.
