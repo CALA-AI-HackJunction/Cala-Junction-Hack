@@ -4,6 +4,8 @@
 
 **[Open the live demo](https://comare-di-slush-cala-junction.andrearitratto.chatgpt.site/)**
 
+No video; we can pitch!
+
 **Comare di Slush** helps founders, investors, and other Slush participants understand who is connected to whom, find relevant people to approach, and prepare for useful conversations. It combines **Cala's professional relationship data** with **Slush 2026 company and people datasets**, bringing connection paths, company networks, and their supporting sources into one interactive website.
 
 Built for **HackJunction 2026**, for Cala's **Make Unicorns Real** challenge, the project addresses a practical event problem: a long attendee list tells you who is there, but understanding how people and companies relate takes more work. Comare di Slush makes those relationships easier to explore, with evidence and data gaps visible alongside the results.
