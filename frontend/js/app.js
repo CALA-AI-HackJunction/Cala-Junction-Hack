@@ -14,7 +14,7 @@ import {
   renderOriginBadges,
   showToast,
   stripInternalIds,
-} from './utils.js';
+} from './utils.js?v=20261115c';
 
 import {
   getHealth,
@@ -24,16 +24,16 @@ import {
   streamAnalysis,
   listSavedAnalyses,
   getSavedAnalysis,
-} from './api.js';
+} from './api.js?v=20261115c';
 
-import { KnowledgeGraphView } from './graph-view.js';
+import { KnowledgeGraphView } from './graph-view.js?v=20261115c';
 import {
   renderDisambiguationPanel,
   renderNodeInspector,
   renderEdgeInspector,
   renderIntelColumn,
   scrollToAndFlashEvidence,
-} from './results-view.js';
+} from './results-view.js?v=20261115c';
 
 class ComareSlushApp {
   constructor() {

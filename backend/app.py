@@ -94,7 +94,11 @@ def _serve_frontend_file(sub_dir: str, rel_path: str, frontend_root: Path) -> Re
         return _json_resp({"error": "Route not found"}, 404)
     ext = candidate.suffix.lower()
     media_type = MIME_OVERRIDES.get(ext) or mimetypes.guess_type(str(candidate))[0] or "application/octet-stream"
-    return FileResponse(candidate, media_type=media_type, headers={"Cache-Control": "no-cache"})
+    return FileResponse(
+        candidate,
+        media_type=media_type,
+        headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"},
+    )
 
 
 def create_app(
@@ -156,7 +160,7 @@ def create_app(
             return FileResponse(
                 index_file,
                 media_type="text/html; charset=utf-8",
-                headers={"Cache-Control": "no-cache"},
+                headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"},
             )
         svc = await run_in_threadpool(get_service)
         return _json_resp(svc.health_payload())

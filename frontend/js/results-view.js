@@ -15,7 +15,7 @@ import {
   humanizePredicate,
   humanizeDatasetLabel,
   stripInternalIds,
-} from './utils.js';
+} from './utils.js?v=20261115c';
 
 /* ==========================================================================
    1. Interactive Identity Disambiguation Panel
@@ -563,7 +563,7 @@ export function renderIntelColumn({
             <span class="badge badge-cala" style="margin-right:0.35rem;">${escapeHtml(wp.hop_count)} Hop${wp.hop_count === 1 ? '' : 's'}</span>
             <span>${escapeHtml(stripInternalIds(wp.summary))}</span>
           </div>
-          ${renderEvidenceChips(wp.evidence_ids, evidenceMap, 3)}
+          ${renderEvidenceChips(wp.evidence_ids, evidenceMap, 5)}
         </div>
       `
       )

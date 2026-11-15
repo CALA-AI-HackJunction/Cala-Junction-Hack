@@ -10,7 +10,7 @@ import {
   OFFLINE_DEFAULT_ANALYSIS,
   OFFLINE_COVERAGE,
   OFFLINE_CRACI,
-} from './offline-fixtures.js';
+} from './offline-fixtures.js?v=20261115c';
 
 const ALLOWED_REQUEST_KEYS = new Set([
   'question_id',
