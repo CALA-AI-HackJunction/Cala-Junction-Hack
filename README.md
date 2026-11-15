@@ -12,12 +12,12 @@ Built for **HackJunction 2026**, for Cala's **Make Unicorns Real** challenge, th
 
 The website has four search modes. Choose a question and enter the relevant person or company names.
 
-| Search mode | Question | What the results show | Examples
-| --- | --- | --- |
-| **Person → Company** | How is this person connected to this company? | Ranked professional paths through founders, employers, investors, board members, and other documented relationships. | David Silver → Lovable; Deedy Das → Lovable; Markus Villig → Lovable; Ilkka Paananen → Linear; Anton Osika → Amplitude; Ted Persson → Lovable.
-| **Company → Company** | How is this company connected to that company? | Connections between two companies through shared people, investors, and other professional bridges. | Sana Labs → Lovable; Lovable → OpenAI; Supercell → Linear; Vanta → Lovable; Lovable → Sequoia Capital; Bolt → Atomico.
-| **Company network** | What relationships surround this company? | A local network grouped into people, investors, companies, and indirect connections. | Lovable; Linear; Supercell; Bolt. 
-| **People at Slush** | Who from this company can I approach at Slush? | People with individual Slush participation evidence, shown separately from company affiliates whose attendance is unverified. Greater search depths can also reveal indirectly connected participants. | Lovable; Bolt; Supercell; Atomico; Linear.
+| Search mode | Question | What the results show | Examples |
+| --- | --- | --- | --- |
+| **Person → Company** | How is this person connected to this company? | Ranked professional paths through founders, employers, investors, board members, and other documented relationships. | David Silver → Lovable; Deedy Das → Lovable; Markus Villig → Lovable; Ilkka Paananen → Linear; Anton Osika → Amplitude; Ted Persson → Lovable. |
+| **Company → Company** | How is this company connected to that company? | Connections between two companies through shared people, investors, and other professional bridges. | Sana Labs → Lovable; Lovable → OpenAI; Supercell → Linear; Vanta → Lovable; Lovable → Sequoia Capital; Bolt → Atomico. |
+| **Company network** | What relationships surround this company? | A local network grouped into people, investors, companies, and indirect connections. | Lovable; Linear; Supercell; Bolt. |
+| **People at Slush** | Who from this company can I approach at Slush? | People with individual Slush participation evidence, shown separately from company affiliates whose attendance is unverified. Greater search depths can also reveal indirectly connected participants. | Lovable; Bolt; Supercell; Atomico; Linear. |
 
 ### Using the website
 
