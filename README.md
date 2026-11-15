@@ -12,17 +12,17 @@ Built for **HackJunction 2026**, for Cala's **Make Unicorns Real** challenge, th
 
 The website has four search modes. Choose a question and enter the relevant person or company names.
 
-| Search mode | Question | What the results show |
+| Search mode | Question | What the results show | Examples
 | --- | --- | --- |
-| **Person → Company** | How is this person connected to this company? | Ranked professional paths through founders, employers, investors, board members, and other documented relationships. |
-| **Company → Company** | How is this company connected to that company? | Connections between two companies through shared people, investors, and other professional bridges. |
-| **Company network** | What relationships surround this company? | A local network grouped into people, investors, companies, and indirect connections. |
-| **People at Slush** | Who from this company can I approach at Slush? | People with individual Slush participation evidence, shown separately from company affiliates whose attendance is unverified. Greater search depths can also reveal indirectly connected participants. |
+| **Person → Company** | How is this person connected to this company? | Ranked professional paths through founders, employers, investors, board members, and other documented relationships. | David Silver → Lovable; Deedy Das → Lovable; Markus Villig → Lovable; Ilkka Paananen → Linear; Anton Osika → Amplitude; Ted Persson → Lovable.
+| **Company → Company** | How is this company connected to that company? | Connections between two companies through shared people, investors, and other professional bridges. | Sana Labs → Lovable; Lovable → OpenAI; Supercell → Linear; Vanta → Lovable; Lovable → Sequoia Capital; Bolt → Atomico.
+| **Company network** | What relationships surround this company? | A local network grouped into people, investors, companies, and indirect connections. | Lovable; Linear; Supercell; Bolt. 
+| **People at Slush** | Who from this company can I approach at Slush? | People with individual Slush participation evidence, shown separately from company affiliates whose attendance is unverified. Greater search depths can also reveal indirectly connected participants. | Lovable; Bolt; Supercell; Atomico; Linear.
 
 ### Using the website
 
 1. **Choose a search mode.** Fill in the sentence using the name fields, or start with an example search.
-2. **Select the right identity.** Autocomplete and the disambiguation picker help distinguish records with similar names. a good example is Lovable.
+2. **Select the right identity.** Autocomplete and the disambiguation picker help distinguish records with similar names. 
 3. **Set the search depth.** Use **Suggested**, adjust the number of relationship steps, or select **Max**. The allowed depth depends on the question.
 4. **Explore the relationship graph.** Switch between **Auto**, **Paths**, and **Network** layouts; drag nodes, pan, zoom, or fit the graph to the view. Click a person, company, or relationship to inspect it, or select a connection result to focus on its path.
 5. **Read the connection details.** Inspect relationship types, available profile information, source records, and meeting context. Reopen previous analyses from **Recent**.
