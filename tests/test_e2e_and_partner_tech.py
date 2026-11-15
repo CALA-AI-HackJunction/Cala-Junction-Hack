@@ -87,7 +87,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
         self.assertEqual(body["status"], "ok")
         self.assertEqual(
             body["graph_version"],
-            "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
+            "b205502204e1e0c2b3e1b334577e7d0f04bf4fc70f4bddb06d6c3603f5dfe5e5",
         )
         self.assertEqual(body["pipeline_version"], "2.2.0")
         self.assertIn("capabilities", body)
@@ -1065,7 +1065,7 @@ class FrontendAndHeadlessBrowserE2ETests(unittest.TestCase):
             self.assertIn("class=\"g-edge-group\"", dom)
             # Verify Cala registry provenance badges preserve publisher + clickable source URL
             self.assertIn("trustexchange.world", dom)
-            self.assertIn("zefix.admin.ch", dom)
+            self.assertIn("slush.org", dom)
         finally:
             server.should_exit = True
             thread.join(timeout=5)

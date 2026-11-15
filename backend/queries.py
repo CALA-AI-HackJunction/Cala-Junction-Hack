@@ -554,7 +554,10 @@ class QueryEngine:
                 "reason": "Multiple distinct records share this name; select a canonical ID.",
             }
 
-        candidate_keys = [key for key in self.name_index if normalized in key or key in normalized]
+        candidate_keys = [
+            key for key in self.name_index
+            if normalized in key or (len(key) >= 4 and key in normalized)
+        ]
         close = difflib.get_close_matches(normalized, list(self.name_index), n=12, cutoff=0.65)
         candidate_ids = set()
         for key in _unique(candidate_keys + close):

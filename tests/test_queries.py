@@ -271,7 +271,7 @@ class QueryTests(unittest.TestCase):
         snap = ensure_snapshot()
         self.assertEqual(
             snap["graph_version"],
-            "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
+            "b205502204e1e0c2b3e1b334577e7d0f04bf4fc70f4bddb06d6c3603f5dfe5e5",
         )
         counts = snap["manifest"]["counts"]
         self.assertEqual(counts["nodes"], 38886)

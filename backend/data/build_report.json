@@ -1,6 +1,6 @@
 {
   "snapshot": "backend\\data\\snapshot.json",
-  "graph_version": "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
+  "graph_version": "b205502204e1e0c2b3e1b334577e7d0f04bf4fc70f4bddb06d6c3603f5dfe5e5",
   "manifest": {
     "importer_version": "3.0.0",
     "datasets": [
@@ -19,8 +19,8 @@
       {
         "id": "cala_company_dossier",
         "filename": "company_dossier.csv",
-        "sha256": "df1bab162a6539f63da14c9f375cb34f450562b4c41975028e05a0cd70d8b5e5",
-        "size_bytes": 1284387
+        "sha256": "0531abfcf9de2ff7a442dfaeea0bf59b61648434ffd1c5a3e6b5f1afb95b3435",
+        "size_bytes": 1284403
       },
       {
         "id": "cala_people_speakers_and_connectors",
@@ -49,8 +49,8 @@
       {
         "id": "cala_readable_views_sql",
         "filename": "readable_views.sql",
-        "sha256": "e312e01c8703e4fcba9cbc7657f07d7753632964da9c3a2dcb733096db049a30",
-        "size_bytes": 5653
+        "sha256": "77846918b18b394ab779a5f895303ccc58322bd2974e010d7b59f791f3a555a0",
+        "size_bytes": 5765
       },
       {
         "id": "slush_companies",
