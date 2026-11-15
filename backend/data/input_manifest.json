@@ -6,15 +6,51 @@
     "sha256": "3beadebfc774cbe667b015864def351b3328c0d4f33318902b7bcac19c870066"
   },
   {
-    "original_filename": "slush-2026-graph.json",
-    "packaged_filename": "data/cala_graph.json",
-    "size_bytes": 2698348,
-    "sha256": "efd9524d1bebe002dbcc04b6e0d789b4da3756d903117752612a4d81f3165cf3"
-  },
-  {
     "original_filename": "meeting_tool_companies_export_all (1)(2).json",
     "packaged_filename": "data/slush_companies.json",
     "size_bytes": 12751296,
     "sha256": "19609f6834aaedcdae8b99f7e6fb54cabe7d8af8dd76b3ef916ffa688dc8e431"
+  },
+  {
+    "original_filename": "slush_2026_roster.csv",
+    "packaged_filename": "data/slush_2026_spreadsheets/slush_2026_roster.csv",
+    "size_bytes": 298850,
+    "sha256": "5a392887d3fc21682c12b9097261e90ef256291066dcb491875ac4eb3500207a"
+  },
+  {
+    "original_filename": "company_dossier.csv",
+    "packaged_filename": "data/slush_2026_spreadsheets/company_dossier.csv",
+    "size_bytes": 1284387,
+    "sha256": "df1bab162a6539f63da14c9f375cb34f450562b4c41975028e05a0cd70d8b5e5"
+  },
+  {
+    "original_filename": "people_speakers_and_connectors.csv",
+    "packaged_filename": "data/slush_2026_spreadsheets/people_speakers_and_connectors.csv",
+    "size_bytes": 1110019,
+    "sha256": "5565b11540e8da4900b62fabbe8c3ffe615ff73a3e6b7f0c81fc0171b1d68daf"
+  },
+  {
+    "original_filename": "top_warm_intros.csv",
+    "packaged_filename": "data/slush_2026_spreadsheets/top_warm_intros.csv",
+    "size_bytes": 721383,
+    "sha256": "f7ae916184f63be27d6b7ce13242b3270e0380a27942cd5b0d3968bc8834c120"
+  },
+  {
+    "original_filename": "shared_bridges.csv",
+    "packaged_filename": "data/slush_2026_spreadsheets/shared_bridges.csv",
+    "size_bytes": 219899,
+    "sha256": "50a25aa16880b596fb9794a6d98983a3067db7b2645293cce712557dd91a4c0e"
+  },
+  {
+    "original_filename": "edges_human_readable.csv",
+    "packaged_filename": "data/slush_2026_spreadsheets/edges_human_readable.csv",
+    "size_bytes": 8015514,
+    "sha256": "68527a85e3a02fdb940765edb498165baed26ed2eb8d121276e288e89226f1fa"
+  },
+  {
+    "original_filename": "readable_views.sql",
+    "packaged_filename": "data/slush_2026_spreadsheets/readable_views.sql",
+    "size_bytes": 5653,
+    "sha256": "e312e01c8703e4fcba9cbc7657f07d7753632964da9c3a2dcb733096db049a30"
   }
 ]

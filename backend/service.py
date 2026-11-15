@@ -126,13 +126,13 @@ FALLBACK_PRESETS: list[dict[str, Any]] = [
         "id": "investor_multihop_yc",
         "title": "Dani Penev → Y Combinator (Cala Investor)",
         "badge": "Q1 · Multi-Hop Investor",
-        "description": "3-path founder/investor bridge to canonical Cala Y Combinator identity.",
+        "description": "Founder/investor bridge to canonical Cala Y Combinator identity.",
         "expected_status": "partial",
         "request": {
             "question_id": "person_to_company",
             "source": "Dani Penev",
             "target": "Y Combinator",
-            "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
+            "target_id": "cala:58ff3f858e84eba441148d79",
         },
     },
     {
@@ -145,7 +145,7 @@ FALLBACK_PRESETS: list[dict[str, Any]] = [
             "question_id": "company_to_company",
             "source": "Slicker",
             "target": "Y Combinator",
-            "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73",
+            "target_id": "cala:58ff3f858e84eba441148d79",
         },
     },
     {
@@ -214,6 +214,40 @@ class AnalysisService:
         self.composer_endpoint = composer_endpoint
         self.cala_client = CalaLiveClient(snapshot, store=self.store)
         self.craci_client = CraciProvenanceClient(self.engine)
+        self._warm_intros = self._load_spreadsheet_rows("top_warm_intros.csv")
+        self._shared_bridges = self._load_spreadsheet_rows("shared_bridges.csv")
+
+    @staticmethod
+    def _load_spreadsheet_rows(filename: str) -> list[dict[str, Any]]:
+        import csv as _csv
+        csv_path = DATA_DIR / "slush_2026_spreadsheets" / filename
+        if not csv_path.is_file():
+            return []
+        try:
+            with csv_path.open("r", encoding="utf-8-sig") as fp:
+                return list(_csv.DictReader(fp))
+        except OSError:
+            return []
+
+    def query_warm_intros(self, entity: str | None = None, limit: int = 25) -> list[dict[str, Any]]:
+        clamped = min(max(int(limit or 25), 1), 100)
+        if not entity or not entity.strip():
+            return self._warm_intros[:clamped]
+        q = entity.strip().casefold()
+        matches = [
+            row for row in self._warm_intros
+            if q in (row.get("member_a") or "").casefold()
+            or q in (row.get("member_b") or "").casefold()
+            or q in (row.get("key_connector") or "").casefold()
+        ]
+        return matches[:clamped]
+
+    def query_shared_bridges(self, entity: str | None = None, limit: int = 25) -> list[dict[str, Any]]:
+        clamped = min(max(int(limit or 25), 1), 100)
+        if not entity or not entity.strip():
+            return self._shared_bridges[:clamped]
+        q = entity.strip().casefold()
+        return [row for row in self._shared_bridges if q in (row.get("connector_name") or "").casefold()][:clamped]
 
     def _validate_and_prepare(
         self,

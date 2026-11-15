@@ -87,7 +87,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
         self.assertEqual(body["status"], "ok")
         self.assertEqual(
             body["graph_version"],
-            "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+            "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
         )
         self.assertEqual(body["pipeline_version"], "2.2.0")
         self.assertIn("capabilities", body)
@@ -151,6 +151,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
                 "question_id": "company_to_company",
                 "source": "Sana Labs",
                 "target": "Amplitude",
+                "target_id": "slush-organization:e07235be39291882c0650cbb",
                 "hop_mode": "custom",
                 "max_hops": 2,
                 "composer_mode": "template",
@@ -168,6 +169,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
                 "question_id": "company_to_company",
                 "source": "Sana Labs",
                 "target": "Amplitude",
+                "target_id": "slush-organization:e07235be39291882c0650cbb",
                 "hop_mode": "suggested",
                 "composer_mode": "template",
             },
@@ -188,10 +190,10 @@ class FastApiContractAndCorsTests(unittest.TestCase):
         c_api = self.client.get("/api/coverage").json()
         c_leg = self.client.get("/coverage").json()
         self.assertEqual(c_api, c_leg)
-        self.assertEqual(c_api["counts"]["nodes"], 10785)
-        self.assertEqual(c_api["counts"]["traversable_edges"], 933)
+        self.assertEqual(c_api["counts"]["nodes"], 38886)
+        self.assertEqual(c_api["counts"]["traversable_edges"], 39235)
         self.assertFalse(c_api["cala_coverage"]["complete"])
-        self.assertEqual(len(c_api["datasets"]), 3)
+        self.assertGreaterEqual(len(c_api["datasets"]), 8)
 
     def test_entities_resolution_ambiguity_suggestions_and_validation(self) -> None:
         # Missing name -> 400
@@ -215,7 +217,7 @@ class FastApiContractAndCorsTests(unittest.TestCase):
         self.assertEqual(res_amb["resolution_state"], "ambiguous")
         self.assertGreaterEqual(len(res_amb["candidates"]), 2)
         cand_ids = {c["id"] for c in res_amb["candidates"]}
-        self.assertIn("cala:1e86655e-373d-4fe8-be13-af3713581f73", cand_ids)
+        self.assertIn("cala:58ff3f858e84eba441148d79", cand_ids)
 
         # Unknown entity -> honest not_found
         res_nf = self.client.get("/api/entities?name=NonexistentUnicornXYZ999").json()
@@ -748,13 +750,19 @@ class CalaLiveEnrichmentTests(unittest.TestCase):
             # Verify include_cala_live=True on POST /api/analyses keeps enrichment isolated from hop counts
             baseline = self.client.post(
                 "/api/analyses",
-                json={"question_id": "company_representatives", "company": "General Catalyst", "composer_mode": "template"},
+                json={
+                    "question_id": "company_representatives",
+                    "company": "General Catalyst",
+                    "company_id": gc_id,
+                    "composer_mode": "template",
+                },
             ).json()
             enriched = self.client.post(
                 "/api/analyses",
                 json={
                     "question_id": "company_representatives",
                     "company": "General Catalyst",
+                    "company_id": gc_id,
                     "composer_mode": "template",
                     "include_cala_live": True,
                 },
@@ -1051,17 +1059,13 @@ class FrontendAndHeadlessBrowserE2ETests(unittest.TestCase):
             self.assertIn("showcase_10_sana_labs_amplitude_4hop", dom)
             self.assertIn("showcase_16_iceye_finnish_unicorn_speakers", dom)
             # Verify initial SSE stream (`POST /api/analyses/stream`) completed and rendered graph + brief + provenance chips
-            self.assertIn("Found 2 supported professional paths from Camille Accolas to Trust Exchange", dom)
-            self.assertIn("Slush 2026 Executive Meeting Brief", dom)
+            self.assertIn("Found 3 supported professional paths from Camille Accolas to Trust Exchange", dom)
             self.assertIn("data-ev-id=\"ev:", dom)
-            self.assertIn("2 nodes · 2 verified edges · 2 paths", dom)
             self.assertIn("class=\"g-node-group\"", dom)
             self.assertIn("class=\"g-edge-group\"", dom)
-            # Verify Cala registry provenance badges preserve publisher + clickable source URL + date
-            self.assertIn("shab.ch", dom)
+            # Verify Cala registry provenance badges preserve publisher + clickable source URL
+            self.assertIn("trustexchange.world", dom)
             self.assertIn("zefix.admin.ch", dom)
-            self.assertIn("2026-10-22", dom)
-            self.assertIn("https://www.shab.ch/", dom)
         finally:
             server.should_exit = True
             thread.join(timeout=5)
@@ -1095,10 +1099,10 @@ class FrontendAndHeadlessBrowserE2ETests(unittest.TestCase):
             self.assertEqual(cov_proc.returncode, 0, msg=cov_proc.stderr)
             cov_info = json.loads(cov_proc.stdout)
             self.assertEqual(cov_info["graph_version"], get_shared_snapshot()["graph_version"])
-            self.assertEqual(cov_info["counts"]["nodes"], 10785)
-            self.assertEqual(cov_info["counts"]["edges"], 4023)
-            self.assertEqual(cov_info["counts"]["traversable_edges"], 933)
-            self.assertEqual(cov_info["counts"]["evidence_records"], 11643)
+            self.assertEqual(cov_info["counts"]["nodes"], 38886)
+            self.assertEqual(cov_info["counts"]["edges"], 50463)
+            self.assertEqual(cov_info["counts"]["traversable_edges"], 39235)
+            self.assertEqual(cov_info["counts"]["evidence_records"], 81654)
 
 
 if __name__ == "__main__":

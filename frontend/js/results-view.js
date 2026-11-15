@@ -287,8 +287,21 @@ export function renderNodeInspector({
     <div style="display:flex;gap:0.75rem;flex-wrap:wrap;font-size:0.78rem;margin-bottom:0.55rem;">
       ${websiteUrl ? `<a href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Website ↗</a>` : ''}
       ${linkedinUrl ? `<a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>` : ''}
-      ${p.location_raw ? `<span style="color:var(--text-muted);">${escapeHtml(p.location_raw)}</span>` : ''}
+      ${p.headquarters || p.location_raw ? `<span style="color:var(--text-muted);">${escapeHtml(p.headquarters || p.location_raw)}</span>` : ''}
     </div>
+
+    ${
+      p.funding_stage || p.total_funding || p.employees || p.founded || p.at_slush_2026 || p.slush_branches_connected
+        ? `<div style="display:flex;gap:0.35rem;flex-wrap:wrap;margin-bottom:0.6rem;">
+            ${p.funding_stage ? `<span class="badge badge-cala">Stage: ${escapeHtml(p.funding_stage)}</span>` : ''}
+            ${p.total_funding ? `<span class="badge badge-dual">Funding: ${escapeHtml(p.total_funding)}</span>` : ''}
+            ${p.employees ? `<span class="badge badge-neutral">Employees: ${escapeHtml(p.employees)}</span>` : ''}
+            ${p.founded ? `<span class="badge badge-neutral">Founded: ${escapeHtml(p.founded)}</span>` : ''}
+            ${p.at_slush_2026 && p.at_slush_2026 !== 'NO' ? `<span class="badge badge-slush">Slush 2026: ${escapeHtml(p.at_slush_2026)}</span>` : ''}
+            ${p.slush_branches_connected ? `<span class="badge badge-cala">${escapeHtml(p.slush_branches_connected)} Slush branches</span>` : ''}
+          </div>`
+        : ''
+    }
 
     ${
       topics.length > 0
@@ -1112,7 +1125,11 @@ function renderEvidenceExplorerCard(evidenceMap) {
         />
         <select id="evidenceDatasetFilter" class="styled-select">
           <option value="all">All Datasets (${items.length})</option>
-          <option value="cala">Cala Graph</option>
+          <option value="cala">Cala Edges</option>
+          <option value="cala_company_dossier">Cala Company Dossier</option>
+          <option value="cala_people_connectors">Cala Speakers &amp; Connectors</option>
+          <option value="cala_roster">Cala Slush Roster</option>
+          <option value="cala_shared_bridges">Cala Shared Bridges</option>
           <option value="slush_people">Slush People</option>
           <option value="slush_companies">Slush Companies</option>
         </select>

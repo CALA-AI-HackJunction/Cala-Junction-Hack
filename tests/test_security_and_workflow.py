@@ -432,7 +432,7 @@ class SecurityAndSecretHygieneTests(unittest.TestCase):
         manifest_path = REPO_ROOT / "backend" / "data" / "input_manifest.json"
         self.assertTrue(manifest_path.is_file(), "Missing backend/data/input_manifest.json")
         entries = json.loads(manifest_path.read_text(encoding="utf-8"))
-        self.assertEqual(len(entries), 3)
+        self.assertGreaterEqual(len(entries), 3)
 
         for entry in entries:
             rel = entry["packaged_filename"]

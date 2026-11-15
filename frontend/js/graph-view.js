@@ -687,7 +687,7 @@ export class KnowledgeGraphView {
           createSvgEl('circle', {
             class: 'g-node-shape',
             r: 22,
-            fill: '#FFFFFF',
+            fill: '#FCF6EA',
             stroke: borderColor,
             'stroke-width': isFocal ? '2.8' : '2.1',
           })
@@ -712,7 +712,7 @@ export class KnowledgeGraphView {
             width: 48,
             height: 42,
             rx: 10,
-            fill: '#FFFFFF',
+            fill: '#FCF6EA',
             stroke: borderColor,
             'stroke-width': isFocal ? '2.8' : '2.1',
           })
@@ -742,7 +742,7 @@ export class KnowledgeGraphView {
             cy: -16,
             r: 5.5,
             fill: COLORS.slush,
-            stroke: '#FFFFFF',
+            stroke: '#FCF6EA',
             'stroke-width': '1.8',
           })
         );

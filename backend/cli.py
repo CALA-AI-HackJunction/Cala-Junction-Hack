@@ -33,9 +33,9 @@ def main() -> None:
 
     commands = parser.add_subparsers(dest="command", required=True)
 
-    build = commands.add_parser("build", help="Import the three supplied Cala & Slush datasets")
+    build = commands.add_parser("build", help="Import the supplied Cala spreadsheets & Slush datasets")
     build.add_argument("--people", type=Path, default=DATA_DIR / "slush_people.json")
-    build.add_argument("--cala", type=Path, default=DATA_DIR / "cala_graph.json")
+    build.add_argument("--cala", type=Path, default=DATA_DIR / "slush_2026_spreadsheets")
     build.add_argument("--companies", type=Path, default=DATA_DIR / "slush_companies.json")
 
     query = commands.add_parser("query", help="Run one of the four fixed connection tasks")

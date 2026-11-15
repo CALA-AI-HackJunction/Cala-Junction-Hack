@@ -271,13 +271,13 @@ class QueryTests(unittest.TestCase):
         snap = ensure_snapshot()
         self.assertEqual(
             snap["graph_version"],
-            "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
+            "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
         )
         counts = snap["manifest"]["counts"]
-        self.assertEqual(counts["nodes"], 10785)
-        self.assertEqual(counts["edges"], 4023)
-        self.assertEqual(counts["traversable_edges"], 933)
-        self.assertEqual(counts["edge_types"]["PARTICIPATES_IN_EVENT"], 2990)
+        self.assertEqual(counts["nodes"], 38886)
+        self.assertEqual(counts["edges"], 50463)
+        self.assertEqual(counts["traversable_edges"], 39235)
+        self.assertEqual(counts["edge_types"]["PARTICIPATES_IN_EVENT"], 2993)
         self.assertFalse(snap["manifest"]["cala_coverage"]["complete"])
 
         evidence_map = snap["evidence"]
@@ -402,12 +402,13 @@ class QueryTests(unittest.TestCase):
             len(engine.run("company_network", company="Sana Labs", max_hops=h)["results"])
             for h in (1, 2, 3, 4)
         ]
-        self.assertEqual(counts, [1, 4, 5, 9])
+        self.assertEqual(counts, [1, 4, 10, 10])
 
-        # Sana Labs -> Amplitude requires >2 hops in the real snapshot
-        short_q2 = engine.run("company_to_company", source="Sana Labs", target="Amplitude", max_hops=2)
+        # Sana Labs -> Amplitude (Slush work-history ref) requires >2 hops in the real snapshot
+        amp_id = "slush-organization:e07235be39291882c0650cbb"
+        short_q2 = engine.run("company_to_company", source="Sana Labs", target="Amplitude", target_id=amp_id, max_hops=2)
         self.assertEqual(short_q2["status"], "insufficient_data")
-        full_q2 = engine.run("company_to_company", source="Sana Labs", target="Amplitude", max_hops=4)
+        full_q2 = engine.run("company_to_company", source="Sana Labs", target="Amplitude", target_id=amp_id, max_hops=4)
         self.assertGreaterEqual(len(full_q2["results"]), 1)
 
 

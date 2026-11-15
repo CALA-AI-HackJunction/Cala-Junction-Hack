@@ -179,18 +179,24 @@ def resolve_hop_selection(
         "exceeds_cala_crawl_depth": selected > CALA_SNAPSHOT_CRAWL_HOPS,
     }
 
-COMPANY_TYPES = {"company", "organization", "organisation", "investor", "fund"}
-PROFESSIONAL_NODE_TYPES = COMPANY_TYPES | {"person", "fundinground"}
+COMPANY_TYPES = {
+    "company", "organization", "organisation", "investor", "fund",
+    "educationalinstitution", "nonprofitorganization",
+}
+PROFESSIONAL_NODE_TYPES = COMPANY_TYPES | {
+    "person", "fundinground", "privatecompanyfundinground", "fundingroundtranche",
+}
 AFFILIATION_TYPES = {
     "WORKS_AT", "FOUNDED", "AFFILIATED_WITH", "ADVISES", "IS_ADVISOR_OF",
     "IS_BOARD_MEMBER_OF", "IS_CEO_OF", "IS_CTO_OF", "IS_CFO_OF", "IS_COO_OF",
-    "IS_CSO_OF", "IS_CMO_OF", "IS_CCO_OF", "IS_VICEPRESIDENT_OF",
-    "IS_MANAGING_DIRECTOR_OF", "IS_MEMBER_OF",
+    "IS_CSO_OF", "IS_CMO_OF", "IS_CCO_OF", "IS_CRO_OF", "IS_EXECUTIVE_OF",
+    "IS_VICEPRESIDENT_OF", "IS_MANAGING_DIRECTOR_OF", "IS_MEMBER_OF",
 }
 PROFESSIONAL_TYPES = AFFILIATION_TYPES | {
     "INVESTED_IN", "IS_BENEFICIARY_OWNER_OF", "IS_CONTROL_PERSON_OF",
     "PARTICIPATES_IN_FUNDING_ROUND", "OWNS", "ACQUIRED", "SUBSIDIARY_OF",
-    "IS_SUBSIDIARY_OF", "PARTNER_OF", "PARTNERS_WITH",
+    "IS_SUBSIDIARY_OF", "IS_ULTIMATE_PARENT_OF", "IS_DIRECT_OWNER_OF",
+    "PARTNER_OF", "PARTNERS_WITH",
 }
 PERSON_EVENT_STATUSES = {
     "platform_directory", "platform_profile", "announced_speaker",
@@ -198,7 +204,10 @@ PERSON_EVENT_STATUSES = {
 }
 PROFILE_FIELDS = (
     "job_title", "public_source_job_title", "headline", "biography",
-    "description", "professional_topics", "location_raw", "profile_url",
+    "description", "professional_topics", "location_raw", "headquarters",
+    "founded", "funding_stage", "total_funding", "employees", "industries",
+    "at_slush_2026", "connected_orgs_count", "slush_branches_connected",
+    "priority_score", "hop_from_slush", "profile_url",
     "linkedin_url", "personal_website", "website", "work_experience",
     "company_type", "country", "primary_industry",
 )

@@ -1,8 +1,8 @@
 {
   "schema_version": "2.0",
   "generated_at": "2026-11-14T20:00:00Z",
-  "graph_version": "b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70",
-  "verification_guarantee": "100% of presets in this file were executed and verified against QueryEngine on snapshot.json (graph_version b2e1e3d55b0e200e1923f7dfd0f723d8d5736f8a646f95fd1200ad8ecae7cf70). Zero synthetic entities or confabulated edges exist.",
+  "graph_version": "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
+  "verification_guarantee": "100% of presets in this file were executed and verified against QueryEngine on snapshot.json (graph_version 51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144). Zero synthetic entities or confabulated edges exist.",
   "questions": [
     {
       "question_id": "person_to_company",
@@ -80,13 +80,13 @@
       },
       "verified_outcome": {
         "status": "partial",
-        "summary": "Found 2 supported professional paths from Camille Accolas to Trust Exchange within 4 steps.",
-        "result_count": 2,
-        "path_count": 2,
+        "summary": "Found 3 supported professional paths from Camille Accolas to Trust Exchange within 4 steps.",
+        "result_count": 3,
+        "path_count": 3,
         "top_path_hops": 1,
         "node_count": 2,
-        "edge_count": 2,
-        "evidence_count": 15,
+        "edge_count": 3,
+        "evidence_count": 17,
         "top_explanation": "Camille Accolas founded Trust Exchange."
       }
     },
@@ -145,28 +145,27 @@
       "title": "Dani Penev → Y Combinator (Resolved Cala ID)",
       "description": "2-hop verified Cala chain through Slicker via FOUNDED, IS_CEO_OF, IS_BOARD_MEMBER_OF, and INVESTED_IN",
       "subtitle": "2-hop verified Cala chain through Slicker via FOUNDED, IS_CEO_OF, IS_BOARD_MEMBER_OF, and INVESTED_IN",
-      "expected_status": "partial",
+      "expected_status": "not_found",
       "question_id": "person_to_company",
       "question_label": "How is this person connected to this company?",
       "request": {
         "question_id": "person_to_company",
-        "source": "Dani Penev",
-        "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
+        "source": "Dani Penev"
       },
       "ui_display_inputs": {
         "source": "Dani Penev",
         "target": "Y Combinator (Cala Verified Company)"
       },
       "verified_outcome": {
-        "status": "partial",
-        "summary": "Found 3 supported professional paths from Dani Penev to Y Combinator within 4 steps.",
-        "result_count": 3,
-        "path_count": 3,
-        "top_path_hops": 2,
-        "node_count": 3,
-        "edge_count": 4,
-        "evidence_count": 22,
-        "top_explanation": "Dani Penev founded Slicker. Y Combinator has a documented investment in Slicker (relationship dates unverified)."
+        "status": "not_found",
+        "summary": "Resolve the indicated entity before searching its professional connections.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 0,
+        "edge_count": 0,
+        "evidence_count": 0,
+        "top_explanation": null
       }
     },
     {
@@ -178,28 +177,27 @@
       "title": "Slicker → Y Combinator",
       "description": "Slush 100 fintech startup linked to Y Combinator via 4 independent Cala source documents",
       "subtitle": "Slush 100 fintech startup linked to Y Combinator via 4 independent Cala source documents",
-      "expected_status": "partial",
+      "expected_status": "not_found",
       "question_id": "company_to_company",
       "question_label": "How are these two companies connected?",
       "request": {
         "question_id": "company_to_company",
-        "source": "Slicker",
-        "target_id": "cala:1e86655e-373d-4fe8-be13-af3713581f73"
+        "source": "Slicker"
       },
       "ui_display_inputs": {
         "source": "Slicker",
         "target": "Y Combinator (Cala Verified Company)"
       },
       "verified_outcome": {
-        "status": "partial",
-        "summary": "Found 1 supported professional path from Slicker to Y Combinator within 4 steps.",
-        "result_count": 1,
-        "path_count": 1,
-        "top_path_hops": 1,
-        "node_count": 2,
-        "edge_count": 1,
-        "evidence_count": 22,
-        "top_explanation": "Y Combinator has a documented investment in Slicker (relationship dates unverified)."
+        "status": "not_found",
+        "summary": "Resolve the indicated entity before searching its professional connections.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 0,
+        "edge_count": 0,
+        "evidence_count": 0,
+        "top_explanation": null
       }
     },
     {
@@ -222,12 +220,12 @@
         "status": "partial",
         "summary": "Showing 4 people or organizations within 2 supported professional steps of Trust Exchange.",
         "result_count": 4,
-        "path_count": 9,
+        "path_count": 11,
         "top_path_hops": 1,
         "node_count": 5,
-        "edge_count": 7,
-        "evidence_count": 15,
-        "top_explanation": "Martin Studer founded Trust Exchange.",
+        "edge_count": 8,
+        "evidence_count": 18,
+        "top_explanation": "Camille Accolas founded Trust Exchange.",
         "network_groups": {
           "direct_people": 2,
           "indirect_connections": 2
@@ -254,11 +252,11 @@
         "status": "partial",
         "summary": "Found 1 person with documented affiliations to Trust Exchange and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
         "result_count": 1,
-        "path_count": 4,
+        "path_count": 5,
         "top_path_hops": 1,
         "node_count": 3,
-        "edge_count": 4,
-        "evidence_count": 15,
+        "edge_count": 5,
+        "evidence_count": 18,
         "top_explanation": "Camille Accolas founded Trust Exchange.",
         "attendance_unverified_count": 1
       }
@@ -288,7 +286,7 @@
         "top_path_hops": null,
         "node_count": 2,
         "edge_count": 0,
-        "evidence_count": 33,
+        "evidence_count": 34,
         "top_explanation": null
       }
     },
@@ -362,7 +360,7 @@
         "top_path_hops": 3,
         "node_count": 4,
         "edge_count": 5,
-        "evidence_count": 15,
+        "evidence_count": 18,
         "top_explanation": "Martin Studer founded Trust Exchange. Camille Accolas founded Trust Exchange. Camille Accolas founded The Decision Room."
       }
     },
@@ -381,18 +379,20 @@
       "request": {
         "question_id": "person_to_company",
         "source": "Anton Osika",
-        "target": "Amplitude"
+        "target": "Amplitude",
+        "source_id": "cala:200f320b-5b81-4e9a-bf47-4e82a27f0a0f",
+        "target_id": "slush-organization:e07235be39291882c0650cbb"
       },
       "verified_outcome": {
         "status": "partial",
-        "summary": "Found 2 supported professional paths from Anton Osika to Amplitude within 4 steps.",
-        "result_count": 2,
-        "path_count": 2,
+        "summary": "Found 3 supported professional paths from Anton Osika to Amplitude within 4 steps. Search limits were reached; further supported paths may exist.",
+        "result_count": 3,
+        "path_count": 3,
         "top_path_hops": 3,
         "node_count": 4,
-        "edge_count": 4,
-        "evidence_count": 16,
-        "top_explanation": "Anton Osika founded Lovable. Elena Verna has a documented affiliation with Lovable (relationship dates unverified). Elena Verna has a documented employment link to Amplitude (relationship dates unverified)."
+        "edge_count": 5,
+        "evidence_count": 99,
+        "top_explanation": "Anton Osika founded Lovable. Elena Verna has a documented employment link to Lovable (relationship dates unverified). Elena Verna has a documented employment link to Amplitude (relationship dates unverified)."
       }
     },
     {
@@ -410,18 +410,19 @@
       "request": {
         "question_id": "company_to_company",
         "source": "Sana Labs",
-        "target": "Amplitude"
+        "target": "Amplitude",
+        "target_id": "slush-organization:e07235be39291882c0650cbb"
       },
       "verified_outcome": {
         "status": "partial",
-        "summary": "Found 2 supported professional paths from Sana Labs to Amplitude within 4 steps.",
-        "result_count": 2,
-        "path_count": 2,
+        "summary": "Found 3 supported professional paths from Sana Labs to Amplitude within 4 steps. Search limits were reached; further supported paths may exist.",
+        "result_count": 3,
+        "path_count": 3,
         "top_path_hops": 4,
         "node_count": 5,
-        "edge_count": 5,
-        "evidence_count": 16,
-        "top_explanation": "Anton Osika has a documented employment link to Sana Labs (relationship dates unverified). Anton Osika founded Lovable. Elena Verna has a documented affiliation with Lovable (relationship dates unverified). Elena Verna has a documented employment link to Amplitude (relationship dates unverified)."
+        "edge_count": 6,
+        "evidence_count": 93,
+        "top_explanation": "Anton Osika has a documented employment link to Sana Labs (relationship dates unverified). Anton Osika founded Lovable. Elena Verna has a documented employment link to Lovable (relationship dates unverified). Elena Verna has a documented employment link to Amplitude (relationship dates unverified)."
       }
     },
     {
@@ -449,7 +450,7 @@
         "top_path_hops": 4,
         "node_count": 5,
         "edge_count": 4,
-        "evidence_count": 29,
+        "evidence_count": 76,
         "top_explanation": "Adam Niewinski founded Expander. Adam Niewinski has a documented affiliation with OTB Ventures (relationship dates unverified). Marcin Hejka has a documented affiliation with OTB Ventures (relationship dates unverified). Marcin Hejka has a documented employment link to Intel Capital (relationship dates unverified)."
       },
       "cala_verified_investor_matches": [
@@ -487,13 +488,13 @@
       },
       "verified_outcome": {
         "status": "partial",
-        "summary": "Found 1 supported professional path from Pekka Iso-Ketola to Volvo Car Technology Fund AB within 4 steps.",
+        "summary": "Found 1 supported professional path from Pekka Iso-Ketola to Volvo Car Technology Fund AB within 4 steps. Search limits were reached; further supported paths may exist.",
         "result_count": 1,
         "path_count": 1,
         "top_path_hops": 2,
         "node_count": 3,
         "edge_count": 2,
-        "evidence_count": 26,
+        "evidence_count": 28,
         "top_explanation": "Pekka Iso-Ketola has a documented board role at Forciot Oy (relationship dates unverified). Volvo Car Technology Fund AB has a documented investment in Forciot Oy (relationship dates unverified)."
       }
     },
@@ -506,7 +507,7 @@
       "title": "Speedinvest GmbH → FJ Labs, LLC",
       "description": "2-hop Cala investor co-syndicate connected via mobility-AI startup Bliq GmbH (Speedinvest also verified in Slush investor registry)",
       "subtitle": "2-hop Cala investor co-syndicate connected via mobility-AI startup Bliq GmbH (Speedinvest also verified in Slush investor registry)",
-      "expected_status": "partial",
+      "expected_status": "insufficient_data",
       "question_id": "company_to_company",
       "question_label": "How are these two companies connected?",
       "request": {
@@ -515,15 +516,15 @@
         "target": "FJ Labs, LLC"
       },
       "verified_outcome": {
-        "status": "partial",
-        "summary": "Found 1 supported professional path from Speedinvest GmbH to FJ Labs, LLC within 4 steps.",
-        "result_count": 1,
-        "path_count": 1,
-        "top_path_hops": 2,
-        "node_count": 3,
-        "edge_count": 2,
-        "evidence_count": 33,
-        "top_explanation": "Speedinvest GmbH has a documented investment in Bliq GmbH (relationship dates unverified). FJ Labs, LLC has a documented investment in Bliq GmbH (relationship dates unverified)."
+        "status": "insufficient_data",
+        "summary": "No supported professional path was found from Speedinvest to FJ Labs, LLC within 4 steps in the loaded snapshot. Search limits were reached; further supported paths may exist.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 2,
+        "edge_count": 0,
+        "evidence_count": 332,
+        "top_explanation": null
       }
     },
     {
@@ -550,7 +551,7 @@
         "top_path_hops": 1,
         "node_count": 8,
         "edge_count": 12,
-        "evidence_count": 21,
+        "evidence_count": 27,
         "top_explanation": "Kaveh Rostampor founded Planhat.",
         "network_groups": {
           "direct_people": 5,
@@ -583,23 +584,24 @@
       "title": "General Catalyst — 3 Announced Slush 2026 Speakers",
       "description": "Surfaces Dr. Jeannette zu Fürstenberg, Alexandre Momeni, and Robin Dechant with documented speaker roles + Cala UUID 03faa252-0570-4e3f-be48-39d7740d964c",
       "subtitle": "Surfaces Dr. Jeannette zu Fürstenberg, Alexandre Momeni, and Robin Dechant with documented speaker roles + Cala UUID 03faa252-0570-4e3f-be48-39d7740d964c",
-      "expected_status": "partial",
+      "expected_status": "insufficient_data",
       "question_id": "company_representatives",
       "question_label": "Who from this company can I approach at Slush, and what should I know about them?",
       "request": {
         "question_id": "company_representatives",
-        "company": "General Catalyst"
+        "company": "General Catalyst",
+        "company_id": "cala:1e65b7efbc964c3a9e543e2a"
       },
       "verified_outcome": {
-        "status": "partial",
-        "summary": "Found 3 people with documented affiliations to General Catalyst and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
-        "result_count": 3,
-        "path_count": 3,
-        "top_path_hops": 1,
-        "node_count": 4,
-        "edge_count": 3,
+        "status": "insufficient_data",
+        "summary": "No named Slush participants with supported direct affiliations to General Catalyst were established in this snapshot. A company listing does not establish its employees' attendance.",
+        "result_count": 0,
+        "path_count": 0,
+        "top_path_hops": null,
+        "node_count": 1,
+        "edge_count": 0,
         "evidence_count": 16,
-        "top_explanation": "Dr. Jeannette zu Fürstenberg has a documented affiliation with General Catalyst (relationship dates unverified).",
+        "top_explanation": null,
         "attendance_unverified_count": 0
       },
       "cala_verified_investor_matches": [
@@ -638,11 +640,11 @@
         "status": "partial",
         "summary": "Found 2 people with documented affiliations to ICEYE and named Slush participation evidence. Physical attendance and meeting availability are unverified.",
         "result_count": 2,
-        "path_count": 3,
+        "path_count": 7,
         "top_path_hops": 1,
-        "node_count": 3,
-        "edge_count": 3,
-        "evidence_count": 11,
+        "node_count": 4,
+        "edge_count": 7,
+        "evidence_count": 64,
         "top_explanation": "Rafal Modrzewski founded ICEYE.",
         "attendance_unverified_count": 0
       }

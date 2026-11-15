@@ -345,6 +345,30 @@ def create_app(
     # ------------------------------------------------------------------
     # 4. Partner Tech Challenge Endpoints (Cala Live, Aiven + AI Infra, CRACI)
     # ------------------------------------------------------------------
+    @fastapi_app.get("/api/cala/warm-intros")
+    async def cala_warm_intros_endpoint(request: Request) -> JSONResponse:
+        entity = request.query_params.get("entity")
+        raw_limit = request.query_params.get("limit", "25")
+        try:
+            limit = int(raw_limit)
+        except ValueError:
+            return _json_resp({"error": "limit must be an integer"}, 400)
+        svc = await run_in_threadpool(get_service)
+        rows = await run_in_threadpool(lambda: svc.query_warm_intros(entity=entity, limit=limit))
+        return _json_resp({"count": len(rows), "warm_intros": rows})
+
+    @fastapi_app.get("/api/cala/shared-bridges")
+    async def cala_shared_bridges_endpoint(request: Request) -> JSONResponse:
+        entity = request.query_params.get("entity")
+        raw_limit = request.query_params.get("limit", "25")
+        try:
+            limit = int(raw_limit)
+        except ValueError:
+            return _json_resp({"error": "limit must be an integer"}, 400)
+        svc = await run_in_threadpool(get_service)
+        rows = await run_in_threadpool(lambda: svc.query_shared_bridges(entity=entity, limit=limit))
+        return _json_resp({"count": len(rows), "shared_bridges": rows})
+
     @fastapi_app.get("/api/cala/enrich/{entity_id:path}")
     async def cala_live_enrich_endpoint(entity_id: str, request: Request) -> JSONResponse:
         if not entity_id or not entity_id.strip() or len(entity_id) > 300:
