@@ -2,7 +2,7 @@
 
 > Find the connections behind the names.
 
-**[Open the live demo](https://cala-junction-hack.niccolo-sobrero.workers.dev/)**
+**[Open the live demo](https://comare-di-slush-cala-junction.andrearitratto.chatgpt.site/)**
 
 **Comare di Slush** helps founders, investors, and other Slush participants understand who is connected to whom, find relevant people to approach, and prepare for useful conversations. It combines **Cala's professional relationship data** with **Slush 2026 company and people datasets**, bringing connection paths, company networks, and their supporting sources into one interactive website.
 

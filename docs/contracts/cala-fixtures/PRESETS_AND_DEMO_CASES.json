@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
   "generated_at": "2026-11-14T20:00:00Z",
-  "graph_version": "51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144",
+  "graph_version": "b205502204e1e0c2b3e1b334577e7d0f04bf4fc70f4bddb06d6c3603f5dfe5e5",
   "verification_guarantee": "100% of presets in this file were executed and verified against QueryEngine on snapshot.json (graph_version 51a8b75faffe9c7c3d73013963424ef3377875c65889a1ca3758d59908dd0144). Zero synthetic entities or confabulated edges exist.",
   "questions": [
     {

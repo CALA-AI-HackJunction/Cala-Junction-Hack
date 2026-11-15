@@ -20,8 +20,8 @@
   {
     "original_filename": "company_dossier.csv",
     "packaged_filename": "data/slush_2026_spreadsheets/company_dossier.csv",
-    "size_bytes": 1284387,
-    "sha256": "df1bab162a6539f63da14c9f375cb34f450562b4c41975028e05a0cd70d8b5e5"
+    "size_bytes": 1284403,
+    "sha256": "0531abfcf9de2ff7a442dfaeea0bf59b61648434ffd1c5a3e6b5f1afb95b3435"
   },
   {
     "original_filename": "people_speakers_and_connectors.csv",
@@ -50,7 +50,7 @@
   {
     "original_filename": "readable_views.sql",
     "packaged_filename": "data/slush_2026_spreadsheets/readable_views.sql",
-    "size_bytes": 5653,
-    "sha256": "e312e01c8703e4fcba9cbc7657f07d7753632964da9c3a2dcb733096db049a30"
+    "size_bytes": 5765,
+    "sha256": "77846918b18b394ab779a5f895303ccc58322bd2974e010d7b59f791f3a555a0"
   }
 ]
