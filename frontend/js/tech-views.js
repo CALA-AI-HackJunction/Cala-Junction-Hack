@@ -304,7 +304,7 @@ export function renderCraciView({
                     .map(
                       (m) => `
                     <button type="button" class="btn-ghost-sm" data-craci-entity-name="${escapeHtml(m.matched_name)}" data-craci-entity-id="${escapeHtml(m.matched_entity_id)}">
-                      🔗 ${escapeHtml(m.matched_name)} (<code>${escapeHtml(shortId(m.matched_entity_id, 15))}</code>)
+                      🔗 ${escapeHtml(m.matched_name)}
                     </button>
                   `
                     )

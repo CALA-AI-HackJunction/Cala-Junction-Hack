@@ -1063,9 +1063,12 @@ class FrontendAndHeadlessBrowserE2ETests(unittest.TestCase):
             self.assertIn("data-ev-id=\"ev:", dom)
             self.assertIn("class=\"g-node-group\"", dom)
             self.assertIn("class=\"g-edge-group\"", dom)
-            # Verify Cala registry provenance badges preserve publisher + clickable source URL
+            # Verify Cala registry provenance badges preserve publisher + clickable source URL with zero visible raw IDs
             self.assertIn("trustexchange.world", dom)
             self.assertIn("slush.org", dom)
+            self.assertNotIn(">ev:", dom)
+            self.assertNotIn('title="ev:', dom)
+            self.assertNotIn(">path:", dom)
         finally:
             server.should_exit = True
             thread.join(timeout=5)

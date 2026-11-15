@@ -482,6 +482,7 @@ STRICT EPISTEMIC RULES:
 3. Every single item in `claims`, `meeting_brief.talking_points`, and `meeting_brief.smart_questions` MUST include a non-empty `evidence_ids` array referencing ONLY IDs from `allowed_evidence_ids`.
 4. Preserve relationship direction (e.g., investor -> startup), temporal caveats (`undated` or `historical` relationships are NOT proof of current employment), and Slush attendance caveats (directory/speaker/delegation records do NOT establish physical check-in or meeting availability).
 5. Never invent personal acquaintance, warm-intro willingness, extra people, companies, or unverified metrics.
+6. NEVER include raw internal IDs (such as `ev:...`, `path:...`, `edge:...`, `slush-person:...`, `slush-company:...`, or UUIDs) inside any prose `text`, `executive_summary`, or `attendance_note` string; attach evidence IDs ONLY inside the structured `evidence_ids` arrays.
 """
 
 GEMINI_RESPONSE_SCHEMA: dict[str, Any] = {
@@ -533,6 +534,24 @@ GEMINI_RESPONSE_SCHEMA: dict[str, Any] = {
 }
 
 
+_INLINE_ID_BRACKET_RE = re.compile(
+    r"[\(\[]\s*(?:(?:ev|path|edge|rel|slush-person|slush-company|slush-organization|imported_person|cala):[a-z0-9_-]{4,}\s*[,;/\s]*)+[\)\]]",
+    re.IGNORECASE,
+)
+_INLINE_ID_BARE_RE = re.compile(
+    r"\b(?:ev|path|edge|rel|slush-person|slush-company|slush-organization|imported_person|cala):[a-z0-9_-]{4,}\b",
+    re.IGNORECASE,
+)
+
+
+def _strip_inline_internal_ids(text: str) -> str:
+    cleaned = _INLINE_ID_BRACKET_RE.sub("", text or "")
+    cleaned = _INLINE_ID_BARE_RE.sub("", cleaned)
+    cleaned = re.sub(r"\s+([,.;:!?])", r"\1", cleaned)
+    cleaned = re.sub(r"\s{2,}", " ", cleaned)
+    return cleaned.strip()
+
+
 def _validate_ai_composer_output(
     payload: dict[str, Any],
     known_ids: set[str],
@@ -548,7 +567,7 @@ def _validate_ai_composer_output(
     for c in raw_claims:
         if not isinstance(c, dict):
             raise ValueError("Claim item must be an object")
-        txt = str(c.get("text") or "").strip()
+        txt = _strip_inline_internal_ids(str(c.get("text") or "").strip())
         eids = c.get("evidence_ids")
         if not txt or len(txt) > 1500:
             raise ValueError("Invalid claim text")
@@ -569,7 +588,7 @@ def _validate_ai_composer_output(
         for item in items[:5]:
             if not isinstance(item, dict):
                 raise ValueError("Brief bullet must be an object")
-            b_txt = str(item.get("text") or "").strip()
+            b_txt = _strip_inline_internal_ids(str(item.get("text") or "").strip())
             b_eids = item.get("evidence_ids")
             if not b_txt or not isinstance(b_eids, list) or not b_eids:
                 raise ValueError("Brief bullet missing text or evidence_ids")
@@ -580,8 +599,8 @@ def _validate_ai_composer_output(
 
     tp = _validate_bullets(mb_in.get("talking_points") or [])
     sq = _validate_bullets(mb_in.get("smart_questions") or [])
-    exec_sum = str(mb_in.get("executive_summary") or "").strip() or baseline_brief["executive_summary"]
-    att_note = str(mb_in.get("attendance_note") or "").strip() or baseline_brief["attendance_verification"]["note"]
+    exec_sum = _strip_inline_internal_ids(str(mb_in.get("executive_summary") or "").strip()) or baseline_brief["executive_summary"]
+    att_note = _strip_inline_internal_ids(str(mb_in.get("attendance_note") or "").strip()) or baseline_brief["attendance_verification"]["note"]
 
     merged_brief = {
         "composer": composer_label,

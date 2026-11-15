@@ -19,6 +19,55 @@ export function safeExternalUrl(rawUrl) {
   return null;
 }
 
+const INTERNAL_ID_TOKEN_RE =
+  /\b(?:ev|path|edge|rel|slush-person|slush-company|slush-organization|imported_person|cala):[a-z0-9_-]{4,}\b/gi;
+
+export function stripInternalIds(val) {
+  if (val === null || val === undefined) return '';
+  let str = String(val);
+  // Strip parenthesized or bracketed internal ID lists, e.g. "(ev:0b05e4, ev:1234ab)" or "[ev:0b05e4]"
+  str = str.replace(
+    /[\(\[]\s*(?:(?:ev|path|edge|rel|slush-person|slush-company|slush-organization|imported_person|cala):[a-z0-9_-]{4,}\s*[,;/\s]*)+[\)\]]/gi,
+    ''
+  );
+  // Strip any remaining bare internal ID tokens
+  str = str.replace(INTERNAL_ID_TOKEN_RE, '');
+  // Clean up double spaces or space before punctuation
+  return str
+    .replace(/\s+([,.;:!?])/g, '$1')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+}
+
+const DATASET_LABELS = {
+  cala: 'Cala Graph',
+  cala_company_dossier: 'Cala Dossier',
+  cala_people_connectors: 'Cala Connectors',
+  cala_roster: 'Cala Roster',
+  cala_shared_bridges: 'Cala Graph',
+  slush_people: 'Slush 2026',
+  slush_companies: 'Slush 2026',
+};
+
+export function humanizeDatasetLabel(ds) {
+  if (!ds) return 'Verified Source';
+  if (DATASET_LABELS[ds]) return DATASET_LABELS[ds];
+  if (String(ds).startsWith('slush')) return 'Slush 2026';
+  if (String(ds).startsWith('cala')) return 'Cala Graph';
+  return String(ds).replace(/_/g, ' ');
+}
+
+function formatDomainLabel(rawUrl) {
+  try {
+    const host = new URL(rawUrl).hostname.toLowerCase().replace(/^www\./, '');
+    if (host === 'platform.slush.org') return 'slush.org';
+    if (host.endsWith('.linkedin.com')) return 'linkedin.com';
+    return host;
+  } catch {
+    return '';
+  }
+}
+
 export function shortId(id, maxLen = 18) {
   if (!id) return '';
   const str = String(id);
@@ -146,33 +195,70 @@ export function renderParticipationBadges(participationList = []) {
 }
 
 /**
- * Renders clickable [ev:...] provenance chips with publisher + date hover tooltip
+ * Renders clean human-readable source provenance badges/links (no raw internal ev:... IDs)
  */
 export function renderEvidenceChips(evidenceIds = [], evidenceMap = new Map(), maxVisible = 5) {
   if (!Array.isArray(evidenceIds) || evidenceIds.length === 0) return '';
-  const unique = [...new Set(evidenceIds.filter(Boolean))];
-  const shown = unique.slice(0, maxVisible);
-  const overflow = unique.length - shown.length;
+  const uniqueIds = [...new Set(evidenceIds.filter(Boolean))];
+
+  const resolvedItems = [];
+  const seenKeys = new Set();
+
+  for (const evId of uniqueIds) {
+    const ev = evidenceMap.get(evId);
+    const isSlush = Boolean(ev?.dataset && String(ev.dataset).startsWith('slush'));
+    const docs = Array.isArray(ev?.source_documents) ? ev.source_documents : [];
+    const doc = docs.find((d) => safeExternalUrl(d?.url || d?.document || d?.source_url)) || docs[0] || null;
+    const rec = ev?.record || {};
+
+    const url = safeExternalUrl(
+      doc?.url ||
+        doc?.document ||
+        doc?.source_url ||
+        rec.primary_source_url ||
+        rec.profile_url ||
+        rec.profile_link ||
+        rec.company?.company_profile_url ||
+        rec.website
+    );
+
+    const domainLabel = url ? formatDomainLabel(url) : '';
+    const dsLabel = humanizeDatasetLabel(ev?.dataset);
+    const label = domainLabel || doc?.publisher || doc?.name || dsLabel;
+
+    const dedupKey = `${label.toLowerCase()}|${url ? formatDomainLabel(url) : 'nourl'}`;
+    if (seenKeys.has(dedupKey)) continue;
+    seenKeys.add(dedupKey);
+
+    const titleDetail = doc?.title || doc?.publisher || dsLabel;
+    const date = doc?.date || doc?.checked_at || doc?.published_at || '';
+    const tipParts = [titleDetail];
+    if (date) tipParts.push(`Verified ${date}`);
+    if (url) tipParts.push('Open source');
+    const tip = tipParts.filter(Boolean).join(' · ');
+
+    resolvedItems.push({ evId, isSlush, url, label, tip });
+  }
+
+  const shown = resolvedItems.slice(0, maxVisible);
+  const overflow = resolvedItems.length - shown.length;
 
   const chipsHtml = shown
-    .map((evId) => {
-      const ev = evidenceMap.get(evId);
-      const isSlush = ev?.dataset?.startsWith('slush');
-      const doc = ev?.source_documents?.[0];
-      const pub = doc?.publisher || doc?.name || doc?.title || ev?.dataset || 'Verified Snapshot';
-      const rank = doc?.source_rank ? ` · ${doc.source_rank}` : '';
-      const date = doc?.date || doc?.checked_at || doc?.published_at || '';
-      const tip = `${evId} · ${pub}${rank}${date ? ` (${date})` : ''} — Click to inspect source`;
-      const shortCode = evId.replace(/^ev:/, '').slice(0, 6);
-      return `<button type="button" class="ev-chip ${isSlush ? 'slush-origin' : ''}" data-ev-id="${escapeHtml(evId)}" title="${escapeHtml(tip)}">
-        <span>ev:${escapeHtml(shortCode)}</span>
-      </button>`;
+    .map(({ evId, isSlush, url, label, tip }) => {
+      if (url) {
+        return `<a class="ev-chip ${isSlush ? 'slush-origin' : ''}" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" data-ev-id="${escapeHtml(evId)}" title="${escapeHtml(tip)}">
+        <span>${escapeHtml(label)}</span><span aria-hidden="true" style="font-size:0.66rem;opacity:0.65;">↗</span>
+      </a>`;
+      }
+      return `<span class="ev-chip ev-chip-static ${isSlush ? 'slush-origin' : ''}" data-ev-id="${escapeHtml(evId)}" title="${escapeHtml(tip)}">
+        <span>${escapeHtml(label)}</span>
+      </span>`;
     })
     .join('');
 
   const moreHtml =
     overflow > 0
-      ? `<span class="badge badge-neutral" title="${overflow} additional evidence records">+${overflow}</span>`
+      ? `<span class="badge badge-neutral" title="${overflow} additional verified sources">+${overflow}</span>`
       : '';
 
   return `<span class="ev-chip-group">${chipsHtml}${moreHtml}</span>`;

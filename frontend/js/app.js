@@ -9,11 +9,11 @@
 
 import {
   escapeHtml,
-  shortId,
   formatMs,
   indexEvidence,
   renderOriginBadges,
   showToast,
+  stripInternalIds,
 } from './utils.js';
 
 import {
@@ -196,7 +196,7 @@ class ComareSlushApp {
           <div class="saved-run-item" data-saved-run="${escapeHtml(item.run_id)}">
             <div>
               <div style="font-weight:600;font-size:0.88rem;color:var(--text-primary);">${escapeHtml(title)}</div>
-              <div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(item.summary || item.question || '')}</div>
+              <div style="font-size:0.75rem;color:var(--text-muted);">${escapeHtml(stripInternalIds(item.summary || item.question || ''))}</div>
             </div>
             <span class="badge badge-cala">Open</span>
           </div>
@@ -536,7 +536,7 @@ class ComareSlushApp {
         badgeContainer.innerHTML = '';
       } else {
         badgeContainer.innerHTML = `
-          <span class="locked-id-pill" title="Selected Cala ID: ${escapeHtml(canonicalId)}">
+          <span class="locked-id-pill" title="Exact profile selected">
             <span>✓</span>
             <button type="button" class="locked-id-clear" title="Clear exact selection">&times;</button>
           </span>
@@ -605,7 +605,6 @@ class ComareSlushApp {
             </div>
             <div class="ta-sub-row">
               <span>${escapeHtml(item.subtitle || item.entity_type || '')}</span>
-              <span class="mono">${escapeHtml(shortId(item.id, 14))}</span>
             </div>
           </div>
         `
@@ -785,7 +784,7 @@ class ComareSlushApp {
       badge.textContent = 'Cala Verified';
     }
     if (msg) {
-      msg.textContent = analysis.summary || 'Relationship graph ready.';
+      msg.textContent = stripInternalIds(analysis.summary) || 'Relationship graph ready.';
     }
 
     if (metaRight) {
@@ -920,11 +919,14 @@ class ComareSlushApp {
   _bindGlobalEvidenceClicks() {
     document.addEventListener('click', (e) => {
       const chip = e.target.closest('[data-ev-id]');
-      if (chip) {
+      if (!chip) return;
+      if (chip.tagName === 'A' && chip.getAttribute('href')) {
         e.stopPropagation();
-        const evId = chip.getAttribute('data-ev-id');
-        if (evId) scrollToAndFlashEvidence(evId);
+        return;
       }
+      e.stopPropagation();
+      const evId = chip.getAttribute('data-ev-id');
+      if (evId) scrollToAndFlashEvidence(evId);
     });
   }
 }

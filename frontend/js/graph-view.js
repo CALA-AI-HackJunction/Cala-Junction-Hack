@@ -752,7 +752,7 @@ export class KnowledgeGraphView {
         class: 'g-node-title',
         y: 36,
       });
-      nameLabel.textContent = truncateLabel(node.name || node.id, 26);
+      nameLabel.textContent = truncateLabel(node.name || 'Entity', 26);
       ng.appendChild(nameLabel);
 
       const subtitleStr =
