@@ -110,7 +110,7 @@ jobs:
           tracked = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
           for rel_file in tracked:
               p = Path(rel_file)
-              if not p.is_file() or p.name.endswith((".png", ".jpg", ".ico", ".woff2")):
+              if not p.is_file() or p.name.endswith((".png", ".jpg", ".jpeg", ".gif", ".ico", ".woff", ".woff2", ".otf", ".zip")):
                   continue
               if p.parts[:2] == ("backend", "data") and p.suffix == ".json":
                   continue

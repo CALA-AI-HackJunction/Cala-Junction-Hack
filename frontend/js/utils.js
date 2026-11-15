@@ -111,42 +111,42 @@ export function detectOriginKind(entityOrEdge) {
 export function renderOriginBadges(item) {
   const kind = detectOriginKind(item);
   if (kind === 'both') {
-    return `<span class="badge badge-dual" title="Corroborated across Cala Knowledge Graph &amp; Slush 2026">Dual · Cala + Slush</span>`;
+    return `<span class="badge badge-dual" title="Corroborated across Cala Knowledge Graph and Slush 2026">Cala + Slush</span>`;
   }
   if (kind === 'slush') {
     const isRef = String(item?.id || '').startsWith('slush-organization:');
-    return `<span class="badge badge-slush">${isRef ? 'Slush Org Ref' : 'Slush 2026'}</span>`;
+    return `<span class="badge badge-slush">${isRef ? 'Slush org ref' : 'Slush 2026'}</span>`;
   }
-  return `<span class="badge badge-cala">Cala Verified</span>`;
+  return `<span class="badge badge-cala">Cala verified</span>`;
 }
 
 export function renderCompletenessBadge(completeness) {
   if (!completeness) return '';
   if (completeness === 'full') {
-    return `<span class="badge badge-dual" title="Full reconciled profile record">Full Record</span>`;
+    return `<span class="badge badge-dual" title="Full reconciled profile record">Full record</span>`;
   }
-  return `<span class="badge badge-neutral" title="Graph endpoint stub — missing fields are unestablished, not absent">Stub Endpoint</span>`;
+  return `<span class="badge badge-neutral" title="Graph endpoint stub — missing fields are unestablished, not absent">Stub endpoint</span>`;
 }
 
 export function renderParticipationBadges(participationList = []) {
   if (!Array.isArray(participationList) || participationList.length === 0) return '';
   const labels = {
-    announced_speaker: { text: '🎤 Announced Slush Speaker', cls: 'badge-slush' },
-    announced_attendee: { text: '🎟 Named Slush Representative', cls: 'badge-slush' },
-    platform_directory: { text: '📇 Slush Platform Directory', cls: 'badge-slush' },
-    company_listed: { text: '🏢 Listed Slush 2026 Company', cls: 'badge-slush' },
-    cala_event_link: { text: '⚡ Cala Slush Event Link', cls: 'badge-cala' },
+    announced_speaker: { text: 'Announced Slush speaker', cls: 'badge-slush' },
+    announced_attendee: { text: 'Named Slush representative', cls: 'badge-slush' },
+    platform_directory: { text: 'Slush directory profile', cls: 'badge-slush' },
+    company_listed: { text: 'Listed Slush 2026 company', cls: 'badge-slush' },
+    cala_event_link: { text: 'Cala Slush event link', cls: 'badge-cala' },
   };
   return participationList
     .map((p) => {
-      const meta = labels[p.status] || { text: p.status || 'Event Record', cls: 'badge-neutral' };
+      const meta = labels[p.status] || { text: p.status || 'Event record', cls: 'badge-neutral' };
       return `<span class="badge ${meta.cls}">${escapeHtml(meta.text)}</span>`;
     })
     .join(' ');
 }
 
 /**
- * Renders clickable [ev:...] provenance chips with publisher + date hover tooltip
+ * Renders clickable [ev:...] provenance citation keycaps with publisher + date hover tooltip
  */
 export function renderEvidenceChips(evidenceIds = [], evidenceMap = new Map(), maxVisible = 5) {
   if (!Array.isArray(evidenceIds) || evidenceIds.length === 0) return '';
@@ -159,10 +159,10 @@ export function renderEvidenceChips(evidenceIds = [], evidenceMap = new Map(), m
       const ev = evidenceMap.get(evId);
       const isSlush = ev?.dataset?.startsWith('slush');
       const doc = ev?.source_documents?.[0];
-      const pub = doc?.publisher || doc?.name || doc?.title || ev?.dataset || 'Verified Snapshot';
+      const pub = doc?.publisher || doc?.name || doc?.title || ev?.dataset || 'Verified snapshot';
       const rank = doc?.source_rank ? ` · ${doc.source_rank}` : '';
       const date = doc?.date || doc?.checked_at || doc?.published_at || '';
-      const tip = `${evId} · ${pub}${rank}${date ? ` (${date})` : ''} — Click to inspect source`;
+      const tip = `${evId} · ${pub}${rank}${date ? ` (${date})` : ''} — Inspect source`;
       const shortCode = evId.replace(/^ev:/, '').slice(0, 6);
       return `<button type="button" class="ev-chip ${isSlush ? 'slush-origin' : ''}" data-ev-id="${escapeHtml(evId)}" title="${escapeHtml(tip)}">
         <span>ev:${escapeHtml(shortCode)}</span>
@@ -199,23 +199,23 @@ export function renderSourceDocumentBadge(doc) {
         title = host;
       } else {
         const cleanPath = (parsedUrl.pathname + parsedUrl.hash).replace(/^\/+/, '');
-        title = cleanPath ? cleanPath.slice(0, 28) : 'Verified Source';
+        title = cleanPath ? cleanPath.slice(0, 28) : 'Verified source';
       }
     } catch {
-      title = 'Verified Source';
+      title = 'Verified source';
     }
   } else {
-    title = doc.source_type || doc.source_kind || 'Verified Source';
+    title = doc.source_type || doc.source_kind || 'Verified source';
   }
 
   const date = doc.date || doc.checked_at || doc.published_at || '';
 
   const inner = `
     <span class="source-doc-pub">${escapeHtml(publisher)}</span>
-    <span style="opacity:0.55;">·</span>
-    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:210px;">${escapeHtml(title)}</span>
+    <span style="opacity:0.5;">·</span>
+    <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:208px;">${escapeHtml(title)}</span>
     ${date ? `<span class="source-doc-date">${escapeHtml(date)}</span>` : ''}
-    ${url ? `<span style="font-size:0.68rem;color:var(--cala-bright);">↗</span>` : ''}
+    ${url ? `<span style="font-size:12px;color:var(--cala-primary);">↗</span>` : ''}
   `;
 
   if (url) {
@@ -225,14 +225,15 @@ export function renderSourceDocumentBadge(doc) {
 }
 
 export function humanizePredicate(predicate) {
-  if (!predicate) return 'LINKED_TO';
-  return String(predicate).replace(/_/g, ' ');
+  if (!predicate) return 'Linked to';
+  const raw = String(predicate).replace(/_/g, ' ').toLowerCase();
+  return raw.charAt(0).toUpperCase() + raw.slice(1);
 }
 
 export function formatQuestionLabel(qid) {
   const map = {
     person_to_company: 'Q1 · Person → Company',
-    company_to_company: 'Q2 · Company ↔ Company',
+    company_to_company: 'Q2 · Company → Company',
     company_network: 'Q3 · Company Network',
     company_representatives: 'Q4 · Slush Representatives',
   };
@@ -241,12 +242,12 @@ export function formatQuestionLabel(qid) {
 
 export function renderStatusBadge(status) {
   const map = {
-    complete: { label: 'Verified Complete', cls: 'badge-dual' },
-    partial: { label: 'Verified Snapshot (Partial Coverage)', cls: 'badge-cala' },
-    needs_resolution: { label: 'Identity Disambiguation Required', cls: 'badge-slush' },
-    ambiguous: { label: 'Identity Disambiguation Required', cls: 'badge-slush' },
-    insufficient_data: { label: 'Honest No-Path · Zero Confabulation', cls: 'badge-warn' },
-    not_found: { label: 'Entity Not In Loaded Snapshot', cls: 'badge-warn' },
+    complete: { label: 'Verified complete', cls: 'badge-dual' },
+    partial: { label: 'Verified snapshot', cls: 'badge-cala' },
+    needs_resolution: { label: 'Disambiguation needed', cls: 'badge-slush' },
+    ambiguous: { label: 'Disambiguation needed', cls: 'badge-slush' },
+    insufficient_data: { label: 'No supported path', cls: 'badge-warn' },
+    not_found: { label: 'Not in snapshot', cls: 'badge-warn' },
   };
   const info = map[status] || { label: status || 'Ready', cls: 'badge-neutral' };
   return `<span class="badge ${info.cls}">${escapeHtml(info.label)}</span>`;
@@ -261,8 +262,8 @@ export function showToast(message, type = 'info', durationMs = 3600) {
   container.appendChild(el);
   setTimeout(() => {
     el.style.opacity = '0';
-    el.style.transition = 'opacity 0.2s ease';
-    setTimeout(() => el.remove(), 220);
+    el.style.transition = 'opacity 180ms cubic-bezier(0.22, 1, 0.36, 1)';
+    setTimeout(() => el.remove(), 200);
   }, durationMs);
 }
 

@@ -161,6 +161,11 @@ def create_app(
         svc = await run_in_threadpool(get_service)
         return _json_resp(svc.health_payload())
 
+    @fastapi_app.get("/slides", include_in_schema=False)
+    @fastapi_app.get("/slides.html", include_in_schema=False)
+    async def slides_route() -> Response:
+        return _serve_frontend_file("", "slides.html", fe_root)
+
     @fastapi_app.get("/favicon.ico", include_in_schema=False)
     async def favicon_route() -> Response:
         for rel in ("favicon.ico", "assets/favicon.ico", "assets/favicon.svg"):

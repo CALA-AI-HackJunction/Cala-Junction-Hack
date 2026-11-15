@@ -1,0 +1,762 @@
+/* ==========================================================================
+   CALA.AI Brand Foundation Stylesheet (cala-brand.css)
+   Exact tokens, typography roles, layout containers, and tactile primitives
+   derived from https://www.cala.ai/
+   ========================================================================== */
+
+@font-face {
+  font-family: "Stefan-Simple";
+  src:
+    local("ABC Stefan Trial Simple"),
+    local("ABCStefanTrial-Simple"),
+    local("ABC Stefan Simple"),
+    local("ABCStefan-Simple"),
+    url("./fonts/ABCStefanTrial-Simple.otf") format("opentype"),
+    url("./fonts/ABCStefan-Simple.woff2") format("woff2"),
+    url("./fonts/ABCStefan-Simple.otf") format("opentype");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Stefan-Bubble";
+  src:
+    local("ABC Stefan Trial Bubble"),
+    local("ABCStefanTrial-Bubble"),
+    local("ABC Stefan Bubble"),
+    local("ABCStefan-Bubble"),
+    url("./fonts/ABCStefanTrial-Bubble.otf") format("opentype"),
+    url("./fonts/ABCStefan-Bubble.woff2") format("woff2"),
+    url("./fonts/ABCStefan-Bubble.otf") format("opentype");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Font Families (Commercial + Local + Optical Open Fallbacks) */
+  --cala-font-serif: "tiempos", "Tiempos Headline", "Instrument Serif", Georgia, serif;
+  --cala-font-sans: "waldenburg", "KMR Waldenburg", "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --cala-font-hand: "Stefan-Simple", "ABC Stefan Simple", "ABC Stefan Simple Trial", "Architects Daughter", "Caveat", cursive;
+  --cala-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Warm Parchment / Beige Surfaces */
+  --cala-beige: #f6e8cd;
+  --cala-beige-50: #fcf8f0;
+  --cala-beige-100: #f6e8cd;
+  --cala-beige-200: #f1dbb7;
+
+  /* Espresso Ink / Brown Scale */
+  --cala-brown: #2e2723;
+  --cala-brown-200: oklch(84.6% 0.02 50.14);
+  --cala-brown-300: oklch(77.7% 0.033 50.31);
+  --cala-brown-400: oklch(70% 0.032 49.31);
+  --cala-brown-500: oklch(62.4% 0.028 52.01);
+  --cala-brown-600: oklch(54.4% 0.025 51.26);
+  --cala-brown-700: oklch(46.7% 0.021 53.63);
+  --cala-brown-800: oklch(38.8% 0.018 50.44);
+  --cala-brown-900: oklch(32% 0.015 54.05);
+
+  /* Editorial & Data Accents */
+  --cala-yellow: #ffc234;
+  --cala-yellow-100: #fff3c6;
+  --cala-yellow-200: #ffe488;
+  --cala-yellow-300: #ffd14a;
+
+  --cala-blue: #30bfff;
+  --cala-blue-100: #dff2ff;
+  --cala-blue-200: #b8e7ff;
+  --cala-blue-300: #78d5ff;
+  --cala-blue-400: #30bfff;
+  --cala-blue-500: #06a8f1;
+  --cala-blue-600: #0086ce;
+  --cala-blue-700: #006ba7;
+
+  --cala-pink: #e1bee6;
+  --cala-pink-200: #efdcf2;
+  --cala-pink-500: #ba72c3;
+  --cala-pink-600: #9f53a6;
+
+  --cala-orange: #fb6f3f;
+  --cala-white: #ffffff;
+
+  /* Semantic Aliases */
+  --background: var(--cala-beige);
+  --foreground: var(--cala-brown-900);
+  --card: var(--cala-beige-50);
+  --card-foreground: var(--cala-brown-900);
+  --popover: var(--cala-beige-100);
+  --popover-foreground: var(--cala-brown-900);
+  --primary: var(--cala-brown-900);
+  --primary-foreground: var(--cala-beige-50);
+  --muted-foreground: var(--cala-brown-500);
+  --border: var(--cala-brown-500);
+  --ring: var(--cala-brown-500);
+
+  /* Containers & Radii */
+  --cala-container-5xl: 64rem; /* 1024px - Navbar */
+  --cala-container-6xl: 72rem; /* 1152px - Sub-sections & Footer */
+  --cala-container-hero: 1300px;
+  --cala-radius-sm: 0.375rem;  /* 6px */
+  --cala-radius-md: 0.5rem;    /* 8px */
+  --cala-radius-lg: 0.625rem;  /* 10px */
+  --cala-radius-xl: 0.875rem;  /* 14px */
+  --cala-radius-2xl: 1rem;     /* 16px */
+  --cala-radius-3xl: 1.5rem;   /* 24px */
+  --cala-radius-full: 9999px;
+}
+
+/* Base Reset & Root Surface */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overscroll-behavior: none;
+  -webkit-text-size-adjust: 100%;
+}
+
+body.cala-page {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--cala-beige);
+  color: var(--cala-brown-900);
+  font-family: var(--cala-font-sans);
+  font-size: 1rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   Layout & Section Rhythm
+   ========================================================================== */
+
+.cala-section {
+  position: relative;
+  margin: 0.5rem;
+  padding-block: 2rem;
+  border-radius: var(--cala-radius-3xl);
+  scroll-margin-top: 3rem;
+}
+
+@media (min-width: 40rem) {
+  .cala-section {
+    margin: 1rem;
+  }
+}
+
+@media (min-width: 48rem) {
+  .cala-section {
+    margin: 2rem;
+    padding-block: 3rem;
+  }
+}
+
+.cala-sub-section {
+  max-width: var(--cala-container-6xl);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+}
+
+@media (min-width: 48rem) {
+  .cala-sub-section {
+    padding-inline: 4rem;
+    padding-bottom: 3rem;
+  }
+}
+
+/* ==========================================================================
+   Typography Roles
+   ========================================================================== */
+
+.cala-serif {
+  font-family: var(--cala-font-serif);
+  font-weight: 400;
+}
+
+.cala-hand,
+.font-stefan-simple {
+  font-family: var(--cala-font-hand);
+  font-weight: 500;
+}
+
+.cala-mono {
+  font-family: var(--cala-font-mono);
+}
+
+.cala-display {
+  font-family: var(--cala-font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 8.2vw, 7.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--cala-brown);
+}
+
+.cala-section-title {
+  font-family: var(--cala-font-serif);
+  font-weight: 400;
+  font-size: 1.875rem;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--cala-brown);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 0.75rem 0;
+}
+
+@media (min-width: 48rem) {
+  .cala-section-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .cala-section-title {
+    font-size: 3.75rem;
+  }
+}
+
+.cala-section-title-icon {
+  height: 1.2em;
+  width: auto;
+  display: inline-block;
+  flex-shrink: 0;
+  mix-blend-mode: multiply;
+}
+
+.cala-section-subtitle {
+  font-family: var(--cala-font-sans);
+  font-size: 1rem;
+  line-height: 1.625;
+  color: var(--cala-brown-600);
+  margin: 0;
+  max-width: 62ch;
+}
+
+@media (min-width: 48rem) {
+  .cala-section-subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .cala-section-subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+.cala-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--cala-font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--cala-brown);
+}
+
+.cala-eyebrow-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--cala-radius-full);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Navigation Shell
+   ========================================================================== */
+
+.cala-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background-color: var(--cala-beige);
+  font-size: 0.875rem;
+}
+
+.cala-nav-bar {
+  max-width: var(--cala-container-5xl);
+  margin-inline: auto;
+  padding: 0.5rem 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cala-nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  color: var(--cala-brown);
+}
+
+.cala-nav-link {
+  color: var(--cala-brown);
+  text-decoration: none;
+  padding: 0.25rem;
+  text-underline-offset: 6px;
+  transition: text-underline-offset 150ms ease;
+}
+
+.cala-nav-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.cala-ink-divider-wrap {
+  max-width: var(--cala-container-6xl);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+/* ==========================================================================
+   Buttons, Badges, & Controls
+   ========================================================================== */
+
+.cala-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--cala-font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--cala-radius-xl);
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+}
+
+.cala-btn-primary {
+  background-color: var(--cala-brown);
+  color: var(--cala-white);
+}
+
+.cala-btn-primary:hover {
+  background-color: color-mix(in oklab, var(--cala-brown) 85%, transparent);
+}
+
+.cala-btn-accent {
+  background-color: var(--cala-yellow);
+  color: var(--cala-brown);
+  padding-inline: 2.5rem;
+}
+
+.cala-btn-accent:hover {
+  background-color: color-mix(in oklab, var(--cala-yellow) 90%, transparent);
+}
+
+.cala-btn-outline {
+  background-color: transparent;
+  border-color: var(--cala-brown);
+  color: var(--cala-brown);
+}
+
+.cala-btn-outline:hover {
+  background-color: rgba(46, 39, 35, 0.08);
+}
+
+.cala-btn-light {
+  background-color: var(--cala-beige-50);
+  color: var(--cala-brown);
+}
+
+.cala-btn-light:hover {
+  background-color: var(--cala-white);
+}
+
+.cala-pill-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--cala-radius-full);
+  background-color: var(--cala-brown);
+  color: var(--cala-beige-50);
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 150ms ease;
+}
+
+.cala-pill-cta:hover {
+  background-color: var(--cala-brown-800);
+}
+
+.cala-badge-new {
+  background-color: var(--cala-blue-400);
+  color: var(--cala-brown);
+  border-radius: var(--cala-radius-full);
+  padding: 0.125rem 0.375rem;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  line-height: 1.2;
+}
+
+.cala-badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1rem;
+  min-width: 1rem;
+  padding-inline: 0.25rem;
+  border-radius: var(--cala-radius-full);
+  background-color: var(--cala-brown);
+  color: var(--cala-beige-50);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Tabs (Vertical Rail & Horizontal Pills)
+   ========================================================================== */
+
+.cala-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: var(--cala-radius-xl);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--cala-brown-600);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.cala-tab:hover {
+  color: var(--cala-brown-800);
+}
+
+.cala-tab[aria-selected="true"],
+.cala-tab.is-active {
+  background-color: var(--cala-brown);
+  color: var(--cala-beige-50);
+}
+
+.cala-pill-tab {
+  border-radius: var(--cala-radius-full);
+  padding: 0.5rem 1.25rem;
+}
+
+/* ==========================================================================
+   Tactile 2px Hard-Offset Query Tokens
+   ========================================================================== */
+
+.cala-query-chain {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  row-gap: 0.5rem;
+}
+
+.cala-query-segment {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cala-query-keycap {
+  position: relative;
+  display: inline-flex;
+}
+
+.cala-query-face {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--cala-blue-100);
+  border: 1px solid var(--cala-brown);
+  color: var(--cala-blue-700);
+  border-radius: var(--cala-radius-md);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+.cala-query-shadow {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 0;
+  top: 0.25rem;
+  bottom: -2px;
+  background-color: var(--cala-brown);
+  border-radius: var(--cala-radius-md);
+  pointer-events: none;
+}
+
+.cala-query-dot {
+  display: inline-flex;
+  width: 0.625rem;
+  justify-content: center;
+  color: var(--cala-brown-600);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.cala-query-op {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--cala-pink-200);
+  color: var(--cala-pink-600);
+  border: 1px solid rgba(186, 114, 195, 0.5);
+  border-radius: 0.375rem;
+  padding: 0.0625rem 0.45rem;
+  margin-inline: 0.45rem;
+  font-size: 0.8125rem;
+}
+
+.cala-query-val {
+  color: var(--cala-pink-600);
+}
+
+/* ==========================================================================
+   Cards, KPI Blocks, Charts, & Terminals
+   ========================================================================== */
+
+.cala-kpi-card {
+  border-radius: var(--cala-radius-xl);
+  background-color: rgba(46, 39, 35, 0.05);
+  border: 1px solid rgba(46, 39, 35, 0.12);
+  padding: 1.5rem;
+  transition: border-color 300ms ease;
+}
+
+@media (min-width: 48rem) {
+  .cala-kpi-card {
+    padding: 2.5rem;
+  }
+}
+
+.cala-kpi-card[data-accent="blue"] {
+  border-color: rgba(184, 231, 255, 0.45);
+}
+
+.cala-kpi-card[data-accent="yellow"] {
+  border-color: rgba(255, 228, 136, 0.45);
+}
+
+.cala-kpi-value {
+  font-family: var(--cala-font-serif);
+  font-weight: 400;
+  font-size: 2.5rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin: 1rem 0 0 0;
+}
+
+@media (min-width: 48rem) {
+  .cala-kpi-value {
+    font-size: 3.75rem;
+  }
+}
+
+.cala-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 40rem) {
+  .cala-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .cala-bento-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+.cala-bento-card {
+  background-color: rgba(252, 248, 240, 0.6);
+  border: 1px solid var(--cala-brown-200);
+  border-radius: var(--cala-radius-lg);
+  padding: 1rem 1.25rem;
+}
+
+.cala-bento-title {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  margin: 0 0 0.375rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.375;
+  color: var(--cala-brown);
+}
+
+.cala-bento-body {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.625;
+  color: var(--cala-brown-600);
+}
+
+.cala-chart-card {
+  background-color: rgba(252, 248, 240, 0.6);
+  border: 1px solid rgba(216, 201, 193, 0.45);
+  border-radius: var(--cala-radius-xl);
+  padding: 1.25rem;
+}
+
+.cala-chart-caption {
+  margin: 0 0 1rem 0;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--cala-brown-400);
+}
+
+.cala-terminal {
+  background-color: var(--cala-brown);
+  border-radius: var(--cala-radius-xl);
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(46, 39, 35, 0.14), 0 0 0 1px rgba(46, 39, 35, 0.2);
+}
+
+.cala-terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--cala-brown-800);
+}
+
+.cala-terminal-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.cala-terminal-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--cala-radius-full);
+  background-color: rgba(100, 87, 79, 0.6);
+}
+
+.cala-terminal-pre {
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  font-family: var(--cala-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--cala-white);
+}
+
+/* ==========================================================================
+   Pricing & Comparison Surfaces
+   ========================================================================== */
+
+.cala-pricing-light {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--cala-radius-3xl);
+  background-color: rgba(241, 219, 183, 0.6);
+  padding: 1.75rem;
+  color: var(--cala-brown);
+}
+
+.cala-pricing-dark {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--cala-radius-3xl);
+  background-color: var(--cala-brown);
+  padding: 1.75rem;
+  color: var(--cala-beige-50);
+}
+
+@media (min-width: 48rem) {
+  .cala-pricing-light,
+  .cala-pricing-dark {
+    padding: 2.5rem;
+  }
+}
+
+.cala-stat-matrix {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background-color: rgba(46, 39, 35, 0.1);
+  border-radius: var(--cala-radius-2xl);
+  overflow: hidden;
+}
+
+.cala-stat-cell {
+  background-color: var(--cala-beige-100);
+  padding: 1rem;
+}
+
+.cala-stat-cell-val {
+  margin: 0;
+  font-size: 1.375rem;
+  line-height: 1.2;
+  color: var(--cala-brown);
+}
+
+.cala-stat-cell-unit {
+  margin: 0.25rem 0 0 0;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(46, 39, 35, 0.45);
+}
+
+/* ==========================================================================
+   Editorial Accordion
+   ========================================================================== */
+
+.cala-accordion-item {
+  border-bottom: 1px solid var(--cala-brown);
+}
+
+.cala-accordion-item:last-child {
+  border-bottom: none;
+}
+
+.cala-accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--cala-font-serif);
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--cala-brown);
+}
+
+@media (min-width: 48rem) {
+  .cala-accordion-trigger {
+    font-size: 1.875rem;
+  }
+}

@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Comare of Slush · Cala × Slush 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ==========================================================================
+       Direction: Warm, exact, editorial
+       World: Italian comare's kitchen-table ledger × Cala archival venture registry
+       Unslop by @heydamir (CC BY 4.0)
+       ========================================================================== */
+    :root {
+      /* Warm Neutral Ramp */
+      --bg-page: #f7f4ee;
+      --bg-card: #fdfbf7;
+      --bg-raised: #efe9df;
+      --bg-recessed: #e8e1d5;
+
+      /* Hairlines (~8% and ~14% of primary ink #1f1b16) */
+      --border-hairline: rgba(31, 27, 22, 0.08);
+      --border-strong: rgba(31, 27, 22, 0.16);
+
+      /* Three Text Roles (all >= 4.5:1 contrast on light warm surfaces) */
+      --text-primary: #1f1b16;
+      --text-secondary: #5e554a;
+      --text-muted: #756c61;
+
+      /* Single Primary Accent: Cala Verified Cerulean Ink (>= 4.5:1 on #fdfbf7) */
+      --accent: #006ba7;
+      --accent-tint: rgba(0, 107, 167, 0.08);
+      --accent-border: rgba(0, 107, 167, 0.24);
+
+      /* Toned Semantic Roles */
+      --positive: #15803d;
+      --positive-tint: rgba(21, 128, 61, 0.08);
+      --negative: #b91c1c;
+      --negative-tint: rgba(185, 28, 28, 0.07);
+
+      /* Typography */
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      /* One Easing Curve */
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 22px;
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    /* Deck Shell */
+    .deck-shell {
+      height: 100vh;
+      width: 100vw;
+      display: grid;
+      grid-template-rows: 56px 1fr 56px;
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Quiet Top Bar (56px) */
+    .deck-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-mark {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      background-color: var(--text-primary);
+      color: var(--bg-card);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .brand-name {
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .brand-divider {
+      color: var(--border-strong);
+    }
+
+    .brand-context {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-muted);
+    }
+
+    .slide-tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .slide-tab {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: background-color 160ms var(--ease), color 160ms var(--ease), border-color 160ms var(--ease);
+    }
+
+    .slide-tab:hover {
+      background-color: var(--bg-raised);
+      color: var(--text-primary);
+    }
+
+    .slide-tab[aria-selected="true"] {
+      background-color: var(--bg-card);
+      border-color: var(--border-strong);
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .slide-tab:focus-visible,
+    .nav-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Slide Stage */
+    .slide-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+      padding: 24px 0;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      max-height: 760px;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 220ms var(--ease), transform 220ms var(--ease);
+    }
+
+    .slide.is-active {
+      display: grid;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Slide Layouts */
+    .split-hero {
+      grid-template-columns: 5fr 7fr;
+      gap: 48px;
+    }
+
+    .split-balanced {
+      grid-template-columns: 6fr 6fr;
+      gap: 48px;
+    }
+
+    .stack-layout {
+      grid-template-rows: auto 1fr;
+      gap: 32px;
+      align-content: center;
+    }
+
+    /* Typography Scale */
+    .slide-step {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .headline-xl {
+      font-family: var(--font-display);
+      font-size: 64px;
+      line-height: 68px;
+      font-weight: 400;
+      letter-spacing: -0.025em;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .headline-lg {
+      font-family: var(--font-display);
+      font-size: 48px;
+      line-height: 52px;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .lede {
+      font-size: 18px;
+      line-height: 28px;
+      color: var(--text-secondary);
+      max-width: 540px;
+    }
+
+    .lede + .lede {
+      margin-top: 16px;
+    }
+
+    /* Signature Detail: Provenance Receipt Tag (ev:...) */
+    .ev-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 24px;
+      padding: 0 8px;
+      border-radius: 4px;
+      background-color: var(--accent-tint);
+      border: 1px solid var(--accent-border);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .ev-tag.is-pass {
+      background-color: var(--positive-tint);
+      border-color: rgba(21, 128, 61, 0.24);
+      color: var(--positive);
+    }
+
+    .ev-tag.is-blocked {
+      background-color: var(--negative-tint);
+      border-color: rgba(185, 28, 28, 0.24);
+      color: var(--negative);
+    }
+
+    /* Moment Surface (Nested Radius: outer 16 - padding 8/24 -> inner 8) */
+    .dossier-panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(31, 27, 22, 0.05);
+      min-width: 0;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .panel-title {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .panel-meta {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+    }
+
+    /* Slide 1: Contrast between Show-Floor Noise and the Comare's Verified Path */
+    .rumor-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 8px;
+      background-color: var(--bg-raised);
+      border: 1px solid var(--border-hairline);
+      margin-bottom: 16px;
+    }
+
+    .rumor-text {
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .verified-bridge-box {
+      padding: 20px;
+      border-radius: 12px;
+      background-color: var(--bg-page);
+      border: 1px solid var(--border-strong);
+    }
+
+    .bridge-nodes {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .node-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .node-card.is-accent {
+      border-color: var(--accent-border);
+      background-color: var(--accent-tint);
+    }
+
+    .node-role {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .node-name {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .edge-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .comare-note {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .comare-quote {
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 2: Four Questions List + Shared Fund Visual */
+    .question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .question-row {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 16px;
+      border-radius: 12px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .question-index {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 20px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .question-ask {
+      font-size: 15px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .question-answer {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-secondary);
+    }
+
+    .graph-svg-wrap {
+      width: 100%;
+      background-color: var(--bg-page);
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      padding: 16px;
+    }
+
+    /* Slide 3: Asymmetric Rhythm (3 Stat Figures + Main Scale Comparison + Guardrail List) */
+    .slide3-grid {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-block {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-figure {
+      font-size: 32px;
+      line-height: 32px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .stat-figure.is-accent {
+      color: var(--accent);
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-secondary);
+    }
+
+    .scale-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .scale-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .scale-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .scale-name {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .scale-count {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-secondary);
+    }
+
+    .scale-track {
+      width: 100%;
+      height: 12px;
+      border-radius: 4px;
+      background-color: var(--bg-raised);
+      overflow: hidden;
+    }
+
+    .scale-fill {
+      height: 100%;
+      border-radius: 4px;
+      background-color: var(--text-muted);
+      opacity: 0.35;
+    }
+
+    .scale-fill.is-primary {
+      background-color: var(--accent);
+      opacity: 1;
+    }
+
+    .guardrail-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .guardrail-row {
+      padding: 16px;
+      border-radius: 8px;
+      background-color: var(--bg-page);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .guardrail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .guardrail-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .guardrail-desc {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-secondary);
+    }
+
+    /* Slide 4: Pipeline Sequence + Live 90-Second Brief */
+    .pipeline-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stage-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-hairline);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .stage-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .stage-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .stage-metric {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .stage-name {
+      font-size: 15px;
+      line-height: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .stage-body {
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--text-secondary);
+    }
+
+    .brief-preview {
+      display: grid;
+      grid-template-columns: 7fr 5fr;
+      gap: 24px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 24px;
+    }
+
+    .brief-claim {
+      padding: 12px 16px;
+      border-radius: 8px;
+      background-color: var(--bg-page);
+      border: 1px solid var(--border-hairline);
+      margin-top: 12px;
+    }
+
+    .brief-claim-text {
+      font-size: 14px;
+      line-height: 20px;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .brief-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .source-receipt {
+      background-color: var(--bg-raised);
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-hairline);
+      font-size: 13px;
+    }
+
+    .receipt-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .receipt-key {
+      color: var(--text-muted);
+    }
+
+    .receipt-val {
+      color: var(--text-primary);
+      font-weight: 500;
+      text-align: right;
+    }
+
+    /* Quiet Bottom Bar (56px) */
+    .deck-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-hairline);
+    }
+
+    .footer-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      line-height: 16px;
+      color: var(--text-muted);
+    }
+
+    .keycap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 22px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 4px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-right: 8px;
+    }
+
+    .nav-btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-strong);
+      background-color: var(--bg-card);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 160ms var(--ease);
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background-color: var(--bg-raised);
+    }
+
+    .nav-btn.is-primary {
+      background-color: var(--text-primary);
+      border-color: var(--text-primary);
+      color: var(--bg-card);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    /* Responsive & Print */
+    @media (max-width: 1080px) {
+      html, body {
+        overflow: auto;
+        height: auto;
+      }
+      .deck-shell {
+        height: auto;
+        min-height: 100vh;
+        padding: 0 20px;
+      }
+      .split-hero,
+      .split-balanced,
+      .slide3-grid,
+      .brief-preview {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+      .pipeline-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+      .headline-xl {
+        font-size: 44px;
+        line-height: 48px;
+      }
+      .headline-lg {
+        font-size: 36px;
+        line-height: 40px;
+      }
+    }
+
+    @media print {
+      @page {
+        size: 16in 9in;
+        margin: 0.4in;
+      }
+      html, body {
+        overflow: visible;
+        height: auto;
+      }
+      .deck-topbar, .deck-footer {
+        display: none;
+      }
+      .deck-shell {
+        display: block;
+        height: auto;
+      }
+      .slide {
+        display: grid !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+        min-height: 8in;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck-shell">
+    <!-- Quiet Navigation Bar -->
+    <header class="deck-topbar">
+      <div class="brand-row">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span class="brand-name">The Comare of Slush</span>
+        <span class="brand-divider" aria-hidden="true">/</span>
+        <span class="brand-context">Cala × Slush 2026 connection intelligence</span>
+      </div>
+      <nav class="slide-tabs" role="tablist" aria-label="Presentation slides">
+        <button class="slide-tab" role="tab" aria-selected="true" data-slide="0">1. The Comare</button>
+        <button class="slide-tab" role="tab" aria-selected="false" data-slide="1">2. Four questions</button>
+        <button class="slide-tab" role="tab" aria-selected="false" data-slide="2">3. Verified graph</button>
+        <button class="slide-tab" role="tab" aria-selected="false" data-slide="3">4. Nonna usability</button>
+      </nav>
+    </header>
+
+    <!-- Main Slide Viewport -->
+    <main class="slide-stage" id="main-stage">
+
+      <!-- SLIDE 1: THE IDEA & PERSONA -->
+      <section class="slide split-hero is-active" data-index="0" aria-label="Slide 1: Be the Comare of Slush">
+        <div>
+          <span class="slide-step">Slide 01 / 04 · The problem on the Slush floor</span>
+          <h1 class="headline-xl">Be the Comare of Slush</h1>
+          <p class="lede">
+            You have two minutes before your next Slush meeting to find a warm intro to a VC or see how two startups link up. The answer is buried inside Cala’s database, with zero time to dig through spreadsheets.
+          </p>
+          <p class="lede">
+            In Italy, a comare is the sharp-eyed neighborhood nonna who knows every family tree, every quiet backer, and who can genuinely vouch for whom. We turned Cala’s verified graph into that exact one-click experience.
+          </p>
+        </div>
+
+        <!-- Moment 1: Rendered Archival Dossier Card -->
+        <div class="dossier-panel">
+          <div class="panel-header">
+            <span class="panel-title">Live connection dossier · Cala × Slush 2026</span>
+            <span class="panel-meta">Query latency: 1.4 ms</span>
+          </div>
+
+          <div class="rumor-row">
+            <span class="rumor-text">Both bought a Slush 2026 pass (generic AI networking guess)</span>
+            <span class="ev-tag is-blocked">2,990 event links blocked</span>
+          </div>
+
+          <div class="verified-bridge-box">
+            <div class="panel-meta" style="margin-bottom: 8px;">Verified 2-hop investor bridge</div>
+            <div class="bridge-nodes">
+              <div class="node-card">
+                <div class="node-role">Founder</div>
+                <div class="node-name">Dani Penev</div>
+              </div>
+              <div class="edge-arrow">
+                <span>FOUNDED</span>
+                <svg width="20" height="12" viewBox="0 0 20 12" fill="none" aria-hidden="true">
+                  <path d="M1 6H18M18 6L13 1M18 6L13 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="node-card">
+                <div class="node-role">Startup</div>
+                <div class="node-name">Slicker</div>
+              </div>
+              <div class="edge-arrow">
+                <span>BACKED BY</span>
+                <svg width="20" height="12" viewBox="0 0 20 12" fill="none" aria-hidden="true">
+                  <path d="M1 6H18M18 6L13 1M18 6L13 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <div class="node-card is-accent">
+                <div class="node-role">Cala canonical fund</div>
+                <div class="node-name">Y Combinator</div>
+              </div>
+            </div>
+
+            <div class="comare-note">
+              <p class="comare-quote">
+                Documented founding role plus canonical Cala investor portfolio record, disambiguated from unverified Slush text stubs.
+              </p>
+              <span class="ev-tag">ev:1e86655e</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: WHAT YOU CAN ASK HER IN SECONDS -->
+      <section class="slide split-balanced" data-index="1" aria-label="Slide 2: What you can ask her in seconds">
+        <div>
+          <span class="slide-step">Slide 02 / 04 · What we do for VCs and startups</span>
+          <h2 class="headline-lg">Four questions you can ask in seconds</h2>
+          <div class="question-list">
+            <div class="question-row">
+              <span class="question-index">01</span>
+              <div>
+                <div class="question-ask">How am I connected to this company?</div>
+                <div class="question-answer">Traces the shortest real-world path from a founder or partner to any target company</div>
+              </div>
+            </div>
+            <div class="question-row">
+              <span class="question-index">02</span>
+              <div>
+                <div class="question-ask">What funds do these two startups have in common?</div>
+                <div class="question-answer">Spots shared VC backers, accelerators, and syndicate bridges across Cala’s graph</div>
+              </div>
+            </div>
+            <div class="question-row">
+              <span class="question-index">03</span>
+              <div>
+                <div class="question-ask">Who is in this startup’s inner circle?</div>
+                <div class="question-answer">Organizes a clean 2-hop map into direct team, investors, partner firms, and warm intros</div>
+              </div>
+            </div>
+            <div class="question-row">
+              <span class="question-index">04</span>
+              <div>
+                <div class="question-ask">How do these people actually know each other?</div>
+                <div class="question-answer">Surfaces shared board seats, past companies built together, and official Slush delegations</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Moment 2: Shared-Fund & Role Overlap Diagram -->
+        <div class="dossier-panel">
+          <div class="panel-header">
+            <span class="panel-title">Shared backer &amp; role inspection</span>
+            <span class="ev-tag">ev:20e25306</span>
+          </div>
+
+          <div class="graph-svg-wrap">
+            <svg viewBox="0 0 520 272" width="100%" height="272" role="img" aria-label="Diagram showing two startups linked through a shared VC fund and verified Slush delegation">
+              <!-- Quiet Hairline Grid -->
+              <line x1="0" y1="68" x2="520" y2="68" stroke="rgba(31,27,22,0.06)" stroke-width="1"/>
+              <line x1="0" y1="136" x2="520" y2="136" stroke="rgba(31,27,22,0.06)" stroke-width="1"/>
+              <line x1="0" y1="204" x2="520" y2="204" stroke="rgba(31,27,22,0.06)" stroke-width="1"/>
+
+              <!-- Connection Edges -->
+              <path d="M156 68 L224 124" stroke="#006ba7" stroke-width="2" fill="none"/>
+              <path d="M156 204 L224 148" stroke="#006ba7" stroke-width="2" fill="none"/>
+              <path d="M348 136 L388 136" stroke="#5e554a" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+
+              <!-- Startup A -->
+              <rect x="16" y="40" width="140" height="56" rx="8" fill="#fdfbf7" stroke="rgba(31,27,22,0.16)"/>
+              <text x="28" y="62" font-family="Inter, sans-serif" font-size="11" fill="#756c61">Portfolio startup</text>
+              <text x="28" y="80" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#1f1b16">Slicker</text>
+
+              <!-- Startup B -->
+              <rect x="16" y="176" width="140" height="56" rx="8" fill="#fdfbf7" stroke="rgba(31,27,22,0.16)"/>
+              <text x="28" y="198" font-family="Inter, sans-serif" font-size="11" fill="#756c61">Target startup</text>
+              <text x="28" y="216" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#1f1b16">Peer YC venture</text>
+
+              <!-- Shared Fund Centerpiece (Bright Element) -->
+              <rect x="224" y="100" width="124" height="72" rx="10" fill="rgba(0,107,167,0.09)" stroke="#006ba7" stroke-width="1.5"/>
+              <text x="238" y="124" font-family="JetBrains Mono, monospace" font-size="11" fill="#006ba7">Shared fund</text>
+              <text x="238" y="144" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#1f1b16">Y Combinator</text>
+              <text x="238" y="160" font-family="JetBrains Mono, monospace" font-size="10" fill="#5e554a">cala:1e86655e</text>
+
+              <!-- On-the-ground Rep -->
+              <rect x="388" y="100" width="116" height="72" rx="8" fill="#efe9df" stroke="rgba(31,27,22,0.14)"/>
+              <text x="400" y="124" font-family="Inter, sans-serif" font-size="11" fill="#15803d">Confirmed Slush</text>
+              <text x="400" y="144" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#1f1b16">Delegation rep</text>
+              <text x="400" y="160" font-family="JetBrains Mono, monospace" font-size="10" fill="#756c61">ev:d0cc7c79</text>
+            </svg>
+          </div>
+
+          <div class="comare-note">
+            <p class="comare-quote">
+              Separates confirmed 2026 Helsinki attendees from remote employees listed only on a company website.
+            </p>
+            <span class="ev-tag is-pass">Attendance verified</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: WHY CALA DATA WINS (ZERO RUMORS) -->
+      <section class="slide stack-layout" data-index="2" aria-label="Slide 3: Gossip with receipts, never fake rumors">
+        <div>
+          <span class="slide-step">Slide 03 / 04 · Epistemic hygiene on Cala’s knowledge graph</span>
+          <h2 class="headline-lg">Gossip with receipts, never fake conference rumors</h2>
+        </div>
+
+        <div class="slide3-grid">
+          <!-- Main Data Block (7 cols) -->
+          <div class="dossier-panel">
+            <div class="stat-row">
+              <div class="stat-block">
+                <div class="stat-label">Reconciled entities</div>
+                <div class="stat-figure">10,785</div>
+                <div class="stat-sub">Cala + Slush 2026</div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-label">Verified bridges</div>
+                <div class="stat-figure is-accent">933</div>
+                <div class="stat-sub">23.2% of 4,023 edges</div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-label">Event noise blocked</div>
+                <div class="stat-figure">2,990</div>
+                <div class="stat-sub">74.3% of 4,023 edges</div>
+              </div>
+            </div>
+
+            <div class="panel-header" style="margin-bottom: 16px; padding-bottom: 12px;">
+              <span class="panel-title">How 4,023 relationship assertions are filtered before pathfinding</span>
+              <span class="panel-meta">Common scale · 0 to 4,023</span>
+            </div>
+
+            <div class="scale-list">
+              <div class="scale-item">
+                <div class="scale-header">
+                  <span class="scale-name">Documented founding, board, executive &amp; fund bridges (traversable)</span>
+                  <span class="scale-count">933 assertions</span>
+                </div>
+                <div class="scale-track">
+                  <div class="scale-fill is-primary" style="width: 23.2%;"></div>
+                </div>
+              </div>
+
+              <div class="scale-item">
+                <div class="scale-header">
+                  <span class="scale-name">Shared Slush event attendance links (excluded from warm intros)</span>
+                  <span class="scale-count">2,990 assertions</span>
+                </div>
+                <div class="scale-track">
+                  <div class="scale-fill" style="width: 74.3%;"></div>
+                </div>
+              </div>
+
+              <div class="scale-item">
+                <div class="scale-header">
+                  <span class="scale-name">Generic industry &amp; city links (excluded from warm intros)</span>
+                  <span class="scale-count">95 assertions</span>
+                </div>
+                <div class="scale-track">
+                  <div class="scale-fill" style="width: 2.4%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Narrower Supporting Guardrail List (5 cols) -->
+          <div class="dossier-panel">
+            <div class="panel-header">
+              <span class="panel-title">Nonna’s three anti-rumor rules</span>
+              <span class="panel-meta">Zero confabulation</span>
+            </div>
+
+            <div class="guardrail-rows">
+              <div class="guardrail-row">
+                <div class="guardrail-head">
+                  <span class="guardrail-title">No blind name-twin merges</span>
+                  <span class="ev-tag">2,371 separated</span>
+                </div>
+                <p class="guardrail-desc">
+                  Cross-source records merge only on shared IDs or verified domains (32 companies, 1 person). Lookalike names open a human-friendly picker.
+                </p>
+              </div>
+
+              <div class="guardrail-row">
+                <div class="guardrail-head">
+                  <span class="guardrail-title">Honest when no bridge exists</span>
+                  <span class="ev-tag is-pass">insufficient_data</span>
+                </div>
+                <p class="guardrail-desc">
+                  When Trust Exchange and Slicker share only Slush attendance, the engine reports no documented bridge instead of inventing one.
+                </p>
+              </div>
+
+              <div class="guardrail-row">
+                <div class="guardrail-head">
+                  <span class="guardrail-title">Isolated live Cala /v1 enrichment</span>
+                  <span class="ev-tag">cala_live</span>
+                </div>
+                <p class="guardrail-desc">
+                  On-demand Cala API lookups attach publisher, URL, and date receipts without silently mutating snapshot hop counts.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: USABILITY & RELIABILITY STACK -->
+      <section class="slide stack-layout" data-index="3" aria-label="Slide 4: Easy to talk to and reliable, just like our nonna">
+        <div>
+          <span class="slide-step">Slide 04 / 04 · Built for people, not database consoles</span>
+          <h2 class="headline-lg">Easy to talk to and reliable, just like our nonna</h2>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- 4-Step Pipeline -->
+          <div class="pipeline-strip">
+            <div class="stage-box">
+              <div class="stage-top">
+                <span class="stage-num">Step 01</span>
+                <span class="stage-metric">One click</span>
+              </div>
+              <div>
+                <div class="stage-name">Guided human search</div>
+                <div class="stage-body">Plain-English questions and clean layered paths in pure browser ES2022 with zero setup</div>
+              </div>
+            </div>
+
+            <div class="stage-box">
+              <div class="stage-top">
+                <span class="stage-num">Step 02</span>
+                <span class="stage-metric">Gemini 2.5 Flash</span>
+              </div>
+              <div>
+                <div class="stage-name">90-second espresso brief</div>
+                <div class="stage-body">Turns Cala paths into talking points and smart questions locked to retrieved evidence IDs</div>
+              </div>
+            </div>
+
+            <div class="stage-box">
+              <div class="stage-top">
+                <span class="stage-num">Step 03</span>
+                <span class="stage-metric">Gemma 3 27B</span>
+              </div>
+              <div>
+                <div class="stage-name">Open-weights fact check</div>
+                <div class="stage-body">Audits every Gemini sentence against raw Cala records so undated roles are never overstated</div>
+              </div>
+            </div>
+
+            <div class="stage-box">
+              <div class="stage-top">
+                <span class="stage-num">Step 04</span>
+                <span class="stage-metric">Aiven + CRACI</span>
+              </div>
+              <div>
+                <div class="stage-name">Sub-2ms speed &amp; SBOM</div>
+                <div class="stage-body">Valkey TLS cache, PostgreSQL audit history, and CRACI deny-by-default CI supply chain</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Moment 4: Rendered 90-Second Brief + Inspected Source Receipt -->
+          <div class="brief-preview">
+            <div>
+              <div class="panel-header" style="margin-bottom: 8px; padding-bottom: 12px;">
+                <span class="panel-title">Generated pre-meeting brief · Camille Accolas → Trust Exchange</span>
+                <span class="panel-meta">Streamed via SSE</span>
+              </div>
+              <div class="brief-claim">
+                <p class="brief-claim-text">
+                  Camille Accolas co-founded Trust Exchange, holds a documented board seat, and is a named Slush 2026 SwissTech delegation representative.
+                </p>
+                <div class="brief-badges">
+                  <span class="ev-tag">ev:20e25306</span>
+                  <span class="ev-tag">ev:d0cc7c79</span>
+                  <span class="ev-tag is-pass">Gemma 3 audit: supported</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="source-receipt">
+              <div class="panel-meta" style="margin-bottom: 8px;">Clicked receipt · ev:d0cc7c79</div>
+              <div>
+                <div class="receipt-row">
+                  <span class="receipt-key">Publisher</span>
+                  <span class="receipt-val">SwissTech / Cala Graph</span>
+                </div>
+                <div class="receipt-row">
+                  <span class="receipt-key">Source type</span>
+                  <span class="receipt-val">2026 delegation roster</span>
+                </div>
+                <div class="receipt-row">
+                  <span class="receipt-key">Checked date</span>
+                  <span class="receipt-val">2026-11-14</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Quiet Footer Controls -->
+    <footer class="deck-footer">
+      <div class="footer-meta">
+        <span>Use <span class="keycap">←</span> <span class="keycap">→</span> or <span class="keycap">1</span>–<span class="keycap">4</span> to switch slides</span>
+        <span>Press <span class="keycap">F</span> for fullscreen</span>
+      </div>
+      <div class="nav-controls">
+        <span class="slide-counter" id="slide-counter">01 / 04</span>
+        <button class="nav-btn" id="prev-btn" type="button" disabled>Previous</button>
+        <button class="nav-btn is-primary" id="next-btn" type="button">Next slide</button>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const tabs = Array.from(document.querySelectorAll('.slide-tab'));
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const counter = document.getElementById('slide-counter');
+      let current = 0;
+
+      function goTo(index) {
+        if (index < 0 || index >= slides.length) return;
+        current = index;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('is-active', i === current);
+        });
+        tabs.forEach((tab, i) => {
+          tab.setAttribute('aria-selected', i === current ? 'true' : 'false');
+        });
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        nextBtn.textContent = current === slides.length - 1 ? 'Done' : 'Next slide';
+        counter.textContent = String(current + 1).padStart(2, '0') + ' / 0' + slides.length;
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => goTo(Number(tab.dataset.slide)));
+      });
+
+      prevBtn.addEventListener('click', () => goTo(current - 1));
+      nextBtn.addEventListener('click', () => goTo(current + 1));
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          e.preventDefault();
+          goTo(current + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          goTo(current - 1);
+        } else if (e.key >= '1' && e.key <= '4') {
+          goTo(Number(e.key) - 1);
+        } else if (e.key === 'f' || e.key === 'F') {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen?.();
+          } else {
+            document.exitFullscreen?.();
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

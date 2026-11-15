@@ -43,9 +43,9 @@ export function renderDisambiguationPanel(analysis, panelEl, evidenceMap, onSele
   const slotBlocksHtml = slotEntries
     .map(([slotName, slotData]) => {
       const slotLabelMap = {
-        source: 'Starting Entity (`source`)',
-        target: 'Target Entity (`target`)',
-        company: 'Target Company (`company`)',
+        source: 'Starting entity (source)',
+        target: 'Target entity (target)',
+        company: 'Target company (company)',
       };
       const candidates = Array.isArray(slotData.candidates) ? slotData.candidates : [];
 
@@ -54,9 +54,9 @@ export function renderDisambiguationPanel(analysis, panelEl, evidenceMap, onSele
           <div class="disambig-slot-block">
             <div class="disambig-slot-title">${escapeHtml(slotLabelMap[slotName] || slotName)} — Query: “${escapeHtml(slotData.query || '')}”</div>
             <div class="honest-empty-banner">
-              <div class="honest-empty-title">No Matching Entity in Loaded Snapshot</div>
-              <div style="font-size:0.8rem;color:var(--text-secondary);">
-                ${escapeHtml(slotData.reason || 'This name was not found in the reconciled Cala + Slush 2026 snapshot. Try typing in the search input above for fuzzy suggestions.')}
+              <div class="honest-empty-title">No matching entity in loaded snapshot</div>
+              <div style="font-size:13px;color:var(--text-secondary);">
+                ${escapeHtml(slotData.reason || 'This name was not found in the reconciled Cala and Slush 2026 snapshot. Try typing in the search input above for suggestions.')}
               </div>
             </div>
           </div>
@@ -73,22 +73,22 @@ export function renderDisambiguationPanel(analysis, panelEl, evidenceMap, onSele
           return `
             <div class="candidate-card">
               <div>
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.35rem;">
-                  <strong style="font-family:var(--font-display);font-size:0.95rem;">${escapeHtml(cand.name)}</strong>
-                  <div style="display:flex;gap:0.28rem;flex-wrap:wrap;">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+                  <strong style="font-size:15px;color:var(--text-primary);">${escapeHtml(cand.name)}</strong>
+                  <div style="display:flex;gap:4px;flex-wrap:wrap;">
                     ${renderOriginBadges(cand)}
                     ${renderCompletenessBadge(cand.record_completeness)}
                   </div>
                 </div>
-                <div class="candidate-id" style="margin-bottom:0.45rem;">ID: ${escapeHtml(cand.id)}</div>
+                <div class="candidate-id" style="margin-bottom:8px;">ID: ${escapeHtml(cand.id)}</div>
                 <div class="candidate-meta">
                   ${renderParticipationBadges(cand.participation) ? `<div>${renderParticipationBadges(cand.participation)}</div>` : ''}
                   ${ctx.job_title ? `<div><strong>Role:</strong> ${escapeHtml(ctx.job_title)}</div>` : ''}
                   ${ctx.location_raw ? `<div><strong>Location:</strong> ${escapeHtml(ctx.location_raw)}</div>` : ''}
                   ${websiteUrl ? `<div><strong>Website:</strong> <a href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(websiteUrl)}</a></div>` : ''}
-                  ${affiliations.length > 0 ? `<div><strong>Documented Affiliations:</strong> ${escapeHtml(affiliations.join(', '))}</div>` : ''}
-                  ${degree !== undefined ? `<div><strong>Traversable Connections:</strong> ${escapeHtml(degree)} verified edge${degree === 1 ? '' : 's'}</div>` : ''}
-                  ${Array.isArray(cand.evidence_ids) && cand.evidence_ids.length > 0 ? `<div style="margin-top:0.25rem;">${renderEvidenceChips(cand.evidence_ids, evidenceMap, 4)}</div>` : ''}
+                  ${affiliations.length > 0 ? `<div><strong>Affiliations:</strong> ${escapeHtml(affiliations.join(', '))}</div>` : ''}
+                  ${degree !== undefined ? `<div><strong>Verified bridges:</strong> ${escapeHtml(degree)} edge${degree === 1 ? '' : 's'}</div>` : ''}
+                  ${Array.isArray(cand.evidence_ids) && cand.evidence_ids.length > 0 ? `<div style="margin-top:4px;">${renderEvidenceChips(cand.evidence_ids, evidenceMap, 4)}</div>` : ''}
                 </div>
               </div>
               <button
@@ -98,7 +98,7 @@ export function renderDisambiguationPanel(analysis, panelEl, evidenceMap, onSele
                 data-select-id="${escapeHtml(cand.id)}"
                 data-select-name="${escapeHtml(cand.name)}"
               >
-                Select Canonical Identity &amp; Run Search →
+                Use this record
               </button>
             </div>
           `;
@@ -119,11 +119,9 @@ export function renderDisambiguationPanel(analysis, panelEl, evidenceMap, onSele
   panelEl.innerHTML = `
     <div class="disambig-header">
       <div>
-        <h3 class="disambig-title">
-          <span>🛡️ Identity Integrity Guardrail — Zero Silent Merging</span>
-        </h3>
+        <h3 class="disambig-title">Multiple records match this name</h3>
         <p class="disambig-sub">
-          ${escapeHtml(analysis.summary || 'Multiple distinct records share this name across Cala and Slush snapshots. Select the exact canonical entity ID below to run a verified search.')}
+          ${escapeHtml(analysis.summary || 'Distinct records share this name across the Cala and Slush snapshots. Select the canonical entity ID below to run a verified search.')}
         </p>
       </div>
       ${renderStatusBadge(status)}
@@ -155,12 +153,12 @@ export function renderCalaLiveEnrichmentBox(enrichPayload) {
   const isWarnHalt = st === 'payment_required' || st === 'rate_limited' || st === 'timeout' || st === 'unconfigured' || st === 'not_mapped';
 
   const statusBadgeMap = {
-    ok: { text: '✓ Live Cala /v1 Verified', cls: 'badge-cala' },
-    payment_required: { text: 'HTTP 402 · Insufficient Balance — Clean Halt', cls: 'badge-warn' },
-    unconfigured: { text: 'CALA_API_KEY Unconfigured — Snapshot Only', cls: 'badge-neutral' },
-    not_mapped: { text: 'Unmapped in Cala /v1 — Zero Guessing', cls: 'badge-neutral' },
-    rate_limited: { text: 'HTTP 429 · Rate Limited — Clean Halt', cls: 'badge-warn' },
-    timeout: { text: 'Timeout — Clean Halt', cls: 'badge-warn' },
+    ok: { text: 'Live Cala /v1 verified', cls: 'badge-cala' },
+    payment_required: { text: 'HTTP 402 · Insufficient balance', cls: 'badge-warn' },
+    unconfigured: { text: 'CALA_API_KEY unconfigured · Snapshot only', cls: 'badge-neutral' },
+    not_mapped: { text: 'Unmapped in Cala /v1', cls: 'badge-neutral' },
+    rate_limited: { text: 'HTTP 429 · Rate limited', cls: 'badge-warn' },
+    timeout: { text: 'Timeout · Clean halt', cls: 'badge-warn' },
   };
   const badgeMeta = statusBadgeMap[st] || { text: `Status: ${st}`, cls: 'badge-neutral' };
 
@@ -179,7 +177,7 @@ export function renderCalaLiveEnrichmentBox(enrichPayload) {
           <div class="fact-value">
             ${urlVal ? `<a href="${escapeHtml(urlVal)}" target="_blank" rel="noopener noreferrer">${escapeHtml(urlVal)}</a>` : escapeHtml(valStr)}
           </div>
-          ${sourcesHtml ? `<div style="display:flex;gap:0.35rem;flex-wrap:wrap;">${sourcesHtml}</div>` : ''}
+          ${sourcesHtml ? `<div style="display:flex;gap:4px;flex-wrap:wrap;">${sourcesHtml}</div>` : ''}
         </div>
       `;
     })
@@ -191,12 +189,12 @@ export function renderCalaLiveEnrichmentBox(enrichPayload) {
       const sourcesHtml = (r.sources || []).map((s) => renderSourceDocumentBadge(s)).join(' ');
       return `
         <div class="fact-row">
-          <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.22rem;">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
             <span class="badge badge-cala">${escapeHtml(humanizePredicate(r.predicate))}</span>
-            <span style="font-size:0.72rem;color:var(--text-dim);">(${escapeHtml(r.direction || 'linked')})</span>
+            <span style="font-size:12px;color:var(--text-muted);">(${escapeHtml(r.direction || 'linked')})</span>
             <strong>${escapeHtml(r.peer_name || r.peer_cala_id || 'Entity')}</strong>
           </div>
-          ${sourcesHtml ? `<div style="display:flex;gap:0.35rem;flex-wrap:wrap;">${sourcesHtml}</div>` : ''}
+          ${sourcesHtml ? `<div style="display:flex;gap:4px;flex-wrap:wrap;">${sourcesHtml}</div>` : ''}
         </div>
       `;
     })
@@ -204,8 +202,8 @@ export function renderCalaLiveEnrichmentBox(enrichPayload) {
 
   const investorMatchHtml = investorMatch
     ? `
-      <div style="margin-top:0.5rem;padding:0.5rem 0.65rem;border-radius:6px;background:rgba(6,182,212,0.09);border:1px solid var(--cala-border);font-size:0.76rem;">
-        <div style="font-weight:600;color:var(--cala-bright);margin-bottom:2px;">Preserved Cala Audit Registry Match (<code>${escapeHtml(investorMatch.namespace || 'cala_verified_investor_match')}</code>)</div>
+      <div style="margin-top:8px;padding:8px 12px;border-radius:4px;background:var(--cala-bg);border:1px solid var(--cala-border);font-size:12px;">
+        <div style="font-weight:500;color:var(--cala-primary);margin-bottom:4px;">Cala audit registry match (<code>${escapeHtml(investorMatch.namespace || 'cala_verified_investor_match')}</code>)</div>
         <div><strong>${escapeHtml(investorMatch.cala_name || '')}</strong> · Cala UUID: <code>${escapeHtml(investorMatch.cala_id || '')}</code> ${investorMatch.country ? `· ${escapeHtml(investorMatch.country)}` : ''}</div>
       </div>
     `
@@ -214,14 +212,14 @@ export function renderCalaLiveEnrichmentBox(enrichPayload) {
   return `
     <div class="cala-live-box ${isWarnHalt && !isOk ? 'warn-halt' : ''}">
       <div class="cala-live-header">
-        <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
           <span class="badge ${badgeMeta.cls}">${escapeHtml(badgeMeta.text)}</span>
-          <code style="font-size:0.68rem;color:var(--text-muted);">namespace: ${escapeHtml(enrichPayload.namespace || 'cala_live_enrichment')}</code>
+          <code style="font-size:12px;color:var(--text-muted);">namespace: ${escapeHtml(enrichPayload.namespace || 'cala_live_enrichment')}</code>
         </div>
-        ${enrichPayload.elapsed_ms !== undefined ? `<span class="mono" style="font-size:0.68rem;color:var(--text-dim);">${formatMs(enrichPayload.elapsed_ms)}${enrichPayload.cached ? ' · cached' : ''}</span>` : ''}
+        ${enrichPayload.elapsed_ms !== undefined ? `<span class="mono" style="font-size:12px;color:var(--text-muted);">${formatMs(enrichPayload.elapsed_ms)}${enrichPayload.cached ? ' · cached' : ''}</span>` : ''}
       </div>
-      ${enrichPayload.cala_uuid ? `<div style="font-size:0.73rem;color:var(--text-secondary);margin-bottom:0.35rem;">Cala Entity UUID: <code>${escapeHtml(enrichPayload.cala_uuid)}</code></div>` : ''}
-      <div style="font-size:0.77rem;color:var(--text-secondary);margin-bottom:0.35rem;">
+      ${enrichPayload.cala_uuid ? `<div style="font-size:12px;color:var(--text-secondary);margin-bottom:4px;">Cala entity UUID: <code>${escapeHtml(enrichPayload.cala_uuid)}</code></div>` : ''}
+      <div style="font-size:13px;color:var(--text-secondary);margin-bottom:4px;">
         ${escapeHtml(enrichPayload.message || 'Isolated from snapshot hop counts to preserve deterministic reproducibility.')}
       </div>
       ${investorMatchHtml}
@@ -257,45 +255,45 @@ export function renderNodeInspector({
   inspectorEl.innerHTML = `
     <div class="inspector-header">
       <div>
-        <div style="display:flex;align-items:center;gap:0.38rem;flex-wrap:wrap;margin-bottom:0.25rem;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
           <span class="badge badge-neutral">${escapeHtml(node.entity_type || 'Entity')}</span>
           ${renderOriginBadges(node)}
           ${renderCompletenessBadge(node.record_completeness)}
         </div>
         <h4 class="inspector-title">${escapeHtml(node.name || node.id)}</h4>
-        <div class="mono" style="font-size:0.68rem;color:var(--text-dim);margin-top:2px;">${escapeHtml(node.id)}</div>
+        <div class="mono" style="font-size:12px;color:var(--text-muted);margin-top:4px;">${escapeHtml(node.id)}</div>
       </div>
-      <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
-        <button type="button" class="btn-ghost-sm" id="btnLiveCalaEnrichNode" style="border-color:var(--cala-border);color:var(--cala-bright);">
-          ⚡ Live Cala /v1 Enrich
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <button type="button" class="btn-ghost-sm" id="btnLiveCalaEnrichNode">
+          Query Cala /v1
         </button>
         ${
           node.entity_type !== 'Person'
-            ? `<button type="button" class="btn-ghost-sm" id="btnPivotQ4Node" title="Check Slush 2026 Representatives">Slush Brief (Q4)</button>`
+            ? `<button type="button" class="btn-ghost-sm" id="btnPivotQ4Node" title="Check Slush 2026 representatives">Slush dossier (Q4)</button>`
             : ''
         }
-        <button type="button" class="btn-ghost-sm" id="btnCloseInspector">&times;</button>
+        <button type="button" class="btn-ghost-sm" id="btnCloseInspector">Close</button>
       </div>
     </div>
 
     ${
       Array.isArray(node.participation) && node.participation.length > 0
-        ? `<div style="margin-bottom:0.55rem;">${renderParticipationBadges(node.participation)}</div>`
+        ? `<div style="margin-bottom:8px;">${renderParticipationBadges(node.participation)}</div>`
         : ''
     }
 
-    ${p.job_title ? `<div style="font-size:0.82rem;color:var(--text-primary);font-weight:600;margin-bottom:0.35rem;">${escapeHtml(p.job_title)}</div>` : ''}
-    ${p.biography || p.description ? `<p style="font-size:0.8rem;color:var(--text-secondary);margin:0 0 0.6rem;line-height:1.5;">${escapeHtml(p.biography || p.description)}</p>` : ''}
+    ${p.job_title ? `<div style="font-size:13px;color:var(--text-primary);font-weight:500;margin-bottom:4px;">${escapeHtml(p.job_title)}</div>` : ''}
+    ${p.biography || p.description ? `<p style="font-size:13px;color:var(--text-secondary);margin:0 0 12px;line-height:20px;">${escapeHtml(p.biography || p.description)}</p>` : ''}
 
-    <div style="display:flex;gap:0.65rem;flex-wrap:wrap;font-size:0.76rem;margin-bottom:0.55rem;">
-      ${websiteUrl ? `<a href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">🌐 Official Website ↗</a>` : ''}
-      ${linkedinUrl ? `<a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer">🔗 LinkedIn Profile ↗</a>` : ''}
-      ${p.location_raw ? `<span style="color:var(--text-muted);">📍 ${escapeHtml(p.location_raw)}</span>` : ''}
+    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:13px;margin-bottom:8px;">
+      ${websiteUrl ? `<a href="${escapeHtml(websiteUrl)}" target="_blank" rel="noopener noreferrer">Website ↗</a>` : ''}
+      ${linkedinUrl ? `<a href="${escapeHtml(linkedinUrl)}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>` : ''}
+      ${p.location_raw ? `<span style="color:var(--text-muted);">${escapeHtml(p.location_raw)}</span>` : ''}
     </div>
 
     ${
       topics.length > 0
-        ? `<div style="display:flex;gap:0.3rem;flex-wrap:wrap;margin-bottom:0.6rem;">
+        ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px;">
             ${topics.map((t) => `<span class="badge badge-ai">${escapeHtml(t)}</span>`).join('')}
           </div>`
         : ''
@@ -303,15 +301,15 @@ export function renderNodeInspector({
 
     ${
       workEntries.length > 0
-        ? `<div style="margin-bottom:0.65rem;">
-            <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-muted);margin-bottom:0.3rem;">Sourced Work History</div>
+        ? `<div style="margin-bottom:12px;">
+            <div style="font-size:12px;color:var(--text-muted);margin-bottom:4px;">Sourced work history</div>
             ${workEntries
               .map((w) => {
                 const provBadges = (w.provenance || []).map((pr) => renderSourceDocumentBadge(pr)).join(' ');
                 return `
-                  <div style="padding:0.38rem 0.55rem;background:rgba(7,9,15,0.55);border-radius:6px;margin-bottom:0.3rem;font-size:0.76rem;">
+                  <div style="padding:8px 12px;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:4px;margin-bottom:4px;font-size:13px;">
                     <div><strong>${escapeHtml(w.role || w.title || 'Role')}</strong> · ${escapeHtml(w.organization || 'Organization')}</div>
-                    ${provBadges ? `<div style="margin-top:0.22rem;">${provBadges}</div>` : ''}
+                    ${provBadges ? `<div style="margin-top:4px;">${provBadges}</div>` : ''}
                   </div>
                 `;
               })
@@ -320,10 +318,10 @@ export function renderNodeInspector({
         : ''
     }
 
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;padding-top:0.45rem;border-top:1px solid var(--border-subtle);font-size:0.72rem;color:var(--text-muted);">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:8px;border-top:1px solid var(--border-subtle);font-size:12px;color:var(--text-muted);">
       <div>
         ${calaIds.length > 0 ? `<span>Cala UUID: <code>${escapeHtml(calaIds[0])}</code></span>` : ''}
-        ${slushIds.length > 0 ? `<span style="margin-left:0.5rem;">Slush ID: <code>${escapeHtml(slushIds[0])}</code></span>` : ''}
+        ${slushIds.length > 0 ? `<span style="margin-left:8px;">Slush ID: <code>${escapeHtml(slushIds[0])}</code></span>` : ''}
       </div>
       <div>${renderEvidenceChips(node.evidence_ids, evidenceMap, 6)}</div>
     </div>
@@ -356,7 +354,7 @@ export function renderNodeInspector({
       }
     } finally {
       enrichBtn.disabled = false;
-      enrichBtn.textContent = '⚡ Live Cala /v1 Enrich';
+      enrichBtn.textContent = 'Query Cala /v1';
     }
   });
 }
@@ -370,29 +368,29 @@ export function renderEdgeInspector({ edge, nodeMap, inspectorEl, evidenceMap, o
   inspectorEl.innerHTML = `
     <div class="inspector-header">
       <div>
-        <div style="display:flex;align-items:center;gap:0.38rem;flex-wrap:wrap;margin-bottom:0.25rem;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
           <span class="badge badge-cala">${escapeHtml(humanizePredicate(edge.type))}</span>
           ${renderOriginBadges(edge)}
           <span class="badge badge-neutral">Temporal: ${escapeHtml(edge.temporal_status || 'undated')}</span>
         </div>
         <h4 class="inspector-title">
-          ${escapeHtml(srcNode?.name || edge.source)} <span style="color:var(--cala-bright);">→</span> ${escapeHtml(tgtNode?.name || edge.target)}
+          ${escapeHtml(srcNode?.name || edge.source)} <span style="color:var(--text-muted);">→</span> ${escapeHtml(tgtNode?.name || edge.target)}
         </h4>
-        <div class="mono" style="font-size:0.68rem;color:var(--text-dim);margin-top:2px;">${escapeHtml(edge.id)} · Strength: ${escapeHtml(edge.evidence_strength || 'documented')}</div>
+        <div class="mono" style="font-size:12px;color:var(--text-muted);margin-top:4px;">${escapeHtml(edge.id)} · Strength: ${escapeHtml(edge.evidence_strength || 'documented')}</div>
       </div>
-      <button type="button" class="btn-ghost-sm" id="btnCloseEdgeInspector">&times;</button>
+      <button type="button" class="btn-ghost-sm" id="btnCloseEdgeInspector">Close</button>
     </div>
 
     ${
       propsEntries.length > 0
-        ? `<div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:0.55rem;">
-            ${propsEntries.map(([k, v]) => `<span class="badge badge-neutral" style="margin-right:0.3rem;">${escapeHtml(k)}: ${escapeHtml(String(v))}</span>`).join('')}
+        ? `<div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">
+            ${propsEntries.map(([k, v]) => `<span class="badge badge-neutral" style="margin-right:4px;">${escapeHtml(k)}: ${escapeHtml(String(v))}</span>`).join('')}
           </div>`
         : ''
     }
 
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;padding-top:0.45rem;border-top:1px solid var(--border-subtle);">
-      <span style="font-size:0.74rem;color:var(--text-muted);">Factual assertion direction preserved regardless of search traversal.</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-top:8px;border-top:1px solid var(--border-subtle);">
+      <span style="font-size:12px;color:var(--text-muted);">Factual assertion direction preserved regardless of search traversal</span>
       ${renderEvidenceChips(edge.evidence_ids, evidenceMap, 8)}
     </div>
   `;
@@ -441,14 +439,14 @@ export function renderIntelColumn({
   const summaryCardHtml = `
     <div class="intel-card">
       <div class="card-header-row">
-        <span class="section-eyebrow">Verified Snapshot Synthesis</span>
-        <div style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+        <span class="section-eyebrow">Snapshot synthesis</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
           ${renderStatusBadge(analysis.status)}
-          ${cov.max_hops ? `<span class="badge badge-neutral">Max ${escapeHtml(cov.max_hops)} Hops</span>` : ''}
-          ${cov.visited_nodes !== undefined ? `<span class="badge badge-neutral">${escapeHtml(cov.visited_nodes)} Visited Nodes</span>` : ''}
+          ${cov.max_hops ? `<span class="badge badge-neutral">Max ${escapeHtml(cov.max_hops)} hops</span>` : ''}
+          ${cov.visited_nodes !== undefined ? `<span class="badge badge-neutral">${escapeHtml(cov.visited_nodes)} visited nodes</span>` : ''}
         </div>
       </div>
-      <h2 class="summary-headline">${escapeHtml(analysis.summary || 'Analysis ready.')}</h2>
+      <h2 class="summary-headline">${escapeHtml(analysis.summary || 'Analysis ready')}</h2>
       ${
         analysis.interpretation
           ? `<div class="epistemic-note">${escapeHtml(analysis.interpretation)}</div>`
@@ -469,7 +467,7 @@ export function renderIntelColumn({
       const pass = gemmaSum.overall_verdict === 'pass' && (!gemmaSum.flagged_claims || gemmaSum.flagged_claims === 0);
       gemmaHeaderBadge = `
         <span class="badge ${pass ? 'badge-dual' : 'badge-warn'}" title="Audited by ${escapeHtml(gemmaSum.model || 'Gemma 3')}">
-          ${pass ? '✓ Gemma 3 Entailment Pass' : '⚠ Gemma Audit Flagged'} · ${escapeHtml(gemmaSum.supported_claims ?? claims.length)}/${escapeHtml(gemmaSum.audited_claims ?? claims.length)} (${escapeHtml(gemmaSum.model || 'gemma-3')})
+          ${pass ? 'Gemma 3 entailment pass' : 'Gemma audit flagged'} · ${escapeHtml(gemmaSum.supported_claims ?? claims.length)}/${escapeHtml(gemmaSum.audited_claims ?? claims.length)} (${escapeHtml(gemmaSum.model || 'gemma-3')})
         </span>
       `;
     }
@@ -482,7 +480,7 @@ export function renderIntelColumn({
           const isSup = audit.verdict === 'supported' || audit.verdict === 'pass';
           auditPill = `
             <span class="gemma-verdict-pill ${isSup ? 'supported' : 'flagged'}" title="${escapeHtml(audit.note || '')}">
-              ${isSup ? '✓ Gemma Verified' : `⚠ ${escapeHtml(audit.verdict)}`}
+              ${isSup ? 'Gemma verified' : escapeHtml(audit.verdict)}
             </span>
           `;
         }
@@ -493,7 +491,7 @@ export function renderIntelColumn({
               ${renderEvidenceChips(c.evidence_ids, evidenceMap, 6)}
               ${auditPill}
             </div>
-            ${audit?.note ? `<div class="gemma-note"><strong>Gemma 3 Audit:</strong> ${escapeHtml(audit.note)}</div>` : ''}
+            ${audit?.note ? `<div class="gemma-note"><strong>Gemma 3 audit:</strong> ${escapeHtml(audit.note)}</div>` : ''}
           </div>
         `;
       })
@@ -502,12 +500,7 @@ export function renderIntelColumn({
     claimsCardHtml = `
       <div class="intel-card ai-accent">
         <div class="card-header-row">
-          <h3 class="card-title">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2.2">
-              <path d="M12 2L15 9l7 3-7 3-3 7-3-7-7-3 7-3 3-7z"/>
-            </svg>
-            <span>Grounded Claims &amp; Gemma 3 Entailment Shield</span>
-          </h3>
+          <h3 class="card-title">Grounded claims &amp; Gemma 3 entailment audit</h3>
           ${gemmaHeaderBadge}
         </div>
         <div class="claims-list">${claimItemsHtml}</div>
@@ -523,7 +516,7 @@ export function renderIntelColumn({
       .map(
         (tp) => `
         <li>
-          <div style="margin-bottom:0.28rem;">${escapeHtml(tp.text)}</div>
+          <div style="margin-bottom:4px;">${escapeHtml(tp.text)}</div>
           ${renderEvidenceChips(tp.evidence_ids, evidenceMap, 5)}
         </li>
       `
@@ -534,7 +527,7 @@ export function renderIntelColumn({
       .map(
         (sq) => `
         <li>
-          <div style="margin-bottom:0.28rem;">${escapeHtml(sq.text)}</div>
+          <div style="margin-bottom:4px;">${escapeHtml(sq.text)}</div>
           ${renderEvidenceChips(sq.evidence_ids, evidenceMap, 5)}
         </li>
       `
@@ -546,7 +539,7 @@ export function renderIntelColumn({
         (wp) => `
         <div class="path-step-row" style="cursor:pointer;" data-brief-path-id="${escapeHtml(wp.path_id || '')}">
           <div>
-            <span class="badge badge-cala" style="margin-right:0.35rem;">${escapeHtml(wp.hop_count)} Hop${wp.hop_count === 1 ? '' : 's'}</span>
+            <span class="badge badge-cala" style="margin-right:8px;">${escapeHtml(wp.hop_count)} hop${wp.hop_count === 1 ? '' : 's'}</span>
             <span>${escapeHtml(wp.summary)}</span>
           </div>
           ${renderEvidenceChips(wp.evidence_ids, evidenceMap, 3)}
@@ -560,10 +553,7 @@ export function renderIntelColumn({
     briefCardHtml = `
       <div class="intel-card slush-brief-accent">
         <div class="card-header-row">
-          <h3 class="card-title">
-            <span style="color:var(--slush-bright);">⚡</span>
-            <span>Slush 2026 Executive Meeting Brief</span>
-          </h3>
+          <h3 class="card-title">Slush 2026 Executive Meeting Brief</h3>
           <span class="badge badge-slush">Composer: ${escapeHtml(brief.model || brief.composer || 'Grounded')}</span>
         </div>
 
@@ -573,7 +563,7 @@ export function renderIntelColumn({
           ${
             tpHtml
               ? `<div>
-                  <h4 class="brief-subhead">Verified Talking Points</h4>
+                  <h4 class="brief-subhead">Verified talking points</h4>
                   <ul class="brief-list">${tpHtml}</ul>
                 </div>`
               : ''
@@ -581,7 +571,7 @@ export function renderIntelColumn({
           ${
             sqHtml
               ? `<div>
-                  <h4 class="brief-subhead">Smart Questions to Ask at Slush</h4>
+                  <h4 class="brief-subhead">Questions to ask at Slush</h4>
                   <ul class="brief-list">${sqHtml}</ul>
                 </div>`
               : ''
@@ -589,7 +579,7 @@ export function renderIntelColumn({
           ${
             warmHtml
               ? `<div>
-                  <h4 class="brief-subhead">Warm Intro Routes (Click to Highlight on Graph)</h4>
+                  <h4 class="brief-subhead">Warm introduction routes</h4>
                   <div class="path-steps-list">${warmHtml}</div>
                 </div>`
               : ''
@@ -599,11 +589,11 @@ export function renderIntelColumn({
         ${
           att
             ? `<div class="attendance-callout">
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.2rem;">
-                  <strong style="color:var(--slush-bright);">Attendance Epistemic Check (${escapeHtml(att.status || 'partial_snapshot')})</strong>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+                  <strong style="color:var(--text-primary);">Attendance verification (${escapeHtml(att.status || 'partial_snapshot')})</strong>
                   ${renderEvidenceChips(att.evidence_ids, evidenceMap, 4)}
                 </div>
-                <div>${escapeHtml(att.note || 'Physical event check-in and meeting availability are never assumed from directory listings.')}</div>
+                <div>${escapeHtml(att.note || 'Physical event check-in and meeting availability are not assumed from directory listings.')}</div>
               </div>`
             : ''
         }
@@ -633,7 +623,6 @@ export function renderIntelColumn({
   `;
 
   // Wire interactive events inside Intel Column
-  // Path isolation cards (Q1/Q2/Q3/Q4 & warm_intro_paths)
   for (const card of containerEl.querySelectorAll('[data-isolate-path]')) {
     card.addEventListener('click', (e) => {
       if (e.target.closest('button, a')) return;
@@ -650,7 +639,6 @@ export function renderIntelColumn({
     });
   }
 
-  // Node inspect buttons
   for (const btn of containerEl.querySelectorAll('[data-inspect-node]')) {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -658,7 +646,6 @@ export function renderIntelColumn({
     });
   }
 
-  // Quick question pivot buttons
   for (const btn of containerEl.querySelectorAll('[data-pivot-qid]')) {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -670,7 +657,6 @@ export function renderIntelColumn({
     });
   }
 
-  // Q3 Network Category Filter Tabs
   const q3Tabs = containerEl.querySelectorAll('[data-q3-group-tab]');
   if (q3Tabs.length > 0) {
     q3Tabs.forEach((tab) => {
@@ -685,7 +671,6 @@ export function renderIntelColumn({
     });
   }
 
-  // Evidence search & dataset filter
   const evSearchInput = containerEl.querySelector('#evidenceSearchInput');
   const evDatasetFilter = containerEl.querySelector('#evidenceDatasetFilter');
   const applyEvFilter = () => {
@@ -716,16 +701,16 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
       return `
         <div class="intel-card">
           <div class="card-header-row">
-            <h3 class="card-title">Ranked Professional Paths</h3>
-            <span class="badge badge-warn">0 Supported Bridges</span>
+            <h3 class="card-title">Ranked professional paths</h3>
+            <span class="badge badge-warn">0 supported bridges</span>
           </div>
           <div class="honest-empty-banner">
-            <div class="honest-empty-title">🛡️ Zero-Confabulation Result — No Supported Path Within 4 Hops</div>
-            <p style="font-size:0.82rem;color:var(--text-secondary);margin:0 0 0.5rem;">
+            <div class="honest-empty-title">No supported path within 4 hops</div>
+            <p style="font-size:13px;color:var(--text-secondary);margin:0 0 8px;">
               ${escapeHtml(analysis.summary || 'No supported professional path was found in the loaded snapshot within 4 steps.')}
             </p>
-            <div style="font-size:0.75rem;color:var(--text-muted);">
-              <strong>Why wasn’t a path invented?</strong> Unicorn Radar excludes 2,990 generic Slush event co-attendance links (<code>PARTICIPATES_IN_EVENT</code>), shared industry tags (<code>OPERATES_IN_INDUSTRY</code>), and unattributed edges so two companies merely attending Slush 2026 are never falsely linked.
+            <div style="font-size:12px;color:var(--text-muted);">
+              <strong>Methodology:</strong> Unicorn Radar excludes 2,990 generic Slush event co-attendance links (<code>PARTICIPATES_IN_EVENT</code>), shared industry tags (<code>OPERATES_IN_INDUSTRY</code>), and unattributed edges so two companies attending Slush 2026 are not linked without a professional bridge.
             </div>
           </div>
         </div>
@@ -747,12 +732,12 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
             return `
               <div class="path-step-row">
                 <div>
-                  <div style="display:flex;align-items:center;gap:0.35rem;flex-wrap:wrap;margin-bottom:2px;">
+                  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
                     <span class="badge badge-cala">${escapeHtml(humanizePredicate(rel.predicate))}</span>
-                    <span class="badge badge-neutral" title="Traversal direction vs assertion direction">${isRev ? '↶ Reverse Traversal' : '↷ Forward'}</span>
+                    <span class="badge badge-neutral" title="Traversal direction vs assertion direction">${isRev ? 'Reverse traversal' : 'Forward'}</span>
                     <span class="badge badge-neutral">${escapeHtml(rel.temporal_status || 'undated')}</span>
                   </div>
-                  <div style="color:var(--text-primary);margin-top:2px;">
+                  <div style="color:var(--text-primary);">
                     ${escapeHtml(rel.statement || `${fromName} → ${toName}`)}
                   </div>
                 </div>
@@ -769,14 +754,14 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
         return `
           <div class="result-card ${isIsolated ? 'isolated' : ''}" data-isolate-path="${escapeHtml(res.path_id || '')}">
             <div class="result-top-row">
-              <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                 <span class="rank-pill">Rank #${escapeHtml(res.rank)}</span>
-                <span class="badge badge-dual">${escapeHtml(hops)} Hop${hops === 1 ? '' : 's'}</span>
-                <span style="font-size:0.74rem;color:var(--text-muted);">${isIsolated ? '● Path Isolated on Graph' : 'Click card to isolate path'}</span>
+                <span class="badge badge-dual">${escapeHtml(hops)} hop${hops === 1 ? '' : 's'}</span>
+                <span style="font-size:12px;color:var(--text-muted);">${isIsolated ? 'Isolated on graph' : 'Select card to isolate path'}</span>
               </div>
-              <span class="mono" style="font-size:0.66rem;color:var(--text-dim);">${escapeHtml(res.path_id || '')}</span>
+              <span class="mono" style="font-size:12px;color:var(--text-muted);">${escapeHtml(res.path_id || '')}</span>
             </div>
-            <div style="font-size:0.86rem;font-weight:600;color:var(--text-primary);">${escapeHtml(res.explanation || '')}</div>
+            <div style="font-size:14px;font-weight:500;color:var(--text-primary);">${escapeHtml(res.explanation || '')}</div>
             ${stepsHtml ? `<div class="path-steps-list">${stepsHtml}</div>` : ''}
             ${reasonsHtml ? `<div class="rank-reasons-row">${reasonsHtml}</div>` : ''}
           </div>
@@ -787,8 +772,8 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
     return `
       <div class="intel-card">
         <div class="card-header-row">
-          <h3 class="card-title">Ranked Multi-Hop Paths (${results.length})</h3>
-          <span style="font-size:0.73rem;color:var(--text-muted);">Click any path card to isolate on graph</span>
+          <h3 class="card-title">Ranked multi-hop paths (${results.length})</h3>
+          <span style="font-size:12px;color:var(--text-muted);">Select a path card to isolate on graph</span>
         </div>
         <div class="results-stack">${cardsHtml}</div>
       </div>
@@ -806,10 +791,10 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
     };
 
     const groupLabels = {
-      direct_people: 'Direct People',
+      direct_people: 'Direct people',
       investors: 'Investors',
-      direct_companies: 'Direct Companies',
-      indirect_connections: 'Indirect 2-Hop',
+      direct_companies: 'Direct companies',
+      indirect_connections: '2-hop indirect',
     };
 
     const itemsHtml = results
@@ -821,23 +806,23 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
         return `
           <div class="result-card ${isIsolated ? 'isolated' : ''}" data-q3-group-item="${escapeHtml(res.group || 'other')}" data-isolate-path="${escapeHtml(firstPathId)}">
             <div class="result-top-row">
-              <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
+              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                 <span class="rank-pill">#${escapeHtml(res.rank)}</span>
-                <strong style="font-family:var(--font-display);font-size:0.92rem;">${escapeHtml(ent.name || ent.id)}</strong>
+                <strong style="font-size:14px;color:var(--text-primary);">${escapeHtml(ent.name || ent.id)}</strong>
                 <span class="badge badge-ai">${escapeHtml(groupLabels[res.group] || res.group || 'Network')}</span>
                 ${renderOriginBadges(fullNode)}
               </div>
-              <div style="display:flex;gap:0.35rem;">
+              <div style="display:flex;gap:8px;">
                 <button type="button" class="btn-ghost-sm" data-inspect-node="${escapeHtml(ent.id)}">Inspect</button>
                 ${
                   ent.entity_type !== 'Person'
-                    ? `<button type="button" class="btn-ghost-sm" data-pivot-qid="company_representatives" data-pivot-company="${escapeHtml(ent.name)}" data-pivot-company-id="${escapeHtml(ent.id)}">Slush Brief</button>`
+                    ? `<button type="button" class="btn-ghost-sm" data-pivot-qid="company_representatives" data-pivot-company="${escapeHtml(ent.name)}" data-pivot-company-id="${escapeHtml(ent.id)}">Slush dossier</button>`
                     : ''
                 }
               </div>
             </div>
-            <div style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:0.4rem;">${escapeHtml(res.explanation || '')}</div>
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;flex-wrap:wrap;">
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;">${escapeHtml(res.explanation || '')}</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
               <div class="rank-reasons-row" style="margin-top:0;">
                 ${(res.rank_reasons || []).map((r) => `<span class="reason-tag">${escapeHtml(r)}</span>`).join('')}
               </div>
@@ -851,17 +836,17 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
     return `
       <div class="intel-card">
         <div class="card-header-row">
-          <h3 class="card-title">2-Hop Professional Ecosystem (${results.length})</h3>
+          <h3 class="card-title">2-hop professional ecosystem (${results.length})</h3>
           <div class="preset-filters">
             <button type="button" class="filter-chip active" data-q3-group-tab="all">All (${groupCounts.all})</button>
             <button type="button" class="filter-chip" data-q3-group-tab="direct_people">People (${groupCounts.direct_people})</button>
             <button type="button" class="filter-chip" data-q3-group-tab="investors">Investors (${groupCounts.investors})</button>
             <button type="button" class="filter-chip" data-q3-group-tab="direct_companies">Companies (${groupCounts.direct_companies})</button>
-            <button type="button" class="filter-chip" data-q3-group-tab="indirect_connections">2-Hop Indirect (${groupCounts.indirect_connections})</button>
+            <button type="button" class="filter-chip" data-q3-group-tab="indirect_connections">2-hop indirect (${groupCounts.indirect_connections})</button>
           </div>
         </div>
         <div class="results-stack">
-          ${itemsHtml || `<div style="color:var(--text-muted);font-size:0.82rem;">No surrounding professional connections documented in snapshot.</div>`}
+          ${itemsHtml || `<div style="color:var(--text-muted);font-size:13px;">No surrounding professional connections documented in snapshot</div>`}
         </div>
       </div>
     `;
@@ -886,22 +871,22 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
       return `
         <div class="result-card ${isIsolated ? 'isolated' : ''}" data-isolate-path="${escapeHtml(firstPathId)}">
           <div class="result-top-row">
-            <div style="display:flex;align-items:center;gap:0.42rem;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
               <span class="rank-pill">Rep #${escapeHtml(res.rank)}</span>
-              <strong style="font-family:var(--font-display);font-size:0.98rem;">${escapeHtml(person.name || person.id)}</strong>
+              <strong style="font-size:15px;color:var(--text-primary);">${escapeHtml(person.name || person.id)}</strong>
               ${renderParticipationBadges(res.attendance || person.participation)}
               ${renderOriginBadges(person)}
             </div>
-            <button type="button" class="btn-ghost-sm" data-inspect-node="${escapeHtml(person.id)}">Profile &amp; Live Cala</button>
+            <button type="button" class="btn-ghost-sm" data-inspect-node="${escapeHtml(person.id)}">Inspect profile</button>
           </div>
 
-          ${p.job_title ? `<div style="font-size:0.8rem;font-weight:600;color:var(--cala-bright);margin-bottom:0.3rem;">${escapeHtml(p.job_title)}</div>` : ''}
-          <div style="font-size:0.83rem;color:var(--text-primary);margin-bottom:0.4rem;">${escapeHtml(res.explanation || '')}</div>
-          ${p.biography ? `<p style="font-size:0.79rem;color:var(--text-secondary);margin:0 0 0.5rem;line-height:1.48;">${escapeHtml(p.biography)}</p>` : ''}
+          ${p.job_title ? `<div style="font-size:13px;font-weight:500;color:var(--cala-primary);margin-bottom:4px;">${escapeHtml(p.job_title)}</div>` : ''}
+          <div style="font-size:13px;color:var(--text-primary);margin-bottom:8px;">${escapeHtml(res.explanation || '')}</div>
+          ${p.biography ? `<p style="font-size:13px;color:var(--text-secondary);margin:0 0 8px;line-height:20px;">${escapeHtml(p.biography)}</p>` : ''}
 
           ${
             topics.length > 0
-              ? `<div style="display:flex;gap:0.28rem;flex-wrap:wrap;margin-bottom:0.45rem;">
+              ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
                   ${topics.map((t) => `<span class="badge badge-ai">${escapeHtml(t)}</span>`).join('')}
                 </div>`
               : ''
@@ -909,12 +894,12 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
 
           ${
             workEntries.length > 0
-              ? `<div style="margin-bottom:0.45rem;display:flex;flex-direction:column;gap:0.25rem;">
+              ? `<div style="margin-bottom:8px;display:flex;flex-direction:column;gap:4px;">
                   ${workEntries
                     .slice(0, 3)
                     .map((w) => {
                       const u = safeExternalUrl(w.source_url);
-                      return `<div style="font-size:0.74rem;color:var(--text-muted);">• <strong>${escapeHtml(w.role || 'Role')}</strong> at ${escapeHtml(w.organization || '')} ${u ? `<a href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer">[Source ↗]</a>` : ''}</div>`;
+                      return `<div style="font-size:12px;color:var(--text-secondary);"><strong>${escapeHtml(w.role || 'Role')}</strong> at ${escapeHtml(w.organization || '')} ${u ? `<a href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer">Source ↗</a>` : ''}</div>`;
                     })
                     .join('')}
                 </div>`
@@ -923,11 +908,11 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
 
           ${
             res.contact_interpretation
-              ? `<div style="font-size:0.73rem;color:var(--slush-bright);margin-bottom:0.45rem;">ℹ️ ${escapeHtml(res.contact_interpretation)}</div>`
+              ? `<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">${escapeHtml(res.contact_interpretation)}</div>`
               : ''
           }
 
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:0.4rem;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
             <div class="rank-reasons-row" style="margin-top:0;">
               ${(res.rank_reasons || []).map((r) => `<span class="reason-tag">${escapeHtml(r)}</span>`).join('')}
             </div>
@@ -942,26 +927,26 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
     unverifiedList.length > 0
       ? `
         <div class="unverified-affiliates-box">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.4rem;">
-            <strong style="font-family:var(--font-display);font-size:0.86rem;color:var(--warn-bright);">
-              Affiliated People — Individual Slush 2026 Attendance Unverified (${unverifiedList.length})
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+            <strong style="font-size:14px;color:var(--text-primary);">
+              Affiliated people — individual Slush 2026 attendance unverified (${unverifiedList.length})
             </strong>
-            <span class="badge badge-warn">Company Listing ≠ Person Attendance</span>
+            <span class="badge badge-warn">Company listing ≠ person attendance</span>
           </div>
-          <p style="font-size:0.75rem;color:var(--text-muted);margin:0 0 0.55rem;">
-            These people have documented corporate/founder/board ties to the company, but no named Slush 2026 speaker/attendee record in the snapshot.
+          <p style="font-size:12px;color:var(--text-muted);margin:0 0 8px;">
+            These people have documented corporate, founder, or board ties to the company, but no named Slush 2026 speaker or attendee record in the snapshot.
           </p>
-          <div style="display:flex;flex-direction:column;gap:0.4rem;">
+          <div style="display:flex;flex-direction:column;gap:8px;">
             ${unverifiedList
               .map(
                 (u) => `
-              <div class="path-step-row" style="background:rgba(7,9,15,0.65);">
-                <div style="display:flex;align-items:center;gap:0.45rem;flex-wrap:wrap;">
+              <div class="path-step-row">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                   <strong>${escapeHtml(u.name || u.id)}</strong>
                   ${renderOriginBadges(u)}
                   ${renderCompletenessBadge(u.record_completeness)}
                 </div>
-                <div style="display:flex;align-items:center;gap:0.35rem;">
+                <div style="display:flex;align-items:center;gap:8px;">
                   ${renderEvidenceChips(u.evidence_ids, evidenceMap, 3)}
                   <button type="button" class="btn-ghost-sm" data-inspect-node="${escapeHtml(u.id)}">Inspect</button>
                 </div>
@@ -977,15 +962,15 @@ function renderQuestionResultsCard({ analysis, qid, pathsMap, nodesMap, evidence
   return `
     <div class="intel-card">
       <div class="card-header-row">
-        <h3 class="card-title">Approaching at Slush — Named Participation Verified (${results.length})</h3>
-        <span class="badge badge-slush">Physical Check-In Unverified</span>
+        <h3 class="card-title">Named Slush 2026 representatives (${results.length})</h3>
+        <span class="badge badge-slush">Physical check-in unverified</span>
       </div>
       <div class="results-stack">
         ${
           verifiedCardsHtml ||
           `<div class="honest-empty-banner">
-            <div class="honest-empty-title">No Named Individual Slush 2026 Representatives in Snapshot</div>
-            <div style="font-size:0.79rem;color:var(--text-secondary);">Even if the company is listed in the Slush directory, Unicorn Radar never guesses which employees are physically attending without named participation evidence.</div>
+            <div class="honest-empty-title">No named Slush 2026 representatives in snapshot</div>
+            <div style="font-size:13px;color:var(--text-secondary);">Even when a company is listed in the Slush directory, Unicorn Radar does not assume which employees are attending without named participation records.</div>
           </div>`
         }
       </div>
@@ -1010,9 +995,9 @@ function renderEvidenceExplorerCard(evidenceMap) {
       const docsHtml = docs
         .map(
           (doc) => `
-          <div style="margin-top:0.35rem;">
+          <div style="margin-top:8px;">
             ${renderSourceDocumentBadge(doc)}
-            ${doc.evidence ? `<div style="font-size:0.75rem;color:var(--text-secondary);margin-top:0.22rem;padding-left:0.5rem;border-left:2px solid rgba(34,211,238,0.35);">“${escapeHtml(doc.evidence)}”</div>` : ''}
+            ${doc.evidence ? `<div style="font-size:12px;color:var(--text-secondary);margin-top:4px;padding-left:8px;border-left:2px solid var(--border-strong);">“${escapeHtml(doc.evidence)}”</div>` : ''}
           </div>
         `
         )
@@ -1020,19 +1005,19 @@ function renderEvidenceExplorerCard(evidenceMap) {
 
       return `
         <div class="evidence-card" id="evidence-card-${escapeHtml(ev.id)}" data-ev-dataset="${escapeHtml(ds)}">
-          <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap;">
-            <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
-              <code style="font-size:0.74rem;color:var(--cala-bright);font-weight:600;">${escapeHtml(ev.id)}</code>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <code style="font-size:12px;color:var(--cala-primary);font-weight:500;">${escapeHtml(ev.id)}</code>
               <span class="badge ${isSlush ? 'badge-slush' : 'badge-cala'}">${escapeHtml(ds)}</span>
             </div>
-            ${ev.record_pointer ? `<code style="font-size:0.68rem;color:var(--text-dim);">${escapeHtml(ev.record_pointer)}</code>` : ''}
+            ${ev.record_pointer ? `<code style="font-size:12px;color:var(--text-muted);">${escapeHtml(ev.record_pointer)}</code>` : ''}
           </div>
-          ${docsHtml || `<div style="font-size:0.73rem;color:var(--text-muted);margin-top:0.25rem;">Primary dataset record assertion preserved in snapshot.</div>`}
+          ${docsHtml || `<div style="font-size:12px;color:var(--text-muted);margin-top:4px;">Primary dataset record assertion preserved in snapshot</div>`}
           ${
             ev.record
-              ? `<details style="margin-top:0.4rem;font-size:0.72rem;color:var(--text-muted);">
-                  <summary style="cursor:pointer;">Raw Record Snapshot</summary>
-                  <pre class="code-block" style="margin-top:0.35rem;max-height:180px;">${escapeHtml(JSON.stringify(ev.record, null, 2))}</pre>
+              ? `<details style="margin-top:8px;font-size:12px;color:var(--text-muted);">
+                  <summary style="cursor:pointer;">Raw record snapshot</summary>
+                  <pre class="code-block" style="margin-top:8px;max-height:180px;">${escapeHtml(JSON.stringify(ev.record, null, 2))}</pre>
                 </details>`
               : ''
           }
@@ -1044,28 +1029,26 @@ function renderEvidenceExplorerCard(evidenceMap) {
   return `
     <div class="intel-card" id="evidenceExplorerSection">
       <div class="card-header-row">
-        <h3 class="card-title">
-          <span>📚 Verified Provenance &amp; Evidence Ledger (${items.length})</span>
-        </h3>
-        <span class="badge badge-cala">100% Referential Integrity</span>
+        <h3 class="card-title">Provenance &amp; evidence ledger (${items.length})</h3>
+        <span class="badge badge-cala">100% referential integrity</span>
       </div>
       <div class="evidence-search-row">
         <input
           type="text"
           id="evidenceSearchInput"
           class="smart-input"
-          style="flex:1 1 200px;padding:0.42rem 0.7rem;font-size:0.78rem;"
-          placeholder="Filter by ev:... ID, publisher, URL, or quote..."
+          style="flex:1 1 200px;height:36px;"
+          placeholder="Filter by evidence ID, publisher, or URL"
         />
         <select id="evidenceDatasetFilter" class="styled-select">
-          <option value="all">All Datasets (${items.length})</option>
+          <option value="all">All datasets (${items.length})</option>
           <option value="cala">Cala Graph</option>
           <option value="slush_people">Slush People</option>
           <option value="slush_companies">Slush Companies</option>
         </select>
       </div>
       <div class="evidence-list">
-        ${itemsHtml || `<div style="font-size:0.78rem;color:var(--text-muted);">No evidence records attached to this state.</div>`}
+        ${itemsHtml || `<div style="font-size:13px;color:var(--text-muted);">No evidence records attached to this state</div>`}
       </div>
     </div>
   `;

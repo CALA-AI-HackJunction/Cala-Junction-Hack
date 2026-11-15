@@ -33,18 +33,26 @@ QUESTION_TEMPLATES = {
     ),
 }
 
-COMPANY_TYPES = {"company", "organization", "organisation", "investor", "fund"}
-PROFESSIONAL_NODE_TYPES = COMPANY_TYPES | {"person", "fundinground"}
+COMPANY_TYPES = {
+    "company", "organization", "organisation", "investor", "fund",
+    "nonprofitorganization", "educationalinstitution",
+}
+PROFESSIONAL_NODE_TYPES = COMPANY_TYPES | {
+    "person", "fundinground", "privatecompanyfundinground",
+    "fundingroundtranche", "corporateevent",
+}
 AFFILIATION_TYPES = {
     "WORKS_AT", "FOUNDED", "AFFILIATED_WITH", "ADVISES", "IS_ADVISOR_OF",
     "IS_BOARD_MEMBER_OF", "IS_CEO_OF", "IS_CTO_OF", "IS_CFO_OF", "IS_COO_OF",
-    "IS_CSO_OF", "IS_CMO_OF", "IS_CCO_OF", "IS_VICEPRESIDENT_OF",
-    "IS_MANAGING_DIRECTOR_OF", "IS_MEMBER_OF",
+    "IS_CSO_OF", "IS_CMO_OF", "IS_CCO_OF", "IS_CRO_OF", "IS_VICEPRESIDENT_OF",
+    "IS_MANAGING_DIRECTOR_OF", "IS_EXECUTIVE_OF", "IS_MEMBER_OF",
 }
 PROFESSIONAL_TYPES = AFFILIATION_TYPES | {
     "INVESTED_IN", "IS_BENEFICIARY_OWNER_OF", "IS_CONTROL_PERSON_OF",
-    "PARTICIPATES_IN_FUNDING_ROUND", "OWNS", "ACQUIRED", "SUBSIDIARY_OF",
-    "IS_SUBSIDIARY_OF", "PARTNER_OF", "PARTNERS_WITH",
+    "PARTICIPATES_IN_FUNDING_ROUND", "PARTICIPATES_IN_CORPORATE_EVENT",
+    "OWNS", "ACQUIRED", "SUBSIDIARY_OF", "IS_SUBSIDIARY_OF",
+    "IS_ULTIMATE_PARENT_OF", "IS_DIRECT_OWNER_OF",
+    "PARTNER_OF", "PARTNERS_WITH",
 }
 PERSON_EVENT_STATUSES = {
     "platform_directory", "platform_profile", "announced_speaker",

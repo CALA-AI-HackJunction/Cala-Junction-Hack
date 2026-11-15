@@ -595,6 +595,16 @@ def build_default_service(
 ) -> AnalysisService:
     load_dotenv_once()
     snapshot = ensure_snapshot(snapshot_path=snapshot_path, data_dir=DATA_DIR)
-    db_file = Path(database_path) if database_path else (DATA_DIR / "analyses.sqlite3")
+    env_db = (os.environ.get("UNICORN_RADAR_DB_PATH") or "").strip()
+    if database_path:
+        db_file = Path(database_path)
+    elif env_db:
+        db_file = Path(env_db)
+    elif os.access(DATA_DIR, os.W_OK):
+        db_file = DATA_DIR / "analyses.sqlite3"
+    else:
+        import tempfile
+
+        db_file = Path(tempfile.gettempdir()) / "analyses.sqlite3"
     composer_url = (os.environ.get("CALA_DEMO_COMPOSER_URL") or "").strip() or None
     return AnalysisService(snapshot, db_file, composer_endpoint=composer_url)

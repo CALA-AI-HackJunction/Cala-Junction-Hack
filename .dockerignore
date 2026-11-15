@@ -1,0 +1,24 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.env
+.env.*
+!.env.example
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
+backend/data/snapshot.json
+Unicorn_Radar_Cala_Slush_2026.zip
+meeting_tool_companies_export_all*.json
+slush_2026_people_partial*.json
+visual aesthetics/
+cala_funding_fields_hack_guide.md
+tests/
+examples/
+results/

@@ -10,11 +10,11 @@ import { detectOriginKind, humanizePredicate } from './utils.js';
 const SVG_NS = 'http://www.w3.org/2000/svg';
 
 const COLORS = {
-  cala: '#22D3EE',
-  slush: '#FBBF24',
-  both: '#34D399',
-  personStroke: '#A78BFA',
-  companyStroke: '#22D3EE',
+  cala: '#006ba7',
+  slush: '#b45309',
+  both: '#15803d',
+  personStroke: '#5e554a',
+  companyStroke: '#006ba7',
 };
 
 function createSvgEl(tag, attrs = {}) {
@@ -91,15 +91,18 @@ export class KnowledgeGraphView {
       defs.appendChild(marker);
     }
 
-    // Subtle radial glow filter for focal nodes
-    const glow = createSvgEl('filter', { id: 'focal-glow', x: '-40%', y: '-40%', width: '180%', height: '180%' });
-    const blur = createSvgEl('feGaussianBlur', { stdDeviation: '3.5', result: 'coloredBlur' });
-    const merge = createSvgEl('feMerge');
-    merge.appendChild(createSvgEl('feMergeNode', { in: 'coloredBlur' }));
-    merge.appendChild(createSvgEl('feMergeNode', { in: 'SourceGraphic' }));
-    glow.appendChild(blur);
-    glow.appendChild(merge);
-    defs.appendChild(glow);
+    // Soft neutral paper shadow for focal nodes
+    const shadow = createSvgEl('filter', { id: 'focal-shadow', x: '-20%', y: '-20%', width: '140%', height: '140%' });
+    shadow.appendChild(
+      createSvgEl('feDropShadow', {
+        dx: '0',
+        dy: '2',
+        stdDeviation: '2',
+        'flood-color': '#1f1b16',
+        'flood-opacity': '0.08',
+      })
+    );
+    defs.appendChild(shadow);
 
     this.svg.appendChild(defs);
 
@@ -201,7 +204,7 @@ export class KnowledgeGraphView {
     const rawNodes = Array.isArray(analysis?.graph?.nodes) ? [...analysis.graph.nodes] : [];
     const seenIds = new Set(rawNodes.map((n) => n.id));
 
-    // Include resolved focal entities on canvas even if 0 edges exist (e.g. Trust Exchange <-> Slicker honest no-path)
+    // Include resolved focal entities on canvas even if 0 edges exist
     for (const ent of Object.values(this.resolvedEntities)) {
       if (ent && ent.id && !seenIds.has(ent.id)) {
         rawNodes.push(ent);
@@ -220,20 +223,19 @@ export class KnowledgeGraphView {
       this.statsFooter.textContent = `${this.nodes.length} node${this.nodes.length === 1 ? '' : 's'} · ${this.edges.length} verified edge${this.edges.length === 1 ? '' : 's'} · ${this.paths.length} path${this.paths.length === 1 ? '' : 's'}`;
     }
 
-    // Show honest overlay only when there are zero nodes at all
     if (this.emptyOverlay) {
       if (this.nodes.length === 0) {
         this.emptyOverlay.classList.add('visible');
         if (this.emptyTitle) {
           this.emptyTitle.textContent =
             analysis?.status === 'needs_resolution'
-              ? 'Select a Canonical Entity Above to Render Subgraph'
-              : 'No Resolved Subgraph Entities';
+              ? 'Select a canonical entity above to render subgraph'
+              : 'No resolved subgraph entities';
         }
         if (this.emptySub) {
           this.emptySub.textContent =
             analysis?.summary ||
-            'Ambiguous names are never silently merged. Pick the exact entity record to traverse verified connections.';
+            'Ambiguous names are not silently merged. Pick the exact entity record to traverse verified connections.';
         }
       } else {
         this.emptyOverlay.classList.remove('visible');
@@ -303,7 +305,6 @@ export class KnowledgeGraphView {
     const sourceId = this.resolvedEntities?.source?.id || this.resolvedEntities?.company?.id || this.nodes[0]?.id;
     const targetId = this.resolvedEntities?.target?.id || null;
 
-    // Assign column indices using path positions first, then BFS hops
     const layerOf = new Map();
     let maxCols = 1;
 
@@ -325,7 +326,6 @@ export class KnowledgeGraphView {
     if (sourceId) layerOf.set(sourceId, 0);
     if (targetId && targetId !== sourceId) layerOf.set(targetId, Math.max(maxCols, 1));
 
-    // Place any remaining nodes via undirected BFS from source
     const adj = new Map();
     for (const n of this.nodes) adj.set(n.id, []);
     for (const e of this.edges) {
@@ -361,14 +361,14 @@ export class KnowledgeGraphView {
 
     const sortedColKeys = [...cols.keys()].sort((a, b) => a - b);
     const colCount = sortedColKeys.length;
-    const xPad = 115;
+    const xPad = 112;
     const usableW = Math.max(width - xPad * 2, 260);
-    const colSpacing = colCount > 1 ? Math.max(usableW / (colCount - 1), 185) : 0;
+    const colSpacing = colCount > 1 ? Math.max(usableW / (colCount - 1), 184) : 0;
 
     sortedColKeys.forEach((colKey, colIdx) => {
       const members = cols.get(colKey);
       const x = colCount === 1 ? width / 2 : xPad + colIdx * colSpacing;
-      const rowSpacing = Math.min(125, Math.max(88, (height - 120) / Math.max(members.length, 1)));
+      const rowSpacing = Math.min(124, Math.max(88, (height - 120) / Math.max(members.length, 1)));
       const totalH = (members.length - 1) * rowSpacing;
       const startY = height / 2 - totalH / 2;
 
@@ -386,7 +386,6 @@ export class KnowledgeGraphView {
       this.resolvedEntities?.source?.id ||
       this.nodes[0]?.id;
 
-    // BFS distance from center
     const adj = new Map();
     for (const n of this.nodes) adj.set(n.id, []);
     for (const e of this.edges) {
@@ -421,7 +420,7 @@ export class KnowledgeGraphView {
       }
     }
 
-    const r1Radius = Math.max(165, ring1.length * 24);
+    const r1Radius = Math.max(164, ring1.length * 24);
     ring1.forEach((nid, i) => {
       const angle = (2 * Math.PI * i) / Math.max(ring1.length, 1) - Math.PI / 2;
       this.positions.set(nid, {
@@ -430,7 +429,7 @@ export class KnowledgeGraphView {
       });
     });
 
-    const r2Radius = r1Radius + 145;
+    const r2Radius = r1Radius + 144;
     ring2.forEach((nid, i) => {
       const angle = (2 * Math.PI * i) / Math.max(ring2.length, 1) - Math.PI / 4;
       this.positions.set(nid, {
@@ -439,7 +438,6 @@ export class KnowledgeGraphView {
       });
     });
 
-    // Gentle spring/repulsion pass so labels never overlap
     const ids = this.nodes.map((n) => n.id);
     for (let iter = 0; iter < 36; iter++) {
       for (let i = 0; i < ids.length; i++) {
@@ -480,8 +478,8 @@ export class KnowledgeGraphView {
     let maxY = -Infinity;
 
     for (const pos of this.positions.values()) {
-      minX = Math.min(minX, pos.x - 95);
-      maxX = Math.max(maxX, pos.x + 95);
+      minX = Math.min(minX, pos.x - 96);
+      maxX = Math.max(maxX, pos.x + 96);
       minY = Math.min(minY, pos.y - 68);
       maxY = Math.max(maxY, pos.y + 72);
     }
@@ -512,27 +510,27 @@ export class KnowledgeGraphView {
         const badgeGroup = createSvgEl('g');
         badgeGroup.appendChild(
           createSvgEl('rect', {
-            x: mx - 132,
+            x: mx - 128,
             y: my - 16,
-            width: 264,
+            width: 256,
             height: 32,
-            rx: 16,
-            fill: 'rgba(251, 113, 133, 0.14)',
-            stroke: 'rgba(251, 113, 133, 0.5)',
+            rx: 6,
+            fill: '#fdfbf7',
+            stroke: 'rgba(185, 28, 28, 0.35)',
             'stroke-dasharray': '4 3',
           })
         );
         const txt = createSvgEl('text', {
           x: mx,
           y: my,
-          fill: '#FDA4AF',
+          fill: '#991b1b',
           'font-family': 'JetBrains Mono, monospace',
-          'font-size': '10.5',
-          'font-weight': '600',
+          'font-size': '11',
+          'font-weight': '500',
           'text-anchor': 'middle',
           'dominant-baseline': 'central',
         });
-        txt.textContent = '∅ NO SUPPORTED BRIDGE WITHIN 4 HOPS';
+        txt.textContent = 'No supported bridge within 4 hops';
         badgeGroup.appendChild(txt);
         this.edgesLayer.appendChild(badgeGroup);
       }
@@ -558,7 +556,6 @@ export class KnowledgeGraphView {
         const originKind = detectOriginKind(edge);
         const strokeColor = COLORS[originKind] || COLORS.cala;
 
-        // Canonical perpendicular normal so parallel edges in opposite directions still separate
         const canonA = edge.source < edge.target ? p1 : p2;
         const canonB = edge.source < edge.target ? p2 : p1;
         const cdx = canonB.x - canonA.x;
@@ -573,7 +570,6 @@ export class KnowledgeGraphView {
         const mx = (p1.x + p2.x) / 2 + nx * curveOffset;
         const my = (p1.y + p2.y) / 2 + ny * curveOffset;
 
-        // Shorten start & end points so arrowhead lands crisply at node boundary
         const startPad = 28;
         const endPad = 31;
 
@@ -591,7 +587,6 @@ export class KnowledgeGraphView {
 
         const dPath = `M ${sx.toFixed(1)} ${sy.toFixed(1)} Q ${mx.toFixed(1)} ${my.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
 
-        // Midpoint of quadratic Bezier at t=0.5
         const lx = 0.25 * sx + 0.5 * mx + 0.25 * ex;
         const ly = 0.25 * sy + 0.5 * my + 0.25 * ey;
 
@@ -611,14 +606,14 @@ export class KnowledgeGraphView {
         );
 
         const predLabel = truncateLabel(humanizePredicate(edge.type), 22);
-        const pillW = Math.max(predLabel.length * 6.1 + 14, 54);
+        const pillW = Math.max(predLabel.length * 6.2 + 16, 56);
         g.appendChild(
           createSvgEl('rect', {
             class: 'g-edge-label-bg',
             x: (lx - pillW / 2).toFixed(1),
-            y: (ly - 9.5).toFixed(1),
+            y: (ly - 10).toFixed(1),
             width: pillW.toFixed(1),
-            height: 19,
+            height: 20,
           })
         );
 
@@ -675,9 +670,9 @@ export class KnowledgeGraphView {
             r: 31,
             fill: 'none',
             stroke: borderColor,
-            'stroke-width': '1.2',
+            'stroke-width': '1.25',
             'stroke-dasharray': '3 3',
-            opacity: '0.65',
+            opacity: '0.6',
           })
         );
       }
@@ -687,20 +682,19 @@ export class KnowledgeGraphView {
           createSvgEl('circle', {
             class: 'g-node-shape',
             r: 22,
-            fill: '#0D121D',
+            fill: '#fdfbf7',
             stroke: borderColor,
-            'stroke-width': isFocal ? '2.8' : '2.1',
-            filter: isFocal ? 'url(#focal-glow)' : undefined,
+            'stroke-width': isFocal ? '2.25' : '1.75',
+            filter: isFocal ? 'url(#focal-shadow)' : undefined,
           })
         );
-        // Crisp person silhouette glyph
-        ng.appendChild(createSvgEl('circle', { cx: 0, cy: -4, r: 4.5, fill: borderColor }));
+        ng.appendChild(createSvgEl('circle', { cx: 0, cy: -4, r: 4, fill: 'none', stroke: borderColor, 'stroke-width': '1.5' }));
         ng.appendChild(
           createSvgEl('path', {
-            d: 'M -8.5 9 C -8.5 3.5, 8.5 3.5, 8.5 9',
+            d: 'M -8 9 C -8 3.5, 8 3.5, 8 9',
             fill: 'none',
             stroke: borderColor,
-            'stroke-width': '2',
+            'stroke-width': '1.5',
             'stroke-linecap': 'round',
           })
         );
@@ -709,17 +703,16 @@ export class KnowledgeGraphView {
           createSvgEl('rect', {
             class: 'g-node-shape',
             x: -24,
-            y: -21,
+            y: -20,
             width: 48,
-            height: 42,
-            rx: 10,
-            fill: '#0D121D',
+            height: 40,
+            rx: 8,
+            fill: '#fdfbf7',
             stroke: borderColor,
-            'stroke-width': isFocal ? '2.8' : '2.1',
-            filter: isFocal ? 'url(#focal-glow)' : undefined,
+            'stroke-width': isFocal ? '2.25' : '1.75',
+            filter: isFocal ? 'url(#focal-shadow)' : undefined,
           })
         );
-        // Crisp company/VC hexagonal/building glyph
         ng.appendChild(
           createSvgEl('rect', {
             x: -8,
@@ -729,22 +722,21 @@ export class KnowledgeGraphView {
             rx: 2,
             fill: 'none',
             stroke: borderColor,
-            'stroke-width': '1.8',
+            'stroke-width': '1.5',
           })
         );
         ng.appendChild(createSvgEl('line', { x1: -4, y1: -4, x2: 4, y2: -4, stroke: borderColor, 'stroke-width': '1.5' }));
         ng.appendChild(createSvgEl('line', { x1: -4, y1: 1, x2: 4, y2: 1, stroke: borderColor, 'stroke-width': '1.5' }));
       }
 
-      // Slush participation mini-pip on top-right of node
       if (Array.isArray(node.participation) && node.participation.length > 0) {
         ng.appendChild(
           createSvgEl('circle', {
             cx: 17,
             cy: -16,
-            r: 5.5,
+            r: 5,
             fill: COLORS.slush,
-            stroke: '#07090F',
+            stroke: '#fdfbf7',
             'stroke-width': '1.5',
           })
         );
@@ -762,7 +754,7 @@ export class KnowledgeGraphView {
         (originKind === 'both' ? 'Cala + Slush' : originKind === 'slush' ? 'Slush 2026' : 'Cala Graph');
       const subLabel = createSvgEl('text', {
         class: 'g-node-sub',
-        y: 49,
+        y: 50,
       });
       subLabel.textContent = truncateLabel(subtitleStr, 28);
       ng.appendChild(subLabel);

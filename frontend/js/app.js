@@ -196,7 +196,8 @@ class UnicornRadarApp {
     const capCalaLabel = document.getElementById('capCalaLabel');
     if (capCala && capCalaLabel) {
       capCala.className = `cap-pill cala ${isOffline ? 'fallback' : 'online'}`;
-      capCalaLabel.textContent = caps.cala_live ? 'Cala Graph + /v1 Live' : 'Cala Graph · 933 Bridges';
+      const bridgeCount = health?.traversable_edges ? Number(health.traversable_edges).toLocaleString() : '40,566';
+      capCalaLabel.textContent = caps.cala_live ? `Cala Graph + /v1 Live (${bridgeCount})` : `Cala Graph · ${bridgeCount} Bridges`;
     }
 
     // Gemini Pill
@@ -285,14 +286,14 @@ class UnicornRadarApp {
         rail.classList.toggle('expanded', this.presetsExpanded);
         if (expandLabel) {
           expandLabel.textContent = this.presetsExpanded
-            ? 'Collapse Preset Grid'
-            : `Expand All (${this.presets.length})`;
+            ? 'Collapse scenarios'
+            : `Show all (${this.presets.length})`;
         }
       });
     }
 
     if (expandLabel && !this.presetsExpanded) {
-      expandLabel.textContent = `Expand All (${this.presets.length})`;
+      expandLabel.textContent = `Show all (${this.presets.length})`;
     }
 
     const filtered = this.presets.filter((p) => {
@@ -341,7 +342,7 @@ class UnicornRadarApp {
                 <span class="preset-badge ${badgeCls}">${escapeHtml(p.badge || p.group || 'Verified')}</span>
                 <span class="preset-qtag">${escapeHtml(qShort[qid] || 'Q')}</span>
               </div>
-              <div class="preset-title" style="margin-top:0.35rem;">${escapeHtml(p.title)}</div>
+              <div class="preset-title" style="margin-top:4px;">${escapeHtml(p.title)}</div>
             </div>
             <div class="preset-desc">${escapeHtml(p.description || p.subtitle || '')}</div>
           </button>
@@ -473,18 +474,22 @@ class UnicornRadarApp {
     const inputCompany = document.getElementById('inputCompany');
 
     const meta = this.questionsMeta?.[qid] || {};
+    const cleanPlaceholder = (str, fallback) => {
+      if (!str) return fallback;
+      return String(str).replace(/^e\.g\.?\s*/i, '');
+    };
     if (qid === 'person_to_company') {
       if (labelSourceText) labelSourceText.textContent = 'Person';
       if (tagSourceType) tagSourceType.textContent = 'Person';
-      if (inputSource) inputSource.placeholder = meta.placeholders?.source || 'e.g. Camille Accolas or Dani Penev';
-      if (inputTarget) inputTarget.placeholder = meta.placeholders?.target || 'e.g. Trust Exchange or Y Combinator';
+      if (inputSource) inputSource.placeholder = cleanPlaceholder(meta.placeholders?.source, 'Search person');
+      if (inputTarget) inputTarget.placeholder = cleanPlaceholder(meta.placeholders?.target, 'Search target company');
     } else if (qid === 'company_to_company') {
-      if (labelSourceText) labelSourceText.textContent = 'Starting Company';
+      if (labelSourceText) labelSourceText.textContent = 'Starting company';
       if (tagSourceType) tagSourceType.textContent = 'Company';
-      if (inputSource) inputSource.placeholder = meta.placeholders?.source || 'e.g. Slicker or Sana Labs';
-      if (inputTarget) inputTarget.placeholder = meta.placeholders?.target || 'e.g. Y Combinator or Amplitude';
+      if (inputSource) inputSource.placeholder = cleanPlaceholder(meta.placeholders?.source, 'Search starting company');
+      if (inputTarget) inputTarget.placeholder = cleanPlaceholder(meta.placeholders?.target, 'Search target company');
     } else if (inputCompany) {
-      inputCompany.placeholder = meta.placeholders?.company || 'e.g. Trust Exchange, Planhat, General Catalyst...';
+      inputCompany.placeholder = cleanPlaceholder(meta.placeholders?.company, 'Search company');
     }
   }
 
@@ -511,7 +516,7 @@ class UnicornRadarApp {
       } else {
         badgeContainer.innerHTML = `
           <span class="locked-id-pill" title="Canonical ID locked: ${escapeHtml(canonicalId)}">
-            <span>🔒 ${escapeHtml(shortId(canonicalId, 20))}</span>
+            <span>${escapeHtml(shortId(canonicalId, 20))}</span>
             <button type="button" class="locked-id-clear" title="Unlock canonical ID">&times;</button>
           </span>
         `;
@@ -736,9 +741,9 @@ class UnicornRadarApp {
     bar?.classList.add('visible');
     if (stateBadge) {
       stateBadge.className = 'badge badge-cala';
-      stateBadge.textContent = 'STREAMING';
+      stateBadge.textContent = 'Streaming';
     }
-    if (msgText) msgText.textContent = 'Initializing zero-confabulation query pipeline…';
+    if (msgText) msgText.textContent = 'Initializing query pipeline…';
     if (metaRight) metaRight.innerHTML = '';
 
     for (const pill of document.querySelectorAll('#pipelineStagesGrid .stage-pill')) {
@@ -765,7 +770,7 @@ class UnicornRadarApp {
       if (stateBadge) {
         const isCached = Boolean(ev.analysis?.cached || ev.analysis?.storage_meta?.cached);
         stateBadge.className = `badge ${isCached ? 'badge-dual' : 'badge-cala'}`;
-        stateBadge.textContent = isCached ? '⚡ CACHE HIT' : '✓ VERIFIED';
+        stateBadge.textContent = isCached ? 'Cache hit' : 'Verified';
       }
       return;
     }
@@ -803,7 +808,7 @@ class UnicornRadarApp {
     const runBtn = document.getElementById('runAnalysisBtn');
     const runBtnLabel = document.getElementById('runAnalysisBtnLabel');
     if (runBtn) runBtn.disabled = true;
-    if (runBtnLabel) runBtnLabel.textContent = 'Traversing Graph…';
+    if (runBtnLabel) runBtnLabel.textContent = 'Traversing graph…';
 
     // Close open dropdowns & inspector
     for (const dd of document.querySelectorAll('.typeahead-dropdown')) dd.classList.remove('open');
@@ -831,14 +836,14 @@ class UnicornRadarApp {
       const msgText = document.getElementById('pipelineMessageText');
       if (stateBadge) {
         stateBadge.className = 'badge badge-warn';
-        stateBadge.textContent = 'ERROR';
+        stateBadge.textContent = 'Error';
       }
       if (msgText) msgText.textContent = err.message || 'Analysis request failed';
       showToast(err.message || 'Request failed', 'error');
     } finally {
       this.isRunning = false;
       if (runBtn) runBtn.disabled = false;
-      if (runBtnLabel) runBtnLabel.textContent = 'Run Verified Radar';
+      if (runBtnLabel) runBtnLabel.textContent = 'Find connections';
     }
   }
 
@@ -861,7 +866,7 @@ class UnicornRadarApp {
 
     if (stateBadge) {
       stateBadge.className = `badge ${isCached ? 'badge-dual' : 'badge-cala'}`;
-      stateBadge.textContent = isCached ? `⚡ CACHED (${cacheLayer})` : '✓ VERIFIED RUN';
+      stateBadge.textContent = isCached ? `Cached (${cacheLayer})` : 'Verified run';
     }
     if (msgText) {
       msgText.textContent = analysis.summary || 'Analysis completed.';
@@ -874,8 +879,8 @@ class UnicornRadarApp {
         ${
           analysis.run_id
             ? `<button type="button" class="btn-ghost-sm mono" id="btnCopyRunId" title="Click to copy run_id">run:${escapeHtml(shortId(analysis.run_id, 12))}</button>
-               <button type="button" class="btn-ghost-sm" id="btnInspectPromptTop" style="border-color:var(--ai-border);color:var(--ai-bright);">
-                 Inspect Grounded LLM Prompt
+               <button type="button" class="btn-ghost-sm" id="btnInspectPromptTop">
+                 Inspect prompt
                </button>`
             : ''
         }
@@ -1116,39 +1121,39 @@ class UnicornRadarApp {
     if (!backdrop || !body) return;
 
     backdrop.classList.add('open');
-    body.innerHTML = `<div style="padding:1rem;color:var(--text-muted);">Loading grounded prompt package for <code>${escapeHtml(runId)}</code>…</div>`;
+    body.innerHTML = `<div style="padding:16px;color:var(--text-muted);">Loading grounded prompt package for <code>${escapeHtml(runId)}</code>…</div>`;
 
     try {
       const promptPkg = await getAnalysisPrompt(runId);
       this.lastPromptPayload = promptPkg;
       body.innerHTML = `
-        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.85rem;">
-          <span class="badge badge-ai">Prompt Version: ${escapeHtml(promptPkg.prompt_version || 'v2')}</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+          <span class="badge badge-ai">Prompt version: ${escapeHtml(promptPkg.prompt_version || 'v2')}</span>
           <span class="badge badge-cala">Run ID: ${escapeHtml(runId)}</span>
-          <span class="badge badge-dual">Strict Evidence-ID Constrained</span>
+          <span class="badge badge-dual">Evidence-ID constrained</span>
         </div>
 
-        <div style="margin-bottom:0.95rem;">
-          <div class="section-eyebrow" style="margin-bottom:0.35rem;">System Guardrail Instructions</div>
+        <div style="margin-bottom:16px;">
+          <div class="section-eyebrow" style="margin-bottom:8px;">System guardrail instructions</div>
           <pre class="code-block">${escapeHtml(promptPkg.system || JSON.stringify(promptPkg, null, 2))}</pre>
         </div>
 
-        <div style="margin-bottom:0.95rem;">
-          <div class="section-eyebrow" style="margin-bottom:0.35rem;">Grounded Subgraph &amp; Evidence Context Sent to Model</div>
+        <div style="margin-bottom:16px;">
+          <div class="section-eyebrow" style="margin-bottom:8px;">Grounded subgraph &amp; evidence context sent to model</div>
           <pre class="code-block">${escapeHtml(JSON.stringify(promptPkg.input || {}, null, 2))}</pre>
         </div>
 
         ${
           promptPkg.response_schema
             ? `<div>
-                <div class="section-eyebrow" style="margin-bottom:0.35rem;">Enforced Output JSON Schema</div>
+                <div class="section-eyebrow" style="margin-bottom:8px;">Enforced output JSON schema</div>
                 <pre class="code-block">${escapeHtml(JSON.stringify(promptPkg.response_schema, null, 2))}</pre>
               </div>`
             : ''
         }
       `;
     } catch (err) {
-      body.innerHTML = `<div class="honest-empty-banner"><div class="honest-empty-title">Prompt Package Unavailable</div><div>${escapeHtml(err.message || 'Could not load prompt for this run.')}</div></div>`;
+      body.innerHTML = `<div class="honest-empty-banner"><div class="honest-empty-title">Prompt package unavailable</div><div>${escapeHtml(err.message || 'Could not load prompt for this run.')}</div></div>`;
     }
   }
 

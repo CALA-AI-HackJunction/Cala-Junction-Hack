@@ -27,3 +27,9 @@ backend/data/snapshot.json
 *.sqlite3-wal
 *.sqlite3-shm
 results/
+
+# Local scratch exports & design references
+cala_funding_fields_hack_guide.md
+meeting_tool_companies_export_all*.json
+slush_2026_people_partial*.json
+visual aesthetics/
