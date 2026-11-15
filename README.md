@@ -1,3 +1,8 @@
+# FOR ACCESS TO THE DEMO, OPEN THIS LINK
+> [Click here](https://comare-di-slush-cala-junction.andrearitratto.chatgpt.site/)
+
+
+
 # Unicorn Radar — Cala × Slush 2026 Verified Connection Intelligence
 
 > *"Make Unicorns Real — separating the unicorns from the horses"* · **Hackjunction 2026**
