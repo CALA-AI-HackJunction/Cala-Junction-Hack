@@ -729,7 +729,9 @@ class ComareSlushApp {
     if (clearBtn) clearBtn.style.display = 'none';
 
     // Immediately reveal the interactive Subgraph & Infos section upon starting the search!
-    this._revealResultsArea('Resolving entities & traversing verified Cala relationships…');
+    const pipelineBar = document.getElementById('pipelineBar');
+    this._revealResultsArea('');
+    pipelineBar?.classList.add('is-searching');
 
     try {
       const analysis = await streamAnalysis(requestPayload, (stageEvt) => {
@@ -759,6 +761,7 @@ class ComareSlushApp {
       if (msg) msg.textContent = err.message || 'Could not complete relationship search.';
       showToast(err.message || 'Search failed', 'error');
     } finally {
+      pipelineBar?.classList.remove('is-searching');
       this.isRunning = false;
       if (runBtn) runBtn.disabled = false;
       if (runBtnLabel) runBtnLabel.textContent = 'Find relationships';
