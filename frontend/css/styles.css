@@ -715,6 +715,30 @@ select:focus-visible {
   border-radius: 12px;
 }
 
+.search-loading-gif {
+  display: none;
+  width: 400px;
+  max-width: 100%;
+  height: auto;
+}
+
+.search-status-bar.is-searching {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.search-status-bar.is-searching .status-bar-left {
+  justify-content: center;
+}
+
+.search-status-bar.is-searching .search-loading-gif {
+  display: block;
+}
+
+.search-status-bar.is-searching :is(.status-spinner, .status-message, .status-bar-right) {
+  display: none;
+}
+
 .status-bar-left {
   display: flex;
   align-items: center;
@@ -1666,6 +1690,40 @@ select:focus-visible {
 
 .toast.error {
   background-color: var(--negative);
+}
+
+.result-section:has(> .search-status-bar.is-searching) {
+  gap: 15px;
+}
+
+.result-section:has(> .search-status-bar.is-searching)
+  > #disambiguationPanel:empty {
+  display: none;
+}
+
+.search-status-bar.is-searching {
+  padding-inline: 15px;
+}
+
+.search-loading-gif {
+  opacity: 0;
+  transition: opacity 180ms ease, display 180ms allow-discrete;
+}
+
+.search-status-bar.is-searching .search-loading-gif {
+  opacity: 1;
+}
+
+@starting-style {
+  .search-status-bar.is-searching .search-loading-gif {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-loading-gif {
+    transition: none;
+  }
 }
 
 /* ==========================================================================
