@@ -1,4 +1,4 @@
-# FOR ACCESS, OPEN THIS LINK
+# FOR ACCESS TO THE DEMO, OPEN THIS LINK
 > https://cala-junction-hack.niccolo-sobrero.workers.dev/
 
 
