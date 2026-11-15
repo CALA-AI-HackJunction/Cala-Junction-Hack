@@ -145,27 +145,29 @@
       "title": "Dani Penev → Y Combinator (Resolved Cala ID)",
       "description": "2-hop verified Cala chain through Slicker via FOUNDED, IS_CEO_OF, IS_BOARD_MEMBER_OF, and INVESTED_IN",
       "subtitle": "2-hop verified Cala chain through Slicker via FOUNDED, IS_CEO_OF, IS_BOARD_MEMBER_OF, and INVESTED_IN",
-      "expected_status": "not_found",
+      "expected_status": "partial",
       "question_id": "person_to_company",
       "question_label": "How is this person connected to this company?",
       "request": {
         "question_id": "person_to_company",
-        "source": "Dani Penev"
+        "source": "Dani Penev",
+        "target": "Y Combinator",
+        "target_id": "cala:58ff3f858e84eba441148d79"
       },
       "ui_display_inputs": {
         "source": "Dani Penev",
         "target": "Y Combinator (Cala Verified Company)"
       },
       "verified_outcome": {
-        "status": "not_found",
-        "summary": "Resolve the indicated entity before searching its professional connections.",
-        "result_count": 0,
-        "path_count": 0,
-        "top_path_hops": null,
-        "node_count": 0,
-        "edge_count": 0,
-        "evidence_count": 0,
-        "top_explanation": null
+        "status": "partial",
+        "summary": "Found 3 supported professional paths from Dani Penev to Y Combinator within 4 steps.",
+        "result_count": 3,
+        "path_count": 3,
+        "top_path_hops": 2,
+        "node_count": 3,
+        "edge_count": 4,
+        "evidence_count": 1426,
+        "top_explanation": "Dani Penev founded Slicker. Y Combinator has a documented investment in Slicker (relationship dates unverified)."
       }
     },
     {
@@ -177,27 +179,29 @@
       "title": "Slicker → Y Combinator",
       "description": "Slush 100 fintech startup linked to Y Combinator via 4 independent Cala source documents",
       "subtitle": "Slush 100 fintech startup linked to Y Combinator via 4 independent Cala source documents",
-      "expected_status": "not_found",
+      "expected_status": "partial",
       "question_id": "company_to_company",
       "question_label": "How are these two companies connected?",
       "request": {
         "question_id": "company_to_company",
-        "source": "Slicker"
+        "source": "Slicker",
+        "target": "Y Combinator",
+        "target_id": "cala:58ff3f858e84eba441148d79"
       },
       "ui_display_inputs": {
         "source": "Slicker",
         "target": "Y Combinator (Cala Verified Company)"
       },
       "verified_outcome": {
-        "status": "not_found",
-        "summary": "Resolve the indicated entity before searching its professional connections.",
-        "result_count": 0,
-        "path_count": 0,
-        "top_path_hops": null,
-        "node_count": 0,
-        "edge_count": 0,
-        "evidence_count": 0,
-        "top_explanation": null
+        "status": "partial",
+        "summary": "Found 2 supported professional paths from Slicker to Y Combinator within 4 steps.",
+        "result_count": 2,
+        "path_count": 2,
+        "top_path_hops": 1,
+        "node_count": 3,
+        "edge_count": 3,
+        "evidence_count": 1425,
+        "top_explanation": "Y Combinator has a documented investment in Slicker (relationship dates unverified)."
       }
     },
     {
